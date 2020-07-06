@@ -251,12 +251,28 @@ return [
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url'  => 'profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
             'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        'PRODUCT SETTINGS',
+        [
+            'text' => 'Add Concept',
+            'url'  => 'addconcept',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Add Product Category',
+            'url'  => 'addcategory',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
+            'text' => 'Add Products',
+            'url'  => 'addproduct',
             'icon' => 'fas fa-fw fa-lock',
         ],
         /*[
