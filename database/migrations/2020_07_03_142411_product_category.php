@@ -16,7 +16,7 @@ class ProductCategory extends Migration
        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('cat_id')->nullable();;            
+            $table->bigInteger('cat_id')->nullable();            
             $table->timestampsTz(0);
             $table->softDeletesTz('deleted_at', 0);
         });

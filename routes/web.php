@@ -27,3 +27,4 @@ Route::get('/addcategory', 'CategoryController@category');
 //Route::post('/profile', 'ConceptController@concept');
 Route::get('/addproduct', 'ProductController@product');
 Route::post('/addproduct', 'ProductController@store');
+Route::post('addproduct/fetch', 'ProductController@fetch')->name('addproduct.fetch');
