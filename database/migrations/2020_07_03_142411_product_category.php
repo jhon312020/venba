@@ -29,6 +29,6 @@ class ProductCategory extends Migration
      */
     public function down()
     {
-         Schema::drop('categories');
+         Schema::drop('deleted_at');
     }
 }

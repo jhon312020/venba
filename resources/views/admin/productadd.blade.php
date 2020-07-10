@@ -45,6 +45,8 @@
           <label for="subcatid">Sub Category</label>
           <select class="form-control"  name="subcatid" id="subcatid" >
           <option value="" disabled selected>Select sub category</option>
+          <option value=""></option>
+
                                              
           </select>
         </div>

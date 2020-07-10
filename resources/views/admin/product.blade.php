@@ -39,7 +39,7 @@
     <td>{{ $item->material_no }} </td>
     <td>{{ $item->compatibility }} </td>
     <td>{{ $item->light_color }} </td>
-    <td> <span><a href= "{{ action('CategoryController@edit', ['id' => $item->id ])}}" class="btn btn-primary">Edit</a> <a href= "{{ action('CategoryController@delete', ['id' => $item->id ])}}" style="display: inline" class="btn btn-primary">Delete</a></span></td>
+    <td> <span><a href= "{{ action('ProductController@edit', ['id' => $item->id ])}}" class="btn btn-primary">Edit</a> <a href= "{{ action('ProductController@delete', ['id' => $item->id ])}}" style="display: inline" class="btn btn-primary">Delete</a></span></td>
     
     </tr>
   @endforeach

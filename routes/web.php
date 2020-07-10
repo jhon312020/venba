@@ -40,4 +40,5 @@ Route::get('/addproduct', 'ProductController@add')->middleware('auth');
 Route::post('/productadded/store', 'ProductController@store')->name('productadded.store');
 Route::post('/addproduct/fetch', 'ProductController@fetch')->name('addproduct.fetch');
 Route::get('/editproduct/{id}',  'ProductController@edit');
-
+Route::post('/updateproduct/update', 'ProductController@update')->name('updateproduct.update');
+Route::get('/productlist/{id}',  'ProductController@delete');

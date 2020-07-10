@@ -12,8 +12,9 @@ class Category extends Model {
      * @var string
   */
   use SoftDeletes;
-  protected $table = 'categories';
   protected $dates = ['deleted_at'];
+  protected $table = 'categories';
+  
   protected $fillable = [
   'name', 'cat_id',
   ];

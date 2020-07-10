@@ -58,4 +58,29 @@ $(document).ready(function(){
     });
     e.preventDefault();
   });
+ $('#productEditForm').on('submit',function(e){ 
+    //var url = "{{URL('editconcept/'.$item->id)}}";
+    /*id = $("#id").val();
+    name = $("#editcategory").val();
+    cat_id = $("#cat_id").val();*/
+    url = $('#productEditForm').attr('action');
+    var _token = $('input[name="_token"]').val();
+    $.ajax({
+    url:url,
+    type:"POST",
+    headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+    data:/*{name:name,materialno:materialno,conceptid:conceptid,categoryid:categoryid,subcatid:subcatid,compatability:compatability,power:power,physicalspec:physicalspec,lightcolor:lightcolor,intro:intro,accessories:accessories,warranty:warranty,tech:tech,addfea:addfea,wirecon:wirecon,image:image, _token:_token,},*/new FormData(this),
+    dataType:'JSON',
+    contentType: false,
+    cache: false,
+    processData: false,
+    success:function(result)
+    {
+     $("#success").html(result.message);
+    }
+    });
+    e.preventDefault();
+  });
  });

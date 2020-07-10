@@ -83,7 +83,7 @@ class CategoryController extends Controller
        ->get();*/
     //$fetchconcept->msg ="Concept Edited";   
     $editedname=$request->get('name');
-    $updateconcept = DB::table('categories')
+    $updatecategory = DB::table('categories')
               ->where('id', $id)
               ->update(['name' => $editedname, 'cat_id' => $cat_id]);
     $output ='<h6 align="center" style="color:green">Category Edited</h6>';
@@ -95,13 +95,13 @@ class CategoryController extends Controller
     /*echo $id;
     die;*/
     //$id = Route::current()->parameter('id');
-   $deletedrow = DB::table('categories')->where('id',$id)
+    $deletedrow = Category::where('id',$id)
     ->wherenull('cat_id')
     ->delete();
 
     $category= new Category();
     
-   // $data = Category::find($id)->delete();
+    //$data = Category::find($id)->delete();
     $category = DB::table('categories')->select('id', 'name')
        ->wherenull('deleted_at')
        ->get();
