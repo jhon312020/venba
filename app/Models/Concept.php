@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Concept extends Model {
   /**
@@ -10,12 +11,14 @@ class Concept extends Model {
      *
      * @var string
   */
+   use SoftDeletes;
   protected $table = 'concepts';
-  protected $dates = ['deleted_at'];
+  
   
   protected $fillable = [
-  'name', 'deleted_at',
+  'name', 
   ];
+  protected $dates = ['deleted_at'];
   public function product() {
     return $this->hasOne('App\Models\Product');
   }

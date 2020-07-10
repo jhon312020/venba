@@ -1,6 +1,4 @@
-$(document).ready(function(){  
-  $.noConflict();
- 
+$(document).ready(function(){   
  $('.dynamic').change(function(){
   if($(this).val() != '')
   {

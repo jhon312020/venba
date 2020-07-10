@@ -1,11 +1,12 @@
 @extends('adminlte::page')
 @section('css')
-  <link rel="stylesheet" href="/css/admin.css">    
+  <link rel="stylesheet" href="/css/admin.css">  
+  <meta name="csrf-token" content="{{ csrf_token() }}"> 
 @stop
 @section('js')
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="{{ URL::asset('js/select.js') }}"></script>
+  <script src="{{ URL::asset('js/product.js') }}"></script>
 @stop
 @section('content')
  <div class="card card-primary">
@@ -14,7 +15,7 @@
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form method="post" role="form" action="/addproduct" enctype="multipart/form-data">
+    <form id="productAddForm" method="post" role="form" action="{{action('ProductController@store')}}" enctype="multipart/form-data">
       @csrf
       <div class="card-body">  
         <div class="form-group">
@@ -31,7 +32,7 @@
         </div>
         <div class="form-group">
           <label for="categoryid">Category</label>
-          <select class="form-control dynamic" data-dependent="subcatid  name="categoryid" id="categoryid" >
+          <select class="form-control dynamic" data-dependent="subcatid" name="categoryid" id="categoryid" >
           <option value="" disabled selected>Select category</option>
           @isset($category)
             @foreach($category as $category)
@@ -101,7 +102,7 @@
             <label for="exampleInputFile">Product Image</label>
             <div class="input-group">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="exampleInputFile"  name="proimages">
+                <input type="file" class="custom-file-input" id="exampleInputFile"  name="exampleInputFile">
                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
               </div>
               <div class="input-group-append">
@@ -117,5 +118,6 @@
     </form>
   </div><!-- /.box -->
                          
+<div id="success" class="suc"></div>
 
 @endsection

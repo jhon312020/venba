@@ -2,49 +2,38 @@
 @section('css')
   <link rel="stylesheet" href="/css/admin.css">
 @endsection
+@section('js')
+  <script src="{{ URL::asset('js/datatables.js') }}"></script>
+@stop
 
 @section('content')
  
-  <div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Add Concept</h3>
-    </div>
-    <!-- /.card-header -->
-    <!-- form start -->
-    <form method="post" role="form" action="/conceptadded">
-      @csrf
-      <div class="card-body">     	
-      <div class="form-group">
-          <label for="addconcept">Name</label>
-          <input  type="text" class="form-control admin-field" id="addconcept" name="addconcept"placeholder="Enter new concept" required>
-        </div>
-      </div><!-- /.box-body -->
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
-      </div>
-    </form>
-    
-  </div><!-- /.box -->
-  @if (!empty($success))
-    <h6 align="center" style="color:green">{{$success}}</h6>
+  <span style="display: inline-block;margin-bottom: 50px">
+    <h1 style="display: inline">List of Concepts</h1>
+    <a  href="{{ action('ConceptAddEdit@add')}}" style="display: inline;position: absolute;right: 10px;margin-top: 5px" class="btn btn-primary"> Add New Concept
+    </a>
+  </span>
+  @if (!empty($concepts->msg))
+    <h6 align="center" style="color:green">{{$concepts->msg}}</h6>
   @endif
-  <table class="table table-striped">
+  <table id="example1" class="table table-bordered table-striped">
   <thead>
     <tr>
     <th>ID</th>
-    <th>Concept Name</th>    
+    <th>Concept Name</th> 
+    <th>Action</th>    
     </tr>
   </thead>
   <tbody>
 
-  @isset($categories)
-  @foreach($categories as $item)
+  @isset($concepts)
+  @foreach($concepts as $item)
 
     <tr class="profile-table">
     <td> {{ $item->id }} </td>
 
     <td>{{ $item->name }} </td>
-    <td> <span><button type="submit" class="btn btn-primary">Edit</button> <button style="display: inline" type="submit" class="btn btn-primary">Delete</button></span></td>
+    <td> <span><a href= "{{ action('ConceptAddEdit@edit', ['id' => $item->id ])}}" class="btn btn-primary">Edit</a> <a href= "{{ action('ConceptAddEdit@delete', ['id' => $item->id ])}}" style="display: inline" class="btn btn-primary">Delete</a></span></td>
     
     </tr>
   @endforeach

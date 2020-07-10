@@ -17,7 +17,7 @@ class ConceptsTable extends Migration
             $table->id();
             $table->string('name');            
             $table->timestampsTz(0);
-            $table->softDeletesTz('deleted_at', 0);
+            $table->softDeletes();
         });
     }
 

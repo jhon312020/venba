@@ -261,18 +261,18 @@ return [
         ],
         'PRODUCT SETTINGS',
         [
-            'text' => 'Add Concept',
-            'url'  => 'addconcept',
+            'text' => 'Concepts',
+            'url'  => 'conceptlist',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'Add Product Category',
-            'url'  => 'addcategory',
+            'text' => 'Product Categories',
+            'url'  => 'categorylist',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text' => 'Add Products',
-            'url'  => 'addproduct',
+            'text' => 'Products',
+            'url'  => 'productlist',
             'icon' => 'fas fa-fw fa-lock',
         ],
         /*[
@@ -369,21 +369,21 @@ return [
     'plugins' => [
         [
             'name' => 'Datatables',
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],

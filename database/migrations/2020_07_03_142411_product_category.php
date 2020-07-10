@@ -18,7 +18,7 @@ class ProductCategory extends Migration
             $table->string('name');
             $table->bigInteger('cat_id')->nullable();            
             $table->timestampsTz(0);
-            $table->softDeletesTz('deleted_at', 0);
+            $table->softDeletes();
         });
     }
 
