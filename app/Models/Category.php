@@ -18,7 +18,18 @@ class Category extends Model {
   protected $fillable = [
   'name', 'cat_id',
   ];
+
+  
   public function product() {
     return $this->hasOne('App\Models\Product');
+  }
+
+  public function parent() {
+    return $this->belongsTo(self::class, 'cat_id');
+  }
+
+  //each category might have multiple children
+  public function children() {
+    return $this->hasMany(self::class, 'cat_id')->orderBy('name', 'asc');
   }
 }

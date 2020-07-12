@@ -25,17 +25,17 @@ class ProductsTable extends Migration
             ->references('id')->on('categories')
             ->onDelete('cascade');
       $table->bigInteger('sub_cat_id')->nullable();
-      $table->string('compatibility');
-      $table->string('power_consumption');
-      $table->string('physical_spec');
-      $table->string('light_color');
-      $table->longText('introduction');
-      $table->longText('accessories_required');
-      $table->string('warranty');
-      $table->longText('technical_spec');
+      $table->string('compatability')->nullable();
+      $table->string('power_consumption')->nullable();
+      $table->string('physical_spec')->nullable();
+      $table->string('light_color')->nullable();
+      $table->longText('introduction')->nullable();
+      $table->longText('accessories_required')->nullable();
+      $table->string('warranty')->nullable();
+      $table->longText('technical_spec')->nullable();
       $table->longText('additional_features')->nullable();
       $table->enum('wired_wireless',['wired', 'wireless'])->nullable(); 
-      $table->string('product_image');
+      $table->string('product_image')->nullable();
       $table->timestampsTz(0);
       $table->softDeletes();
         });
