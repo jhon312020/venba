@@ -28,6 +28,7 @@ Route::group(['prefix' => 'category/{id}'], function () {
 
 Route::get('products', [ProductController::class, 'index'])->name('product.index');
 Route::get('product/add', [ProductController::class, 'add'])->name('product.add');
+Route::post('product/add/fetch', 'ProductController@fetch')->name('addproduct.fetch');
 Route::post('product', [ProductController::class, 'store'])->name('product.store');
 Route::group(['prefix' => 'product/{id}'], function () {
 	Route::get('edit', [ProductController::class, 'edit'])->name('product.edit');

@@ -1,6 +1,12 @@
 @extends('backend.layouts.app')
 @section('content')
 @include('backend.includes.partials.messages')
+@section('js')
+  <script src="{{ URL::asset('js/backend.js') }}"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+@stop
+@include('backend.includes.partials.messages')
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Add Product</h3>
@@ -24,10 +30,10 @@
         </div>
         <div class="form-group">
           <label for="category_id">Category</label>
-          {!! Form::select('cat_id', $categories, null, ['placeholder' => 'Please Select Category', 'class' => 'form-control']) !!}
+          {!! Form::select('cat_id', $categories, null, ['placeholder' => 'Please Select Category', 'class' => 'form-control dynamic','data-dependent' => 'sub_cat_id']) !!}
         </div>
         <div class="form-group">
-          <label for="subcatid">Sub Category</label>
+          <label for="sub_cat_id">Sub Category</label>
           <select class="form-control"  name="sub_cat_id" id="sub_cat_id" >
           <option value="" disabled selected>Select sub category</option>
           <option value=""></option>         
@@ -83,6 +89,30 @@
              Wireless
             </label>
           </div>
+          <div class="list_wrapper">
+            <div class="row">
+   
+              <div class="col-xs-4 col-sm-4 col-md-4">
+   
+                <div class="form-group">
+                  Label
+                  <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" class="form-control"/>
+                </div>
+              </div>
+   
+              <div class="col-xs-7 col-sm-7 col-md-7">
+                <div class="form-group">
+                  Value
+                  <input autocomplete="off" name="dynamicfield[0][value]" type="text" placeholder="Type Value" class="form-control"/>
+                </div>
+              </div> 
+   
+              <div class="col-xs-1 col-sm-1 col-md-1">
+                <br>
+                <button class="btn btn-success list_add_button" type="button"><i class="fa fa-plus-circle"></i></button>
+              </div>
+            </div> 
+          </div>           
           <div class="form-group">
             <label for="image">Product Image</label>
             <div class="input-group">

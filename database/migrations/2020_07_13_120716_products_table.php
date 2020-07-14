@@ -25,7 +25,7 @@ class ProductsTable extends Migration
             ->references('id')->on('categories')
             ->onDelete('cascade');
       $table->bigInteger('sub_cat_id')->nullable();
-      $table->string('compatability')->nullable();
+      $table->string('compatibility')->nullable();
       $table->string('power_consumption')->nullable();
       $table->string('physical_spec')->nullable();
       $table->string('light_color')->nullable();

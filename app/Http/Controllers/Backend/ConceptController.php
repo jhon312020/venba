@@ -54,8 +54,12 @@ class ConceptController extends Controller {
     $validatedData = $request->validate([
       'name' => 'required|max:25',
     ]);
+    if (Concept::where('name', '=', $request['name'])->exists()) {
+       return back()->with('flash_danger', 'Concept Already Exists!!');
+    } else {
     $show = Concept::create($validatedData);
     return redirect()->route('admin.concept.index')->withFlashSuccess(__('Successfully Added!'));
+    }
   }
 
   /**

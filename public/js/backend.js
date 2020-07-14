@@ -74,5 +74,50 @@ $(document).ready(function() {
   $(".alert").delay(1000).slideUp(200, function() {
     $(this).alert('close');
   });
+  
+  $('.dynamic').change(function(){
+
+  if($(this).val() != '')
+  {
+   //var select = $(this).attr("id");
+   var value = $(this).val();
+   console.log("hi");
+   var dependent = $(this).data('dependent');
+   var _token = $('input[name="_token"]').val();
+   $.ajax({
+    url:"./add/fetch",
+    type:"POST",
+    data:{value:value,dependent:dependent, _token:_token},
+    success:function(result)
+    {
+     $('#sub_cat_id').html(result);
+    }
+
+   })
+  }
+ });  
+  /**
+     * Add dynamic fields for product form.
+     */
+  var x = 0; //Initial field counter
+  var list_maxField = 10; //Input fields increment limitation
+  $('.list_add_button').click(function() {
+    console.log("hi");
+    //Check maximum number of input fields
+    if(x < list_maxField){ 
+      x++; //Increment field counter
+      var list_fieldHTML = '<div class="row"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="dynamicfield['+x+'][label]" type="text" placeholder="Type Label" class="form-control"/></div></div><div class="col-xs-7 col-sm-7 col-md-7"><div class="form-group"><input name="dynamicfield['+x+'][value]" type="text" placeholder="Type Value" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+      $('.list_wrapper').append(list_fieldHTML);
+       //Add field html
+
+    }
+  });
+    
+  //Once remove button is clicked
+  $('.list_wrapper').on('click', '.list_remove_button', function() {
+    $(this).closest('div.row').remove(); //Remove field html
+    x--; //Decrement field counter
+  });
   $(".datatable").DataTable();
 });
+

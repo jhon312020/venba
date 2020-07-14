@@ -46,6 +46,27 @@ class ProductController extends Controller {
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     return view('backend.product.add', compact('concepts', 'categories'));
   }
+  /**
+   * Function fetch()
+   * display sub category dropdown based on main category.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */ 
+  public function fetch(Request $request) {
+    $select = $request->get('select');
+    $value = $request->get('value');
+    $dependent = $request->get('dependent');
+    $data = Category::select('id', 'name')
+       ->where('cat_id', $value)
+       ->get();
+    $output = '<option value=""></option>';
+    foreach($data as $row){
+      $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+    }
+    echo $output;
+    //die;
+  }
 
   /**
    * Function Store()
@@ -55,13 +76,45 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
+    $a = $request ['dynamicfield'];
+    $dynamicfieldjson =json_encode($a);
+    /*echo $dynamicfieldjson;
+    die;*/
+
+    /*echo count($a);
+    echo '<pre>';
+    print_r($a);
+    echo '</pre>';
+    foreach($a as $a){
+     echo  $a['label'];
+      echo '<br>';
+      echo $a['value'];
+      echo '<br>';
+    }
+    die;
+    print_r($a[0]);
+    echo $a[0]['label'];
+    echo '<pre>';
+    print_r($a);
+    echo '</pre>';
+    die;
+    echo '<pre>';
+    print_r($request->all());
+    echo '</pre>';*/
+    //$keys = array_keys($request);
+    //echo $keys;
+    //die;
+    //foreach($request[$keys['list']] as $key=>$value) {
+      //echo $value;
+    //}
+     /*die;*/
     $validatedData = $request->validate([
       'name' => 'required|max:25',
       'material_no' => 'required',
-      'concept_id' => 'int',
-      'cat_id' => 'int',
-      'sub_cat_id' => 'int',
-      'compatibility' => '',
+      'concept_id' => 'required',
+      'cat_id' => 'required',
+      'sub_cat_id' => 'required',
+      'compatability' => '',
       'power_consumption' => 'required',
       'physical_spec' => 'required',
       'light_color' => '',
@@ -70,9 +123,14 @@ class ProductController extends Controller {
       'warranty' => '',
       'technical_spec' => '',
       'additional_features' => '',
-      'wired_wireless' => '',
-    ]);
+      'wired_wireless' => 'in:wired,wireless',
+      ]);
     $show = Product::create($validatedData);
+    $validatedData = $request->validate([
+      'dynamicfield.label' => 'required',
+      'dynamicfield.value' => 'required',
+    ]);
+
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
 
