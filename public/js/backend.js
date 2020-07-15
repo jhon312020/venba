@@ -118,6 +118,11 @@ $(document).ready(function() {
     $(this).closest('div.row').remove(); //Remove field html
     x--; //Decrement field counter
   });
+  //hide dynamic fields
+  $('.list_wrapper').hide();
+  $('.dynamicdisplay').click(function(){
+   $('.list_wrapper').show(); 
+  })
   $(".datatable").DataTable();
 });
 

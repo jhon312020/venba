@@ -11,19 +11,19 @@ class ProductsTable extends Migration
      *
      * @return void
      */
-    public function up() {
+     public function up() {
       Schema::create('products', function (Blueprint $table) {
       $table->id();
       $table->string('name');
       $table->bigInteger('material_no');
       $table->unsignedBigInteger('concept_id');
       $table->foreign('concept_id')
-            ->references('id')->on('concepts')
-            ->onDelete('cascade');
+          ->references('id')->on('concepts')
+          ->onDelete('cascade');
       $table->unsignedBigInteger('cat_id');
       $table->foreign('cat_id')
-            ->references('id')->on('categories')
-            ->onDelete('cascade');
+              ->references('id')->on('categories')
+              ->onDelete('cascade');
       $table->bigInteger('sub_cat_id')->nullable();
       $table->string('compatibility')->nullable();
       $table->string('power_consumption')->nullable();
@@ -36,18 +36,18 @@ class ProductsTable extends Migration
       $table->longText('additional_features')->nullable();
       $table->enum('wired_wireless',['wired', 'wireless'])->nullable(); 
       $table->string('product_image')->nullable();
+      $table->longText('additional_properties')->nullable();
       $table->timestampsTz(0);
       $table->softDeletes();
-        });
-    }
+      });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-      Schema::drop('products');
-    }
+  /**
+  * Reverse the migrations.
+  *
+  * @return void
+  */
+  public function down() {
+    Schema::drop('products');
+  }
 }

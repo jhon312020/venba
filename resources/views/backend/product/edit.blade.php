@@ -1,5 +1,10 @@
 @extends('backend.layouts.app')
 @section('content')
+@section('js')
+  <script src="{{ URL::asset('js/backend.js') }}"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+@stop
 @include('backend.includes.partials.messages')
   <div class="card card-primary">
     <div class="card-header">
@@ -83,6 +88,48 @@
             <input type="radio" name="wired_wireless" id="wired_wireless" value="wireless">
              Wireless
             </label>
+          </div>
+           <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Edit additional Properties</button> 
+          <div class="list_wrapper">
+            <div class="row">
+   
+              <div class="col-xs-4 col-sm-4 col-md-4">
+   
+                <div class="form-group">              
+                  <label>Label</label>
+                  <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" class="form-control"/>
+                </div>
+              </div>
+   
+              <div class="col-xs-7 col-sm-7 col-md-7">
+                <div class="form-group">
+                  <label>Value</label>
+                  <input autocomplete="off" name="dynamicfield[0][value]" type="text" placeholder="Type Value" class="form-control"/>
+                </div>
+              </div> 
+   
+              <div class="col-xs-1 col-sm-1 col-md-1">
+                <br>
+                <button class="btn btn-success list_add_button" type="button"><i class="fa fa-plus-circle"></i></button>
+              </div>
+            </div> 
+            @if(!empty($additional_prop_array))
+            <?php $i=0;?>
+            @foreach($additional_prop_array as $item)
+            <?php $i++;?>
+            <div class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4">  <div class="form-group">
+                  <input name="dynamicfield[<?php echo $i;?>][label]" value="{{$item['label']}}" type="text" placeholder="Type Label" class="form-control"/>
+                </div>
+              </div>
+              <div class="col-xs-7 col-sm-7 col-md-7">  <div class="form-group">
+                  <input name="dynamicfield[<?php echo $i;?>][value]" value="{{$item['value']}}"type="text" placeholder="Type Value" class="form-control"/>
+                </div>
+              </div>
+              <div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div>
+            </div>
+            @endforeach 
+            @endif
           </div>
           <div class="form-group">
             <label for="image">Product Image</label>

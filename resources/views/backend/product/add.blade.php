@@ -40,8 +40,8 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="compatability">Compatability</label>
-          <input  type="text" class="form-control admin-field" id="compatability" name="compatability" placeholder="Enter compatability">
+          <label for="compatability">Compatibility</label>
+          <input  type="text" class="form-control admin-field" id="compatibility" name="compatibility" placeholder="Enter compatibility">
         </div>
         <div class="form-group">
           <label for="power_consumption">Power Consumption</label>
@@ -89,20 +89,21 @@
              Wireless
             </label>
           </div>
+          <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Add additional Properties</button>
           <div class="list_wrapper">
             <div class="row">
    
               <div class="col-xs-4 col-sm-4 col-md-4">
    
                 <div class="form-group">
-                  Label
+                  <label>Label</label>
                   <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" class="form-control"/>
                 </div>
               </div>
    
               <div class="col-xs-7 col-sm-7 col-md-7">
                 <div class="form-group">
-                  Value
+                  <label>Value</label>
                   <input autocomplete="off" name="dynamicfield[0][value]" type="text" placeholder="Type Value" class="form-control"/>
                 </div>
               </div> 

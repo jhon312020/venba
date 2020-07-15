@@ -76,9 +76,13 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
-    $a = $request ['dynamicfield'];
-    $dynamicfieldjson =json_encode($a);
-    /*echo $dynamicfieldjson;
+    $a =$request ['dynamicfield'];   
+    if(!empty($a[0]['label'])){
+      $serialized_array = serialize($request ['dynamicfield']);
+    }
+    
+    //$dynamicfieldjson =json_encode($a);
+    /*echo $a;
     die;*/
 
     /*echo count($a);
@@ -114,7 +118,7 @@ class ProductController extends Controller {
       'concept_id' => 'required',
       'cat_id' => 'required',
       'sub_cat_id' => 'required',
-      'compatability' => '',
+      'compatibility' => '',
       'power_consumption' => 'required',
       'physical_spec' => 'required',
       'light_color' => '',
@@ -124,12 +128,20 @@ class ProductController extends Controller {
       'technical_spec' => '',
       'additional_features' => '',
       'wired_wireless' => 'in:wired,wireless',
+      ''
       ]);
     $show = Product::create($validatedData);
-    $validatedData = $request->validate([
+    /*$validatedData = $request->validate([
       'dynamicfield.label' => 'required',
       'dynamicfield.value' => 'required',
-    ]);
+    ]);*/
+    if($serialized_array){
+      /*echo $a;*/
+      $adddynamicfield =Product::latest('created_at')->first()
+        ->update(['additional_properties' => $serialized_array]);
+      /*echo $adddynamicfield;
+      die;*/
+    }  
 
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
@@ -143,9 +155,20 @@ class ProductController extends Controller {
    */
   public function edit($id) {
     $record = Product::findOrFail($id);
+    $additional_prop_array='';
+    if($record->additional_properties!= null){
+    $additional_prop_array = unserialize($record->additional_properties);
+   /* print_r($additional_prop_array);
+    die;*/
+    } 
+    
+    /*print_r($additional_prop_array);
+
+    die;*/
+
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories, 'additional_prop_array' => $additional_prop_array));
   }
 
   /**
@@ -157,6 +180,35 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
+    $a =$request ['dynamicfield'];
+    /*echo $a[1]['label'];
+    die;*/
+    //print_r($a);
+    //die;
+    if(!empty($a[0]['label'])) {
+      $serialized_array = serialize($request ['dynamicfield']);
+      //if($serialized_array){
+      /*echo $a;*/
+      $adddynamicfield =Product::whereId($id)
+        ->update(['additional_properties' => $serialized_array]);
+      /*echo $adddynamicfield;
+      die;*/
+      //}  
+    } elseif(!empty($a[1]['label'])) {
+      $a=$request ['dynamicfield'];
+      array_shift($a);
+      /*print_r($a);
+      die;*/
+      $serialized_array = serialize($a);
+      //if($serialized_array){
+      /*echo $a;*/
+      $adddynamicfield =Product::whereId($id)
+        ->update(['additional_properties' => $serialized_array]);
+
+      } else {
+        $adddynamicfield =Product::whereId($id)
+          ->update(['additional_properties' => NULL]);
+       }
     $validatedData = $request->validate([
       'name' => 'required|max:25',
       'material_no' => 'required',
