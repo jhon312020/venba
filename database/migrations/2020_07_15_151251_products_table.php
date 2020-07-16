@@ -35,7 +35,7 @@ class ProductsTable extends Migration
       $table->longText('technical_spec')->nullable();
       $table->longText('additional_features')->nullable();
       $table->enum('wired_wireless',['wired', 'wireless'])->nullable(); 
-      $table->string('product_image')->nullable();
+      $table->longText('product_image')->nullable();
       $table->longText('additional_properties')->nullable();
       $table->timestampsTz(0);
       $table->softDeletes();

@@ -132,9 +132,9 @@
             @endif
           </div>
           <div class="form-group">
-            <label for="image">Product Image</label>
-            <div class="input-group">
-              <div class="custom-file">
+            <label for="image">Edit Product Image/Images</label>
+            <div class="input-group increment">
+             <!--  <div class="custom-file">
                 <input type="file" class="custom-file-input" id="image"  name="image">
                 <label class="custom-file-label" for="image">Choose file</label>
               </div>
@@ -142,7 +142,23 @@
                 <span class="input-group-text" id="">Upload</span>
               </div>
             </div>
-          </div>
+          </div> -->
+          <input type="file" class="form-control" name="filename[]" value="" name="image">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-success addnewfield">Add</button>
+                </div>  
+            </div>
+            <br>
+            <div class="clone hide">
+              <div class="input-group" style="margin-top:10px;">
+                <input type="file" class="form-control" value="" name="filename[]"  name="image">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-danger removefield">Remove</button>
+                </div>  
+              </div>              
+            </div>
+
+          </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">
         <button type="submit" class="btn btn-primary">Update</button>

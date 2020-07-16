@@ -76,10 +76,25 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
+    /*echo '<pre>';
+    print_r($request['filename']);
+    echo '</pre>';
+    die;*/
+    //$images =$request['filename'];
+    /*print_r($images);
+    die;*/
+    /*array_pop($images);
+    print_r($images);
+    die;*/
+    //$data= array();
+
+    
+    
     $a =$request ['dynamicfield'];   
     if(!empty($a[0]['label'])){
       $serialized_array = serialize($request ['dynamicfield']);
     }
+
     
     //$dynamicfieldjson =json_encode($a);
     /*echo $a;
@@ -128,8 +143,10 @@ class ProductController extends Controller {
       'technical_spec' => '',
       'additional_features' => '',
       'wired_wireless' => 'in:wired,wireless',
-      ''
+      'filename' => 'required',
+      'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
       ]);
+
     $show = Product::create($validatedData);
     /*$validatedData = $request->validate([
       'dynamicfield.label' => 'required',
@@ -142,6 +159,20 @@ class ProductController extends Controller {
       /*echo $adddynamicfield;
       die;*/
     }  
+    if($request->hasFile('filename')) {
+      /*echo "hello";
+      die;*/
+      foreach($request->file('filename') as $image) {
+        $name =$image->getClientOriginalName();
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $name);
+        $data[] = $name;
+        //echo $name;
+      }
+      $images =json_encode($data);
+      $addimages = Product::latest('created_at')->first()
+        ->update(['product_image' => $images]);
+    }
 
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }

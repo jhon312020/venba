@@ -1,10 +1,12 @@
 @extends('backend.layouts.app')
 @section('content')
 @include('backend.includes.partials.messages')
+
 @section('js')
   <script src="{{ URL::asset('js/backend.js') }}"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
 @stop
 @include('backend.includes.partials.messages')
   <div class="card card-primary">
@@ -13,7 +15,8 @@
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form id="add" method="post" role="form" action="{{ route('admin.product.store') }}">
+    <form id="add" method="post" role="form" action="{{ route('admin.product.store') }}"
+    enctype="multipart/form-data">
       @csrf
       <div class="card-body">     	
         <div class="form-group">
@@ -89,6 +92,7 @@
              Wireless
             </label>
           </div>
+        </div>
           <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Add additional Properties</button>
           <div class="list_wrapper">
             <div class="row">
@@ -113,19 +117,33 @@
                 <button class="btn btn-success list_add_button" type="button"><i class="fa fa-plus-circle"></i></button>
               </div>
             </div> 
-          </div>           
+          </div>  
+          </br> </br>        
           <div class="form-group">
-            <label for="image">Product Image</label>
-            <div class="input-group">
-              <div class="custom-file">
+            <label  for="image">Product Image/Images</label>
+            <div class="input-group increment">
+              <!-- <div class="custom-file">
                 <input type="file" class="custom-file-input" id="image"  name="image">
                 <label class="custom-file-label" for="image">Choose file</label>
               </div>
               <div class="input-group-append">
-                <span class="input-group-text" id="">Upload</span>
-              </div>
+                <span class="input-group-text" id="">Upload</span>  -->
+                 <input type="file" class="form-control" name="filename[]"  name="image">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-success addnewfield">Add</button>
+                </div>  
             </div>
-          </div>
+            <br>
+            <div class="clone hide">
+              <div class="input-group" style="margin-top:10px;">
+                <input type="file" class="form-control" name="filename[]"  name="image">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-danger removefield">Remove</button>
+                </div>  
+              </div>              
+            </div>
+
+          </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">
         <button type="submit" class="btn btn-primary">Add</button>

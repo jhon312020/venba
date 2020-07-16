@@ -97,10 +97,10 @@ $(document).ready(function() {
   }
  });  
   /**
-     * Add dynamic fields for product form.
+     * Add dynamic fields for additional product properties.
      */
   var x = 0; //Initial field counter
-  var list_maxField = 10; //Input fields increment limitation
+  var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
     console.log("hi");
     //Check maximum number of input fields
@@ -123,6 +123,17 @@ $(document).ready(function() {
   $('.dynamicdisplay').click(function(){
    $('.list_wrapper').show(); 
   })
+  /**
+     * Add dynamic fields for product images.
+     */
+    $('.clone').hide();
+    $('.addnewfield').click(function(){
+      var html =$(".clone").html();
+      $(".increment").after(html);
+    });  
+    $("body").on("click", ".removefield", function(){
+      $(this).parents(".input-group").remove();
+    });  
   $(".datatable").DataTable();
 });
 
