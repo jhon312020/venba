@@ -28,6 +28,7 @@ class Product extends Model
   public function category() {
     return $this->belongsTo('App\Models\Category');
   }
+  //soft delete corresponding images in image table
   public static function boot() {
         parent::boot();
 
