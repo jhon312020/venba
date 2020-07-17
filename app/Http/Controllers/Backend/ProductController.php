@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product as Product;
 use App\Models\Concept as Concept;
 use App\Models\Category as Category;
-
+use App\Models\Productimage as Productimage;
+use Image;
 /**
  * Create a new controller instance.
  *
@@ -129,7 +130,7 @@ class ProductController extends Controller {
      /*die;*/
     $validatedData = $request->validate([
       'name' => 'required|max:25',
-      'material_no' => 'required',
+      'material_no' => 'required|int',
       'concept_id' => 'required',
       'cat_id' => 'required',
       'sub_cat_id' => 'required',
@@ -152,7 +153,7 @@ class ProductController extends Controller {
       'dynamicfield.label' => 'required',
       'dynamicfield.value' => 'required',
     ]);*/
-    if($serialized_array){
+    if(!empty($serialized_array)){
       /*echo $a;*/
       $adddynamicfield =Product::latest('created_at')->first()
         ->update(['additional_properties' => $serialized_array]);
@@ -164,17 +165,77 @@ class ProductController extends Controller {
       die;*/
       foreach($request->file('filename') as $image) {
         $name =$image->getClientOriginalName();
+        //echo $name;
+        //echo '<br>';
+        //die;
+         //get filename without extension
+        //$filename = pathinfo($name, PATHINFO_FILENAME);
+        //echo $filename;
+        //echo '<br>';
+        //die;
+        //get file extension
+       // $extension = $image->getClientOriginalExtension();
+        $image_name = time() . '.' . $image->getClientOriginalExtension();
+
+     $destinationPath = public_path('/thumbnail');
+       // echo $extension;
+        //echo '<br>';
+        //die;
+        //small thumbnail name
+        //$smallthumbnail = $filename.'_small_'.time().'.'.$extension;
+        //echo $smallthumbnail;
+        //echo '<br>';
+        //create small thumbnail
+       /* $thumbdestinationPath = public_path('/images/thumbnails');*/
+         $resize_image = Image::make($image->getRealPath());
+
+     $resize_image->resize(150, 150, function($constraint){
+      $constraint->aspectRatio();
+     })->save($destinationPath . '/' . $image_name);
+        /*$smallthumbnailpath = public_path('storage/profile_images/thumbnail/'.$smallthumbnail);*/
+       // echo $smallthumbnailpath;
+        //echo '<br>';
+        //die;
+        //$this->createThumbnail($smallthumbnailpath, 150, 93);
+        
+        /*$request->file('profile_image')->storeAs('public/profile_images/thumbnail', $smallthumbnail);*/
+
         $destinationPath = public_path('/images');
+        
+        //$image->move($thumbdestinationPath, $name);
         $image->move($destinationPath, $name);
         $data[] = $name;
         //echo $name;
       }
       $images =json_encode($data);
-      $addimages = Product::latest('created_at')->first()
-        ->update(['product_image' => $images]);
+       $newproductid =Product::latest()->first();
+       $productid = $newproductid->id;
+      //$addimages = Product::latest('created_at')->first()
+        //->update(['product_image' => $images]);
+        $insertimages =Productimage::insert(
+    ['product_id' => $productid, 'product_images' => $images]);
     }
 
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
+  }
+  /**
+ * Create a thumbnail of specified size
+ *
+ * @param string $path path of thumbnail
+ * @param int $width
+ * @param int $height
+ */
+  public function createThumbnail($path, $width, $height)
+  {
+    /*echo $path;
+    echo $width;
+    echo $height;
+    die;*/
+    /*$img = Image::make($path)->resize($width, $height, function ($constraint) {
+          $constraint->aspectRatio();
+    });
+    $img->save($path);*/
+    /*$img = Image::make($path)->resize($width, $height)->save($path);*/
   }
 
   /**

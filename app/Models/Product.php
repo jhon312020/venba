@@ -18,6 +18,9 @@ class Product extends Model
   protected $fillable = [
     'name', 'material_no','concept_id','cat_id','sub_cat_id','compatibility','power_consumption','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','product_image', 'additional_properties',
   ];
+  public function Images() {
+    return $this->hasOne('App\Models\Images');
+  }
   public function Concept() {
     return $this->belongsTo('App\Models\Concept');
   }
