@@ -20,6 +20,8 @@ class ImagesTable extends Migration
               ->references('id')->on('products')
               ->onDelete('cascade');
       $table->longText('product_images')->nullable();
+      $table->timestampsTz(0);
+      $table->softDeletes();
       });
 
     }
