@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Product extends Model
 {
   /**
@@ -18,13 +19,21 @@ class Product extends Model
   protected $fillable = [
     'name', 'material_no','concept_id','cat_id','sub_cat_id','compatibility','power_consumption','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','product_image', 'additional_properties',
   ];
-  public function Images() {
-    return $this->hasOne('App\Models\Images');
+  public function images() {
+    return $this->hasOne('App\Models\Productimage');
   }
-  public function Concept() {
+  public function concept() {
     return $this->belongsTo('App\Models\Concept');
   }
-  public function Category() {
+  public function category() {
     return $this->belongsTo('App\Models\Category');
   }
+  public static function boot() {
+        parent::boot();
+
+        static::deleting(function($product) { // before delete() method call this
+             $product->images()->delete();
+             // do the rest of the cleanup...
+        });
+    }
 }
