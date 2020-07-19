@@ -71,10 +71,10 @@ $(document).ready(function() {
 
   $('[data-toggle="tooltip"]').tooltip();
   // To auto close alert after 2 seconds
-  $(".alert").delay(1000).slideUp(200, function() {
+  $(".alert-success").delay(1000).slideUp(200, function() {
     $(this).alert('close');
   });
-  
+  //for add product
   $('.dynamic').change(function(){
 
   if($(this).val() != '')
@@ -86,6 +86,28 @@ $(document).ready(function() {
    var _token = $('input[name="_token"]').val();
    $.ajax({
     url:"./add/fetch",
+    type:"POST",
+    data:{value:value,dependent:dependent, _token:_token},
+    success:function(result)
+    {
+     $('#sub_cat_id').html(result);
+    }
+
+   })
+  }
+ }); 
+  //for edit product
+ $('.dynamicedit').change(function(){
+
+  if($(this).val() != '')
+  {
+   //var select = $(this).attr("id");
+   var value = $(this).val();
+   console.log("hi");
+   var dependent = $(this).data('dependent');
+   var _token = $('input[name="_token"]').val();
+   $.ajax({
+    url:"./edit/fetch",
     type:"POST",
     data:{value:value,dependent:dependent, _token:_token},
     success:function(result)
@@ -118,10 +140,11 @@ $(document).ready(function() {
     $(this).closest('div.row').remove(); //Remove field html
     x--; //Decrement field counter
   });
-  //hide dynamic fields
+  //toggle between additional properties fields
   $('.list_wrapper').hide();
   $('.dynamicdisplay').click(function(){
-   $('.list_wrapper').show(); 
+    $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
+   $('.list_wrapper').toggle(); 
   })
   /**
      * Add dynamic fields for product images.

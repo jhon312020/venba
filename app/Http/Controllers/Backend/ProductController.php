@@ -9,6 +9,7 @@ use App\Models\Concept as Concept;
 use App\Models\Category as Category;
 use App\Models\Productimage as Productimage;
 use Image;
+use File;
 /**
  * Create a new controller instance.
  *
@@ -61,11 +62,12 @@ class ProductController extends Controller {
     $data = Category::select('id', 'name')
        ->where('cat_id', $value)
        ->get();
-    $output = '<option value=""></option>';
+    $output = '<option value="" disabled selected>Select sub category</option>';
     foreach($data as $row){
       $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
     }
     echo $output;
+    
     //die;
   }
 
@@ -76,7 +78,7 @@ class ProductController extends Controller {
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */ 
-  public function store(Request $request) {
+  public function store(Request $request ) {
     /*echo '<pre>';
     print_r($request['filename']);
     echo '</pre>';
@@ -129,14 +131,14 @@ class ProductController extends Controller {
     //}
      /*die;*/
     $validatedData = $request->validate([
-      'name' => 'required|max:25',
+      'name' => 'required',
       'material_no' => 'required|int',
       'concept_id' => 'required',
       'cat_id' => 'required',
       'sub_cat_id' => 'required',
       'compatibility' => '',
-      'power_consumption' => 'required',
-      'physical_spec' => 'required',
+      'power_consumption' => '',
+      'physical_spec' => '',
       'light_color' => '',
       'introduction' => '',
       'accessories_required' => '',
@@ -144,10 +146,14 @@ class ProductController extends Controller {
       'technical_spec' => '',
       'additional_features' => '',
       'wired_wireless' => 'in:wired,wireless',
-      'filename' => 'required',
+      'filename' => '',
       'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
       ]);
-
+     /* if ($validatedData->fails()) {
+        echo"hello";
+        die;
+                return $this->errorResponse($validator->errors()->all());
+            }*/
     $show = Product::create($validatedData);
     /*$validatedData = $request->validate([
       'dynamicfield.label' => 'required',
@@ -176,8 +182,12 @@ class ProductController extends Controller {
         //get file extension
        // $extension = $image->getClientOriginalExtension();
         $image_name = time() . '.' . $image->getClientOriginalExtension();
-
-     $destinationPath = public_path('/thumbnail');
+        $lastRecord = Product::latest()->first();
+        $latestid =$lastRecord->id;
+     $destinationPath = public_path('/thumbnail/'.$latestid);
+     File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
+    /* echo $destinationPath;
+     die;*/
        // echo $extension;
         //echo '<br>';
         //die;
@@ -200,7 +210,8 @@ class ProductController extends Controller {
         
         /*$request->file('profile_image')->storeAs('public/profile_images/thumbnail', $smallthumbnail);*/
 
-        $destinationPath = public_path('/images');
+        $destinationPath = public_path('/images/'.$latestid);
+        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
         
         //$image->move($thumbdestinationPath, $name);
         $image->move($destinationPath, $name);
@@ -247,10 +258,13 @@ class ProductController extends Controller {
    */
   public function edit($id) {
     $record = Product::findOrFail($id);
+    //echo $record['sub_cat_id'];
+    //die;
     $additional_prop_array='';
     if($record->additional_properties!= null){
     $additional_prop_array = unserialize($record->additional_properties);
-   /* print_r($additional_prop_array);
+
+    /*print_r($additional_prop_array);
     die;*/
     } 
     
@@ -260,7 +274,51 @@ class ProductController extends Controller {
 
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories, 'additional_prop_array' => $additional_prop_array));
+    $subcategorylist  = Category::select('id','name')
+    ->where('cat_id', $record['cat_id'] )
+    ->get();
+    $subcategorylist=$subcategorylist->toArray(); /*= array_map(function($object){
+    return (array) $object;
+}, $subcategorylist);*/
+    /*print_r($subcategorylist);
+    die;*/
+    $subcategory = Category::select('id','name')
+    ->where('id', $record['sub_cat_id'] )
+    ->get(); 
+    $subcategory =$subcategory->toArray();
+    print_r($subcategory);
+    echo '<br>';
+    
+    //$subcategorylist =array_diff($subcategorylist, $subcategory);
+   /* $subcategorylist = array_unique( array_merge($subcategorylist, $subcategory) );*/
+    print_r($subcategorylist) ;
+    die;
+     //$subcategory->id= $id;
+     /*print_r($subcategory);
+    die;*/
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'additional_prop_array' => $additional_prop_array));
+  }
+  /**
+   * Function fetch()
+   * display sub category dropdown based on main category.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */ 
+  public function editfetch(Request $request) {
+    $select = $request->get('select');
+    $value = $request->get('value');
+    $dependent = $request->get('dependent');
+    $data = Category::select('id', 'name')
+       ->where('cat_id', $value)
+       ->get();
+    $output = '<option value="" disabled selected>Select sub category</option>';
+    foreach($data as $row){
+      $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+    }
+    echo $output;
+    
+    //die;
   }
 
   /**
@@ -272,6 +330,7 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
+    //$option = $request ['wired_wireless'];
     $a =$request ['dynamicfield'];
     /*echo $a[1]['label'];
     die;*/
@@ -303,7 +362,7 @@ class ProductController extends Controller {
        }
     $validatedData = $request->validate([
       'name' => 'required|max:25',
-      'material_no' => 'required',
+      'material_no' => 'required|int',
       'concept_id' => 'int',
       'cat_id' => 'int',
       'sub_cat_id' => 'int',
@@ -319,7 +378,7 @@ class ProductController extends Controller {
       'wired_wireless' => '',
     ]);
     Product::whereId($id)->update($validatedData);
-    return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));     
+    return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'))/*->compact('option')*/;     
   }
 
   /**
