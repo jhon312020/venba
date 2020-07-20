@@ -38,9 +38,15 @@
         <div class="form-group">
           <label for="sub_cat_id">Sub Category</label>
           <select class="form-control"  name="sub_cat_id" id="sub_cat_id" >
-          <option class="editsubcat" value="{{$subcategory->id}}"  selected>{{$subcategory->name}}</option>  
+             <!-- @empty($subcategory)
+             @else
+            @foreach($subcategory as $item)
+          <option class="editsubcat" value="{{$item['id']}}" {{ old('sub_cat_id') == $item['id'] ? 'selected' : '' }}  selected>{{$item['name']}}</option> 
+          @endforeach 
+          @endempty -->
+          
             @foreach($subcategorylist as $item)
-         <option class="editsubcat" value="{{$item->id}}"  selected>{{$item->name}}</option>
+         <option class="editsubcat" value="{{$item->id}}" {{ old('sub_cat_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
          @endforeach
           
           </select>

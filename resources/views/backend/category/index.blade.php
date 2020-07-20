@@ -16,7 +16,7 @@
       <tr>
         <th>S.No.</th>
         <th>Name</th> 
-        <th>Subcategory Name</th> 
+        <th>Category Name</th> 
         <th>Action</th>    
       </tr>
     </thead>

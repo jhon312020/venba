@@ -124,7 +124,7 @@ $(document).ready(function() {
   var x = 0; //Initial field counter
   var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
-    console.log("hi");
+    //console.log("hi");
     //Check maximum number of input fields
     if(x < list_maxField){ 
       x++; //Increment field counter
@@ -157,6 +157,39 @@ $(document).ready(function() {
     $("body").on("click", ".removefield", function(){
       $(this).parents(".input-group").remove();
     });  
+    /*const genderOldValue = '{{ old('sub_cat_id') }}';
+    
+    if(genderOldValue==  '') {
+      $('#sub_cat_id').val(genderOldValue);
+    }*/
+    $("#fileupload").change(function () {
+        if (typeof (FileReader) != "undefined") {
+            var dvPreview = $("#dvPreview");
+            dvPreview.html("");
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                if (regex.test(file[0].name.toLowerCase())) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var img = $("<img />");
+                        img.attr("style", "height:100px;width: 100px");
+                        img.attr("src", e.target.result);
+                        dvPreview.append(img);
+                    }
+                    reader.readAsDataURL(file[0]);
+                } else {
+                    alert(file[0].name + " is not a valid image file.");
+                    dvPreview.html("");
+                    return false;
+                }
+            });
+        } else {
+            alert("This browser does not support HTML5 FileReader.");
+        }
+    });
+
+ 
   $(".datatable").DataTable();
 });
 

@@ -171,6 +171,8 @@ class ProductController extends Controller {
       die;*/
       foreach($request->file('filename') as $image) {
         $name =$image->getClientOriginalName();
+        /*echo $name; 
+        die;*/
         //echo $name;
         //echo '<br>';
         //die;
@@ -181,7 +183,9 @@ class ProductController extends Controller {
         //die;
         //get file extension
        // $extension = $image->getClientOriginalExtension();
-        $image_name = time() . '.' . $image->getClientOriginalExtension();
+        $image_name =$image->getClientOriginalName();
+        /*echo $image_name;
+        die;*/
         $lastRecord = Product::latest()->first();
         $latestid =$lastRecord->id;
      $destinationPath = public_path('/thumbnail/'.$latestid);
@@ -271,32 +275,53 @@ class ProductController extends Controller {
     /*print_r($additional_prop_array);
 
     die;*/
+    $subcategory = Category::select('id','name')
+    ->where('id', $record['sub_cat_id'] )
+    ->get(); 
+    /*$removeindex =$subcategory->name;*/
+    
 
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategorylist  = Category::select('id','name')
     ->where('cat_id', $record['cat_id'] )
+    /*->where('name','!=', $removeindex)*/
     ->get();
-    $subcategorylist=$subcategorylist->toArray(); /*= array_map(function($object){
+    /* print_r($subcategorylist);
+    die;*/
+
+    /*$subcategorylist=$subcategorylist->toArray();*/
+    /*print_r($subcategorylist);
+    die;*/
+
+     /*= array_map(function($object){
     return (array) $object;
 }, $subcategorylist);*/
     /*print_r($subcategorylist);
     die;*/
-    $subcategory = Category::select('id','name')
-    ->where('id', $record['sub_cat_id'] )
-    ->get(); 
-    $subcategory =$subcategory->toArray();
-    print_r($subcategory);
-    echo '<br>';
     
+   /* print_r($subcategory);
+    echo '<br>';*/
+   /* $index = array_search($removeindex,$subcategorylist);*/
+    /*echo $index;
+    die;*/
+    /*    if($index !== FALSE){
+          unset($subcategorylist[$index]);
+        }
+        echo '<pre>';
+print_r($subcategorylist
+);
+echo '</pre>';
+die;*/   
     //$subcategorylist =array_diff($subcategorylist, $subcategory);
    /* $subcategorylist = array_unique( array_merge($subcategorylist, $subcategory) );*/
-    print_r($subcategorylist) ;
-    die;
+    /*print_r($subcategorylist) ;
+    die;*/
      //$subcategory->id= $id;
      /*print_r($subcategory);
     die;*/
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'additional_prop_array' => $additional_prop_array));
+    /*$subcategory =$subcategory->toArray();*/
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array));
   }
   /**
    * Function fetch()
@@ -361,14 +386,14 @@ class ProductController extends Controller {
           ->update(['additional_properties' => NULL]);
        }
     $validatedData = $request->validate([
-      'name' => 'required|max:25',
+      'name' => 'required|',
       'material_no' => 'required|int',
-      'concept_id' => 'int',
-      'cat_id' => 'int',
-      'sub_cat_id' => 'int',
+      'concept_id' => 'required',
+      'cat_id' => 'required',
+      'sub_cat_id' => 'required',
       'compatibility' => '',
-      'power_consumption' => 'required',
-      'physical_spec' => 'required',
+      'power_consumption' => '',
+      'physical_spec' => '',
       'light_color' => '',
       'introduction' => '',
       'accessories_required' => '',

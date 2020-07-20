@@ -18,7 +18,7 @@
           <input  type="text" class="form-control admin-field" id="addcategory" name="name" value="{{old('name')}}"placeholder="Enter new category" required>
         </div>
         <div class="form-group">
-          <label for="name">Select SubCategory</label>
+          <label for="name">Select Category</label>
           {!! Form::select('cat_id', $categories, old('cat_id', null), ['placeholder' => 'Please Select Main Category','class' => 'form-control']) !!}
         </div>
       </div><!-- /.box-body -->

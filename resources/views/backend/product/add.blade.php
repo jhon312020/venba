@@ -129,25 +129,28 @@
               </div>
               <div class="input-group-append">
                 <span class="input-group-text" id="">Upload</span>  -->
-                 <input type="file" class="form-control" name="filename[]"  name="image">
+                 <input type="file" class="form-control" name="filename[]"  name="image" id="fileupload">
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-success addnewfield">Add</button>
                 </div>  
             </div>
+            <div id="dvPreview">
+            </div>
             <br>
             <div class="clone hide">
               <div class="input-group" style="margin-top:10px;">
-                <input type="file" class="form-control" name="filename[]"  name="image">
+                <input type="file" class="form-control" name="filename[]"  name="image" id="fileupload">
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-danger removefield">Remove</button>
                 </div>  
               </div>              
             </div>
-
+            <div id="dvPreview">
+            </div>
           </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary addproductbut">Add</button>
       </div>
     </form>
   </div><!-- /.box -->
