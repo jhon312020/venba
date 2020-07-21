@@ -227,8 +227,11 @@ class ProductController extends Controller {
        $productid = $newproductid->id;
       //$addimages = Product::latest('created_at')->first()
         //->update(['product_image' => $images]);
-        $insertimages =Productimage::insert(
-    ['product_id' => $productid, 'product_images' => $images]);
+       /*echo $productid;
+       print_r($images);
+       die;*/
+        $insertimages =Productimage::create(
+    array('product_id' => $productid, 'product_images' => $images));
     }
 
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
@@ -262,6 +265,16 @@ class ProductController extends Controller {
    */
   public function edit($id) {
     $record = Product::findOrFail($id);
+    $imageunserialized =Productimage::select('product_images')
+    ->where('product_id', $id)
+    ->first();
+    $datase = $imageunserialized->product_images;
+    
+    $serializedimage =json_decode($datase);
+    /*echo '<pre>';
+    print_r($serializedimage);
+    echo '</pre>';
+    die;*/
     //echo $record['sub_cat_id'];
     //die;
     $additional_prop_array='';
@@ -309,10 +322,10 @@ class ProductController extends Controller {
           unset($subcategorylist[$index]);
         }
         echo '<pre>';
-print_r($subcategorylist
-);
-echo '</pre>';
-die;*/   
+      print_r($subcategorylist
+      );
+      echo '</pre>';
+      die;*/   
     //$subcategorylist =array_diff($subcategorylist, $subcategory);
    /* $subcategorylist = array_unique( array_merge($subcategorylist, $subcategory) );*/
     /*print_r($subcategorylist) ;
@@ -321,7 +334,7 @@ die;*/
      /*print_r($subcategory);
     die;*/
     /*$subcategory =$subcategory->toArray();*/
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id));
   }
   /**
    * Function fetch()
@@ -345,6 +358,57 @@ die;*/
     
     //die;
   }
+  /**
+   * Function deleteimage()
+   * Delete the image of Product in table.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function deleteimage(Request $request ,$id) {
+    $imageindex = $request->get('imageid');
+    $imagename = $request->get('imagename');
+    /*echo $imagename;
+    echo $id;
+    die;*/
+    /*echo "success";
+    die;*/
+    $image_path = public_path()."/images/".$id."/".$imagename; 
+    $thumbnailimage_path =public_path()."/thumbnail/".$id."/".$imagename; 
+    /*echo $image_path;
+    die; */
+    // Value is not URL but directory file path
+    if(File::exists($image_path)) {
+        File::delete($image_path);
+    }
+    if(File::exists($thumbnailimage_path)) {
+        File::delete($thumbnailimage_path);
+    }
+    $imageunserialized =Productimage::select('product_images')
+    ->where('product_id', $id)
+    ->first();
+    $datase = $imageunserialized->product_images;
+    
+    $serializedimage =json_decode($datase);
+   unset($serializedimage[$imageindex]);
+    $serializedimage =array_values($serializedimage); 
+    /*print_r($serializedimage);
+    die;
+    */
+    $updatedimages =json_encode($serializedimage);
+     $updateimagesquery =Productimage::where('product_id', $id)
+        ->update(['product_images' => $updatedimages]);
+        /*echo $updateimagesquery;
+        die;*/
+        $success =true;
+        $message ="The image has been deleted successfully";
+         return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
+
+  }
 
   /**
    * Function update()
@@ -355,6 +419,14 @@ die;*/
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
+    /*if($request->hasFile('filename')) {
+      echo "hello";
+      die;
+    }
+    echo '<pre>';
+    print_r($request->all());
+    echo '</pre>';
+    die;*/
     //$option = $request ['wired_wireless'];
     $a =$request ['dynamicfield'];
     /*echo $a[1]['label'];
@@ -403,6 +475,49 @@ die;*/
       'wired_wireless' => '',
     ]);
     Product::whereId($id)->update($validatedData);
+    if($request->hasFile('filename')) {
+      /*echo "hello";
+      die;*/
+      
+      foreach($request->file('filename') as $image) {
+        $name =$image->getClientOriginalName();
+        //$image_name =$image->getClientOriginalName();
+       /*$lastRecord = Product::latest()->first();
+        $latestid =$lastRecord->id;*/
+     $destinationPath = public_path('/thumbnail/'.$id);
+     File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
+    
+         $resize_image = Image::make($image->getRealPath());
+
+     $resize_image->resize(150, 150, function($constraint){
+      $constraint->aspectRatio();
+     })->save($destinationPath . '/' . $name);
+        
+
+    $destinationPath = public_path('/images/'.$id);
+        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
+        
+        
+        $image->move($destinationPath, $name);
+        $data[] = $name;
+        
+      }
+      //$images =json_encode($data);
+       /*$newproductid =Product::latest()->first();
+       $productid = $newproductid->id;*/
+       /*echo $images;
+       die;*/
+       $retrivejson = Productimage::select('product_images')
+       ->where('product_id', $id)
+       ->first();
+       $encodedimage =$retrivejson->product_images;
+       $imagesarray =json_decode($encodedimage);
+      $mergedimages= array_merge($imagesarray,$data);
+      /* print_r($mergedimages);
+       die;*/
+      
+        $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
+    }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'))/*->compact('option')*/;     
   }
 

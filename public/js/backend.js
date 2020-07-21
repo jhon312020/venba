@@ -146,23 +146,74 @@ $(document).ready(function() {
     $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
    $('.list_wrapper').toggle(); 
   })
+  /** delete product images from edit form"*/
+  $('.removeimage').click(function(){
+    $(this).prev().remove();
+    $(this).remove();
+    console.log("hi");
+    const imageid = $(this).attr('id');
+    const imagename = $(this).attr('name');
+     //console.log(imageid);
+        /* Swal.fire(
+      'Good job!',
+      'You clicked the button!',
+      'success'
+    )*/
+    Swal.fire({
+        /*title: 'Are you sure?',
+        text: 'This record and it`s details will be permanantly deleted!',
+        icon: 'warning',
+        buttons: ["Cancel", "Yes!"],*/
+         title: "Delete?",
+            text: "Please ensure and then confirm!",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: !0
+    }).then(function(value) {
+        if (value) {
+          console.log("success");
+            //window.location.href = url;
+          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+          var url = 
+          $.ajax({
+            type: 'POST',
+            url: "./deleteimage",
+            data: {_token: CSRF_TOKEN,imageid:imageid,imagename:imagename},
+                    dataType: 'JSON',
+                    success: function (results) {
+
+            if (results.success === true) {
+              Swal.fire("Done!", results.message, "success");
+            } else {
+                Swal.fire("Error!", results.message, "error");
+              }
+                    }
+          });
+
+        } 
+        
+    });
+  })
+
   /**
      * Add dynamic fields for product images.
      */
-    $('.clone').hide();
+    /*$('.clone').hide();
     $('.addnewfield').click(function(){
       var html =$(".clone").html();
       $(".increment").after(html);
     });  
     $("body").on("click", ".removefield", function(){
       $(this).parents(".input-group").remove();
-    });  
+    });*/  
     /*const genderOldValue = '{{ old('sub_cat_id') }}';
     
     if(genderOldValue==  '') {
       $('#sub_cat_id').val(genderOldValue);
     }*/
-    $("#fileupload").change(function () {
+    /*$("#fileupload").change(function () {
         if (typeof (FileReader) != "undefined") {
             var dvPreview = $("#dvPreview");
             dvPreview.html("");
@@ -187,7 +238,19 @@ $(document).ready(function() {
         } else {
             alert("This browser does not support HTML5 FileReader.");
         }
-    });
+    });*/
+     $("#fileupload").change(function(){
+     $('#image_preview').html("");
+     var total_file=document.getElementById("fileupload").files.length;
+
+
+     for(var i=0;i<total_file;i++)
+     {
+      $('#image_preview').append("<img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'><br/><br/>");
+     }
+
+
+  });
 
  
   $(".datatable").DataTable();

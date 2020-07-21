@@ -8,10 +8,10 @@ class Productimage extends Model
 {
 	use SoftDeletes;
   protected $dates = ['deleted_at'];
-  protected $table = 'images';
+  protected $table = 'productimages';
   
   protected $fillable = [
-  'product_id', 'images',
+  'product_id', 'product_images',
   ];
     public function product() {
     return $this->belongsTo('App\Models\Product');

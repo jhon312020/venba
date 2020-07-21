@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('plugins.Sweetalert2', true)
 @section('content')
 @section('js')
   <script src="{{ URL::asset('js/backend.js') }}"></script>
@@ -15,7 +16,7 @@
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form id="edit" method="post" role="form" action="{{route('admin.product.update' , ['id' => $product->id])}}">
+    <form id="edit" method="post" role="form" action="{{route('admin.product.update' , ['id' => $product->id])}}" enctype="multipart/form-data">
       @csrf
       @method('PATCH')
       <div class="card-body">       
@@ -101,6 +102,7 @@
              Wireless
             </label>
           </div>
+        </div>
            <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Edit additional Properties<i style="position:relative;left:5px;" class="fa fa-arrow-up"></i></button> 
           <div class="list_wrapper">
             <div class="row">
@@ -143,8 +145,9 @@
             @endforeach 
             @endif
           </div>
+          
           <div class="form-group">
-            <label for="image">Edit Product Image/Images</label>
+            <label for="image">Add more Product Image/Images</label>
             <div class="input-group increment">
              <!--  <div class="custom-file">
                 <input type="file" class="custom-file-input" id="image"  name="image">
@@ -155,22 +158,26 @@
               </div>
             </div>
           </div> -->
-          <input type="file" class="form-control" name="filename[]" value="" name="image">
-                <div class="input-group-btn">
+          <input type="file" class="form-control" name="filename[]"  id="fileupload"  multiple>
+              <!--   <div class="input-group-btn">
                   <button type="button" class="btn btn-success addnewfield">Add</button>
-                </div>  
+                </div> -->  
             </div>
-            <br>
-            <div class="clone hide">
-              <div class="input-group" style="margin-top:10px;">
-                <input type="file" class="form-control" value="" name="filename[]"  name="image">
-                <div class="input-group-btn">
-                  <button type="button" class="btn btn-danger removefield">Remove</button>
-                </div>  
-              </div>              
-            </div>
+             <br/>
+            <div id="image_preview"></div>
+            
 
           </div> 
+          <div class="row">
+            <?php $i =0;?>
+          @foreach($serializedimage as $item)
+           <div class="col-xs-12 col-sm-6 col-md-6" style="margin:15px 5px; position: relative;left: 25%">
+            <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}}" alt="Image Alternative text" title="Image Title"/> 
+               <button style="margin:15px 5px;" type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove image<i style="margin-left: 8px" class="fa fa-trash"></i></button>
+          </div>
+          <?php $i++; ?>
+            @endforeach
+          </div>
         </div><!-- /.box-body -->
       <div class="card-footer">
         <button type="submit" class="btn btn-primary">Update</button>

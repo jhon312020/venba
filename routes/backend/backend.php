@@ -33,6 +33,8 @@ Route::post('product', [ProductController::class, 'store'])->name('product.store
 Route::group(['prefix' => 'product/{id}'], function () {
 	Route::get('edit', [ProductController::class, 'edit'])->name('product.edit');
 	Route::post('edit/fetch', 'ProductController@editfetch')->name('editproduct.fetch');
+  Route::post('deleteimage', 'ProductController@deleteimage')->name('deleteproduct.image');
+
 	Route::patch('/', [ProductController::class, 'update'])->name('product.update');
 	Route::delete('/', [ProductController::class, 'destroy'])->name('product.destroy');
 });
