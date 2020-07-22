@@ -79,7 +79,6 @@ $(document).ready(function() {
 
   if($(this).val() != '')
   {
-   //var select = $(this).attr("id");
    var value = $(this).val();
    console.log("hi");
    var dependent = $(this).data('dependent');
@@ -101,7 +100,6 @@ $(document).ready(function() {
 
   if($(this).val() != '')
   {
-   //var select = $(this).attr("id");
    var value = $(this).val();
    console.log("hi");
    var dependent = $(this).data('dependent');
@@ -124,7 +122,6 @@ $(document).ready(function() {
   var x = 0; //Initial field counter
   var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
-    //console.log("hi");
     //Check maximum number of input fields
     if(x < list_maxField){ 
       x++; //Increment field counter
@@ -153,17 +150,7 @@ $(document).ready(function() {
     console.log("hi");
     const imageid = $(this).attr('id');
     const imagename = $(this).attr('name');
-     //console.log(imageid);
-        /* Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
-    )*/
     Swal.fire({
-        /*title: 'Are you sure?',
-        text: 'This record and it`s details will be permanantly deleted!',
-        icon: 'warning',
-        buttons: ["Cancel", "Yes!"],*/
          title: "Delete?",
             text: "Please ensure and then confirm!",
             type: "warning",
@@ -174,7 +161,6 @@ $(document).ready(function() {
     }).then(function(value) {
         if (value) {
           console.log("success");
-            //window.location.href = url;
           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
           var url = 
           $.ajax({
@@ -195,50 +181,7 @@ $(document).ready(function() {
         } 
         
     });
-  })
-
-  /**
-     * Add dynamic fields for product images.
-     */
-    /*$('.clone').hide();
-    $('.addnewfield').click(function(){
-      var html =$(".clone").html();
-      $(".increment").after(html);
-    });  
-    $("body").on("click", ".removefield", function(){
-      $(this).parents(".input-group").remove();
-    });*/  
-    /*const genderOldValue = '{{ old('sub_cat_id') }}';
-    
-    if(genderOldValue==  '') {
-      $('#sub_cat_id').val(genderOldValue);
-    }*/
-    /*$("#fileupload").change(function () {
-        if (typeof (FileReader) != "undefined") {
-            var dvPreview = $("#dvPreview");
-            dvPreview.html("");
-            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-            $($(this)[0].files).each(function () {
-                var file = $(this);
-                if (regex.test(file[0].name.toLowerCase())) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var img = $("<img />");
-                        img.attr("style", "height:100px;width: 100px");
-                        img.attr("src", e.target.result);
-                        dvPreview.append(img);
-                    }
-                    reader.readAsDataURL(file[0]);
-                } else {
-                    alert(file[0].name + " is not a valid image file.");
-                    dvPreview.html("");
-                    return false;
-                }
-            });
-        } else {
-            alert("This browser does not support HTML5 FileReader.");
-        }
-    });*/
+  })  
      $("#fileupload").change(function(){
      $('#image_preview').html("");
      var total_file=document.getElementById("fileupload").files.length;
