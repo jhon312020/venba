@@ -122,6 +122,18 @@ $(document).ready(function() {
   var x = 0; //Initial field counter
   var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
+   /* var xvalue = $(this).(parent().last().attr('name');*/ 
+   /*var xvalue = $('.list_wrapper input:last').attr('name');
+   var yvalue = xvalue.substring(
+    xvalue.indexOf("[") + 1, 
+    xvalue.indexOf("]"));
+    console.log(yvalue);
+    console.log("hello");  */
+    var xvalue = $('.list_wrapper').attr('name');
+    console.log(xvalue);
+    if(x!=xvalue){
+      x=xvalue;
+    }
     //Check maximum number of input fields
     if(x < list_maxField){ 
       x++; //Increment field counter
