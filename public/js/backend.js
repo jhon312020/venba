@@ -129,11 +129,13 @@ $(document).ready(function() {
     xvalue.indexOf("]"));
     console.log(yvalue);
     console.log("hello");  */
+    if($('.list_wrapper').attr('name')){
     var xvalue = $('.list_wrapper').attr('name');
     console.log(xvalue);
     if(x!=xvalue){
       x=xvalue;
     }
+  }
     //Check maximum number of input fields
     if(x < list_maxField){ 
       x++; //Increment field counter
