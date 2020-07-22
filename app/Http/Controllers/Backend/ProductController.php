@@ -156,6 +156,7 @@ class ProductController extends Controller {
     $additional_prop_array='';
     if ($record->additional_properties!= null) {
     $additional_prop_array = unserialize($record->additional_properties);
+    $dynamicfieldcount = count($additional_prop_array);
     } 
     $subcategory = Category::select('id','name')
       ->where('id', $record['sub_cat_id'] )
@@ -163,9 +164,9 @@ class ProductController extends Controller {
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategorylist  = Category::select('id','name')
-      ->where('cat_id', $record['cat_id'] )    
-      ->get();
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id));
+    ->where('cat_id', $record['cat_id'] )    
+    ->get();
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount));
   }
 
   /**
@@ -274,29 +275,27 @@ class ProductController extends Controller {
     if ($request->hasFile('filename')) {      
       foreach($request->file('filename') as $image) {
         $name = $image->getClientOriginalName();
-     $destinationPath = public_path('/thumbnail/'.$id);
-     File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
-    
-         $resize_image = Image::make($image->getRealPath());
-
-     $resize_image->resize(150, 150, function($constraint){
-      $constraint->aspectRatio();
-     })->save($destinationPath . '/' . $name);   
-
-    $destinationPath = public_path('/images/'.$id);
-        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);       
-        
+        $destinationPath = public_path('/thumbnail/'.$id);
+        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);
+        $resize_image = Image::make($image->getRealPath());
+        $resize_image->resize(150, 150, function($constraint) {
+          $constraint->aspectRatio();
+        })->save($destinationPath . '/' . $name);   
+        $destinationPath = public_path('/images/'.$id);
+        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);       
         $image->move($destinationPath, $name);
         $data[] = $name;        
       }
       $retrivejson = Productimage::select('product_images')
-        ->where('product_id', $id)
-        ->first();
-      
-      $encodedimage = $retrivejson->product_images;
-      $imagesarray = json_decode($encodedimage);
-      $mergedimages = array_merge($imagesarray,$data);     
-      $insertimages = Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
+       ->where('product_id', $id)
+       ->first();
+      if (!empty($retrivejson)) {
+        $encodedimage =$retrivejson->product_images;
+        $imagesarray =json_decode($encodedimage);
+        $mergedimages= array_merge($imagesarray,$data); 
+      }
+      $mergedimages = $data;    
+      $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
   }
