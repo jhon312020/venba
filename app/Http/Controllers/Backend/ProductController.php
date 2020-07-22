@@ -103,12 +103,7 @@ class ProductController extends Controller {
       'wired_wireless' => 'in:wired,wireless',
       'filename' => '',
       'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
-      ]); 
-     /* if ($validatedData->fails()) {
-   return Redirect::back()->withErrors($validator)->withInput();
-   echo "hello";
-   die;
-    }*/    
+      ]);     
     $show = Product::create($validatedData);    
     if(!empty($serialized_array)){
       $adddynamicfield =Product::latest('created_at')->first()
