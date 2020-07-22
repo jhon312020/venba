@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 @section('plugins.Datatables', true)
 @section('plugins.Sweetalert2', true)
-@section('js')
-  <script src="{{ URL::asset('js/backend.js') }}"></script>
-@stop
 @section('content')
 @include('backend.includes.partials.messages')
   <div class="page-header">
@@ -34,5 +31,12 @@
       @endisset
   </tbody>
   </table>
-
 @endsection
+@section('js')
+  <script src="{{ URL::asset('js/backend.js') }}"></script>
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      $(".datatable").DataTable();
+    });
+  </script>
+@stop

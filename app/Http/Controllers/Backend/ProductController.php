@@ -10,6 +10,7 @@ use App\Models\Category as Category;
 use App\Models\Productimage as Productimage;
 use Image;
 use File;
+
 /**
  * Create a new controller instance.
  *
@@ -22,8 +23,30 @@ class ProductController extends Controller {
    * 
    * @return \Illuminate\Http\Response
    */
+  private $productValidator = array();
   public function __construct() {
     $this->middleware('auth');
+    $this->productValidator = [
+      'name' => 'required',
+      'material_no' => 'required|int',
+      'concept_id' => 'required',
+      'cat_id' => 'required',
+      'sub_cat_id' => 'required',
+      'compatibility' => '',
+      'power_consumption' => '',
+      'physical_spec' => '',
+      'light_color' => '',
+      'introduction' => '',
+      'accessories_required' => '',
+      'warranty' => '',
+      'technical_spec' => '',
+      'additional_features' => '',
+      'wired_wireless' => 'in:wired,wireless',
+      'additional_properties'=>'',
+      'filename' => '',
+      'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
+    ];
+
   }
   
   /**
@@ -46,7 +69,13 @@ class ProductController extends Controller {
   public function add(Request $request) {
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
-    return view('backend.product.add', compact('concepts', 'categories'));
+    $subcategories = array();
+    if ($request->session()->has('_old_input')) {
+      $old_data = $request->session()->get('_old_input');
+      $cat_id = $old_data['cat_id'];
+      $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
+    } 
+    return view('backend.product.add', compact('concepts', 'categories', 'subcategories'));
   }
 
   /**
@@ -77,62 +106,19 @@ class ProductController extends Controller {
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */ 
-  public function store(Request $request ) {      
-    
-    $a = $request ['dynamicfield'];   
-    if (!empty($a[0]['label'])){
-      $serialized_array = serialize($request ['dynamicfield']);
+  public function store(Request $request) {
+    $validatedData = $request->validate($this->productValidator);
+    $dynamicField = $request['dynamicfield'];   
+    if (!empty($dynamicField[0]['label'])) {
+      $validatedData['additional_properties'] = serialize($request ['dynamicfield']);
     }
-
-    $validatedData = $request->validate([
-      'name' => 'required',
-      'material_no' => 'required|int',
-      'concept_id' => 'required',
-      'cat_id' => 'required',
-      'sub_cat_id' => 'required',
-      'compatibility' => '',
-      'power_consumption' => '',
-      'physical_spec' => '',
-      'light_color' => '',
-      'introduction' => '',
-      'accessories_required' => '',
-      'warranty' => '',
-      'technical_spec' => '',
-      'additional_features' => '',
-      'wired_wireless' => 'in:wired,wireless',
-      'filename' => '',
-      'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
-    ]);     
-    $show = Product::create($validatedData);    
-    if (!empty($serialized_array)) {
-      $adddynamicfield =Product::latest('created_at')->first()
-        ->update(['additional_properties' => $serialized_array]);
-    }  
+    $show = Product::create($validatedData); 
     if ($request->hasFile('filename')) {
-      foreach($request->file('filename') as $image) {
-        $name = $image->getClientOriginalName();
-        $image_name = $image->getClientOriginalName();
-        $lastRecord = Product::latest()->first();
-        $latestid = $lastRecord->id;
-     $destinationPath = public_path('/thumbnail/'.$latestid);
-     File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
-         $resize_image = Image::make($image->getRealPath());
-
-     $resize_image->resize(150, 150, function($constraint){
-      $constraint->aspectRatio();
-     })->save($destinationPath . '/' . $image_name);
-        $destinationPath = public_path('/images/'.$latestid);
-        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
-        $image->move($destinationPath, $name);
-        $data[] = $name;
-      }
-      $images =json_encode($data);
-       $newproductid =Product::latest()->first();
-       $productid = $newproductid->id;
-        $insertimages =Productimage::create(
-    array('product_id' => $productid, 'product_images' => $images));
+      $images = $this->_createThumbnail($request->file('filename'), $show->id);
+      $images = json_encode($images);
+      $insertimages = Productimage::create(
+      array('product_id' => $show->id, 'product_images' => $images));
     }
-
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
 
@@ -141,54 +127,36 @@ class ProductController extends Controller {
    * Display the specified Product.
    *
    * @param  int  $id
+   * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function edit($id) {
+  public function edit($id, Request $request) {
     $record = Product::findOrFail($id);
-    $dynamicfieldcount = null;
-    $imageunserialized = Productimage::select('product_images')
-    ->where('product_id', $id)
-    ->first();
-    if (!empty($imageunserialized)) {
-      $datase = $imageunserialized->product_images;    
-      $serializedimage =json_decode($datase);
+    if ($request->session()->has('_old_input')) {
+      $old_data = $request->session()->get('_old_input');
+      $cat_id = $old_data['cat_id'];
+      $record['sub_cat_id'] = '';
+    } else {
+      $cat_id = $record['cat_id'];
     }
-   $serializedimage='';
-    $additional_prop_array='';
-    if ($record->additional_properties!= null) {
+    $dynamicfieldcount = null;
+    $serializedimage = null;
+    $additional_prop_array = null;
+    $imageunserialized = Productimage::select('product_images')
+      ->where('product_id', $id)
+      ->first();
+    if (!empty($imageunserialized)) {
+      $productImages = $imageunserialized->product_images;    
+      $serializedimage = json_decode($productImages);
+    }
+    if ($record->additional_properties != null) {
       $additional_prop_array = unserialize($record->additional_properties);
       $dynamicfieldcount = count($additional_prop_array);
     } 
-    $subcategory = Category::select('id','name')
-      ->where('id', $record['sub_cat_id'] )
-      ->get();
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
-    $subcategorylist  = Category::select('id','name')
-    ->where('cat_id', $record['cat_id'] )    
-    ->get();
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount));
-  }
-
-  /**
-   * Function fetch()
-   * display sub category dropdown based on main category.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */ 
-  public function editfetch(Request $request) {
-    $select = $request->get('select');
-    $value = $request->get('value');
-    $dependent = $request->get('dependent');
-    $data = Category::select('id', 'name')
-       ->where('cat_id', $value)
-       ->get();
-    $output = '<option value="" disabled selected>Select sub category</option>';
-    foreach($data as $row){
-      $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
-    }
-    echo $output;
+    $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount));
   }
 
   /**
@@ -214,8 +182,8 @@ class ProductController extends Controller {
     $imageunserialized = Productimage::select('product_images')
     ->where('product_id', $id)
     ->first();
-    $datase = $imageunserialized->product_images;    
-    $serializedimage = json_decode($datase);
+    $productImages = $imageunserialized->product_images;    
+    $serializedimage = json_decode($productImages);
     unset($serializedimage[$imageindex]);
     $serializedimage = array_values($serializedimage);
     $updatedimages = json_encode($serializedimage);
@@ -239,67 +207,33 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
-    $a = $request ['dynamicfield'];
-    if (!empty($a[0]['label'])) {
+    $validatedData = $request->validate($this->productValidator);
+    $dynamicField = $request ['dynamicfield'];
+    $serialized_array = null;
+    if (!empty($dynamicField[0]['label'])) {
       $serialized_array = serialize($request ['dynamicfield']);
-      $adddynamicfield =Product::whereId($id)
-        ->update(['additional_properties' => $serialized_array]);
-    } elseif (!empty($a[1]['label'])) {
-      $a= $request ['dynamicfield'];
-      array_shift($a);
-      $serialized_array = serialize($a);
-      $adddynamicfield =Product::whereId($id)
-        ->update(['additional_properties' => $serialized_array]);
-
-    } else {
-      $adddynamicfield =Product::whereId($id)
-        ->update(['additional_properties' => NULL]);
-     }
-    $validatedData = $request->validate([
-      'name' => 'required|',
-      'material_no' => 'required|int',
-      'concept_id' => 'required',
-      'cat_id' => 'required',
-      'sub_cat_id' => 'required',
-      'compatibility' => '',
-      'power_consumption' => '',
-      'physical_spec' => '',
-      'light_color' => '',
-      'introduction' => '',
-      'accessories_required' => '',
-      'warranty' => '',
-      'technical_spec' => '',
-      'additional_features' => '',
-      'wired_wireless' => '',
-    ]);
+    } elseif (!empty($dynamicField[1]['label'])) {
+      $dynamicField = $request ['dynamicfield'];
+      array_shift($dynamicField);
+      $serialized_array = serialize($dynamicField);
+    } 
+    $validatedData['additional_properties'] = $serialized_array;
     Product::whereId($id)->update($validatedData);
     if ($request->hasFile('filename')) {      
-      foreach($request->file('filename') as $image) {
-        $name = $image->getClientOriginalName();
-        $destinationPath = public_path('/thumbnail/'.$id);
-        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);
-        $resize_image = Image::make($image->getRealPath());
-        $resize_image->resize(150, 150, function($constraint) {
-          $constraint->aspectRatio();
-        })->save($destinationPath . '/' . $name);   
-        $destinationPath = public_path('/images/'.$id);
-        File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);       
-        $image->move($destinationPath, $name);
-        $data[] = $name;        
-      }
+      $newImages = $this->_createThumbnail($request->file('filename'), $id);
       $retrivejson = Productimage::select('product_images')
        ->where('product_id', $id)
        ->first();
-       if(!empty($retrivejson)){
-       $encodedimage =$retrivejson->product_images;
-       $imagesarray =json_decode($encodedimage);
-      $mergedimages= array_merge($imagesarray,$data);
-      $data =json_encode( $mergedimages) ;
-       $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
-      }   
-      $datas=json_encode($data);      
-        $insertimages =Productimage::create(['product_id'=> $id, 'product_images' => $datas]);
-
+      if (!empty($retrivejson)) {
+        $encodedimage = $retrivejson->product_images;
+        $imagesarray =json_decode($encodedimage);
+        $mergedimages = array_merge($imagesarray, $newImages);
+        $newImages = json_encode( $mergedimages) ;
+        $insertimages = Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
+      } else {   
+        $images = json_encode($newImages);      
+        $insertimages = Productimage::create(['product_id'=> $id, 'product_images' => $images]);
+      }
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
   }

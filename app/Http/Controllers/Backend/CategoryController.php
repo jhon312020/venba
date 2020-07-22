@@ -108,5 +108,24 @@ class CategoryController extends Controller {
     }
     return redirect()->route('admin.category.index')->withFlashSuccess(__('Successfully Deleted!'));
   }
+
+  /**
+   * Function getSubcategories()
+   * Fetches subCategory list based on the category id
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */ 
+  public function getSubcategories(Request $request) {
+    $cat_id = $request->get('catId');
+    $subCategories = Category::select('id', 'name')
+       ->where('cat_id', $cat_id)
+       ->get();
+    $output = '<option value="" disabled selected>Select sub category</option>';
+    foreach($subCategories as $subCategory){
+      $output .= '<option value="'.$subCategory->id.'">'.$subCategory->name.'</option>';
+    }
+    echo $output;
+  }
 }
 

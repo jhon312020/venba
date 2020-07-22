@@ -1,15 +1,7 @@
 @extends('backend.layouts.app')
 @section('plugins.Sweetalert2', true)
 @section('content')
-@section('js')
-  <script src="{{ URL::asset('js/backend.js') }}"></script>
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-@stop
-@include('backend.includes.partials.messages')
-<div>
-<a style="position:relative;float: right" href="{{ URL::previous() }}" class="btn btn-success"> <i class="fas fa-arrow-left"></i> Go Back</a>
-</div>
+  @include('backend.includes.partials.messages')
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Edit Product</h3>
@@ -22,11 +14,11 @@
       <div class="card-body">       
         <div class="form-group">
           <label for="name">Name</label>
-          <input  type="text" class="form-control admin-field" id="name" name="name" placeholder="Enter name" required value="{{old('name',$product->name)}}">
+          <input  type="text" class="form-control admin-field" id="name" name="name" placeholder="Enter name" required value="{{old('name', $product->name)}}">
         </div>
         <div class="form-group">
           <label for="material_no">Material Number</label>
-          <input  type="text" class="form-control admin-field" id="material_no" name="material_no" placeholder="Enter material number" value="{{old('material_no',$product->material_no)}}">
+          <input  type="text" class="form-control admin-field" id="material_no" name="material_no" placeholder="Enter material number" value="{{old('material_no', $product->material_no)}}">
         </div>
         <div class="form-group">
           <label for="concept_id">Concept</label>
@@ -34,17 +26,11 @@
         </div>
         <div class="form-group">
           <label for="category_id">Category</label>
-          {!! Form::select('cat_id', $categories, old('cat_id', $product->cat_id), ['placeholder' => 'Please Select Category', 'class' => 'form-control dynamicedit','data-dependent' => 'sub_cat_id']) !!}
+          {!! Form::select('cat_id', $categories, old('cat_id', $product->cat_id), ['placeholder' => 'Please Select Category', 'class' => 'form-control dynamic','data-dependent' => 'sub_cat_id']) !!}
         </div>
         <div class="form-group">
           <label for="sub_cat_id">Sub Category</label>
-          <select class="form-control"  name="sub_cat_id" id="sub_cat_id" >
-          
-            @foreach($subcategorylist as $item)
-         <option class="editsubcat" value="{{$item->id}}" {{ old('sub_cat_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
-         @endforeach
-          
-          </select>
+          {!! Form::select('sub_cat_id', $subcategories, old('sub_cat_id', $product->sub_cat_id), ['placeholder' => 'Please Select Subcategory', 'class' => 'form-control', 'id'=>'sub_cat_id']) !!}
         </div>
         <div class="form-group">
           <label for="compatability">Compatibility</label>
@@ -139,24 +125,19 @@
             @endforeach 
             @endif
           </div>
-          
           <div class="form-group">
             <label for="image">Add more Product Image/Images</label>
             <div class="input-group increment">
-           
-          <input type="file" class="form-control" name="filename[]"  id="fileupload"  multiple>
-           
+              <input type="file" class="form-control" name="filename[]"  id="fileupload"  multiple>
             </div>
              <br/>
             <div id="image_preview"></div>
-            
-
           </div> 
           @if(!empty($serializedimage))
           <div class="row">            
             <?php $i =0;?>
           @foreach($serializedimage as $item)
-           <div class="col-xs-12 col-sm-6 col-md-6" style="margin:15px 5px; position: relative;left: 25%">
+           <div class="col-xs-12 col-sm-6 col-md-6" style="margin:15px 5px; position: relative;left: 25%" id="img_<?php echo $i?>">
             <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}}" alt="Image Alternative text" title="Image Title"/> 
                <button style="margin:15px 5px;" type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove image<i style="margin-left: 8px" class="fa fa-trash"></i></button>
           </div>
@@ -166,7 +147,8 @@
            @endif
         </div><!-- /.box-body -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('admin.product.index') }}" class="btn btn-danger">Cancel</a>
+        <button type="submit" class="btn btn-primary float-right">Update</button>
       </div>
     </form>
   </div><!-- /.box -->

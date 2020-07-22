@@ -18,6 +18,7 @@ Route::group(['prefix' => 'concept/{id}'], function () {
 Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('category/add', [CategoryController::class, 'add'])->name('category.add');
 Route::post('category', [CategoryController::class, 'store'])->name('category.store');
+Route::post('category/getSubcategories', [CategoryController::class, 'getSubcategories'])->name('category.getSubcategories');
 Route::group(['prefix' => 'category/{id}'], function () {
     Route::get('edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::patch('/', [CategoryController::class, 'update'])->name('category.update');
@@ -28,11 +29,9 @@ Route::group(['prefix' => 'category/{id}'], function () {
 
 Route::get('products', [ProductController::class, 'index'])->name('product.index');
 Route::get('product/add', [ProductController::class, 'add'])->name('product.add');
-Route::post('product/add/fetch', 'ProductController@fetch')->name('addproduct.fetch');
 Route::post('product', [ProductController::class, 'store'])->name('product.store');
 Route::group(['prefix' => 'product/{id}'], function () {
 	Route::get('edit', [ProductController::class, 'edit'])->name('product.edit');
-	Route::post('edit/fetch', 'ProductController@editfetch')->name('editproduct.fetch');
   Route::post('deleteimage', 'ProductController@deleteimage')->name('deleteproduct.image');
 
 	Route::patch('/', [ProductController::class, 'update'])->name('product.update');

@@ -31,13 +31,11 @@ $(document).ready(function() {
      */
     $('body').on('submit', 'form[name=delete_item]', function (e) {
         e.preventDefault();
-
         const form = this;
         const link = $('a[data-method="delete"]');
         const cancel = (link.attr('data-trans-button-cancel')) ? link.attr('data-trans-button-cancel') : 'Cancel';
         const confirm = (link.attr('data-trans-button-confirm')) ? link.attr('data-trans-button-confirm') : 'Yes, delete';
         const title = (link.attr('data-trans-title')) ? link.attr('data-trans-title') : 'Are you sure you want to delete this item?';
-
         Swal.fire({
             title: title,
             showCancelButton: true,
@@ -74,64 +72,30 @@ $(document).ready(function() {
   $(".alert-success").delay(1000).slideUp(200, function() {
     $(this).alert('close');
   });
-  //for add product
-  $('.dynamic').change(function(){
-
-  if($(this).val() != '')
-  {
-   var value = $(this).val();
-   console.log("hi");
-   var dependent = $(this).data('dependent');
+  //Fetches subcategory list based on category selected
+  $('.dynamic').change(function() {
+  if($(this).val() != '') {
+   var catId = $(this).val();
    var _token = $('input[name="_token"]').val();
-   $.ajax({
-    url:"./add/fetch",
-    type:"POST",
-    data:{value:value,dependent:dependent, _token:_token},
-    success:function(result)
-    {
-     $('#sub_cat_id').html(result);
-    }
-
+     $.ajax({
+      url:"/admin/category/getSubcategories",
+      type:"POST",
+      data:{catId:catId, _token:_token},
+      success:function(result) {
+       $('#sub_cat_id').html(result);
+      }
    })
   }
  }); 
-  //for edit product
- $('.dynamicedit').change(function(){
-
-  if($(this).val() != '')
-  {
-   var value = $(this).val();
-   console.log("hi");
-   var dependent = $(this).data('dependent');
-   var _token = $('input[name="_token"]').val();
-   $.ajax({
-    url:"./edit/fetch",
-    type:"POST",
-    data:{value:value,dependent:dependent, _token:_token},
-    success:function(result)
-    {
-     $('#sub_cat_id').html(result);
-    }
-
-   })
-  }
- });  
+ 
   /**
      * Add dynamic fields for additional product properties.
      */
   var x = 0; //Initial field counter
   var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
-   /* var xvalue = $(this).(parent().last().attr('name');*/ 
-   /*var xvalue = $('.list_wrapper input:last').attr('name');
-   var yvalue = xvalue.substring(
-    xvalue.indexOf("[") + 1, 
-    xvalue.indexOf("]"));
-    console.log(yvalue);
-    console.log("hello");  */
     if($('.list_wrapper').attr('name')){
     var xvalue = $('.list_wrapper').attr('name');
-    console.log(xvalue);
     if(x!=xvalue){
       x=xvalue;
     }
@@ -158,58 +122,46 @@ $(document).ready(function() {
    $('.list_wrapper').toggle(); 
   })
   /** delete product images from edit form"*/
-  $('.removeimage').click(function(){
-    $(this).prev().remove();
-    $(this).remove();
-    console.log("hi");
+  $('.removeimage').click(function() {
+    var thisObj = $(this);
     const imageid = $(this).attr('id');
     const imagename = $(this).attr('name');
     Swal.fire({
-         title: "Delete?",
-            text: "Please ensure and then confirm!",
-            type: "warning",
-            showCancelButton: !0,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: !0
-    }).then(function(value) {
-        if (value) {
-          console.log("success");
-          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-          var url = 
-          $.ajax({
-            type: 'POST',
-            url: "./deleteimage",
-            data: {_token: CSRF_TOKEN,imageid:imageid,imagename:imagename},
-                    dataType: 'JSON',
-                    success: function (results) {
-
+      title: "Delete?",
+      text: "Please ensure and then confirm!",
+      type: "warning",
+      showCancelButton: !0,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: !0
+    }).then(function(result) {
+      if (result.value) {
+        thisObj.prev().remove();
+        thisObj.remove();
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var url = 
+        $.ajax({
+          type: 'POST',
+          url: "./deleteimage",
+          data: {_token: CSRF_TOKEN, imageid:imageid, imagename:imagename},
+          dataType: 'JSON',
+          success: function (results) {
             if (results.success === true) {
               Swal.fire("Done!", results.message, "success");
             } else {
-                Swal.fire("Error!", results.message, "error");
-              }
-                    }
-          });
-
-        } 
-        
+              Swal.fire("Error!", results.message, "error");
+            }
+          }
+        });
+      }   
     });
   })  
-     $("#fileupload").change(function(){
-     $('#image_preview').html("");
-     var total_file=document.getElementById("fileupload").files.length;
-
-
-     for(var i=0;i<total_file;i++)
-     {
+  $("#fileupload").change(function() {
+    $('#image_preview').html("");
+    var total_file = $("#fileupload").get(0).files.length;
+    for (var i = 0; i < total_file; i++) {
       $('#image_preview').append("<img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'><br/><br/>");
-     }
-
-
+    }
   });
-
- 
-  $(".datatable").DataTable();
 });
 

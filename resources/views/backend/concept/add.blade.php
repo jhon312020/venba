@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
 @include('backend.includes.partials.messages')
-<div>
-<a style="position:relative;float: right" href="{{ URL::previous() }}" class="btn btn-success"> <i class="fas fa-arrow-left"></i> Go Back</a>
-</div>
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Add Concept</h3>
@@ -19,9 +16,9 @@
         </div>
       </div><!-- /.box-body -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
+         <a href="{{ route('admin.concept.index') }}" class="btn btn-danger">Cancel</a>
+        <button type="submit" class="btn btn-primary float-right">Add</button>
       </div>
     </form>
-    
   </div><!-- /.box -->
 @endsection 

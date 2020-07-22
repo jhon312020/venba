@@ -1,15 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
-@include('backend.includes.partials.messages')
-@section('js')
-  <script src="{{ URL::asset('js/backend.js') }}"></script>
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-
-@stop
-<div>
-<a style="position:relative;float: right" href="{{ URL::previous() }}" class="btn btn-success"> <i class="fas fa-arrow-left"></i> Go Back</a>
-</div>
+  @include('backend.includes.partials.messages')
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Add Product</h3>
@@ -38,10 +29,7 @@
         </div>
         <div class="form-group">
           <label for="sub_cat_id">Sub Category</label>
-          <select class="form-control"  name="sub_cat_id" id="sub_cat_id" >
-          <option value="" disabled selected>Select sub category</option>
-                  
-          </select>
+          {!! Form::select('sub_cat_id', $subcategories, old('sub_cat_id', null), ['placeholder' => 'Please Select Subcategory', 'class' => 'form-control', 'id'=>'sub_cat_id']) !!}   
         </div>
         <div class="form-group">
           <label for="compatability">Compatibility</label>
@@ -157,7 +145,8 @@
           </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary addproductbut">Add</button>
+        <a href="{{ route('admin.product.index') }}" class="btn btn-danger">Cancel</a>
+        <button type="submit" class="btn btn-primary float-right addproductbut">Add</button>
       </div>
     </form>
   </div><!-- /.box -->

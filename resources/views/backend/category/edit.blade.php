@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
-@include('backend.includes.partials.messages') 
-<div>
-<a style="position:relative;float: right" href="{{ URL::previous() }}" class="btn btn-success"> <i class="fas fa-arrow-left"></i> Go Back</a>
-</div> 
+  @include('backend.includes.partials.messages') 
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Edit Category</h3>
@@ -24,7 +21,8 @@
         </div>
       </div><!-- /.box-body -->
       <div class="card-footer">
-        <button type="submit" value=" {{$category->id}}"  class="btn btn-primary">Update</button>
+        <a href="{{ route('admin.category.index') }}" class="btn btn-danger">Cancel</a>
+        <button type="submit" value=" {{$category->id}}"  class="btn btn-primary float-right">Update</button>
       </div>
     </form>
     
