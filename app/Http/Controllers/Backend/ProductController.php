@@ -145,6 +145,7 @@ class ProductController extends Controller {
    */
   public function edit($id) {
     $record = Product::findOrFail($id);
+    $dynamicfieldcount = null;
     $imageunserialized = Productimage::select('product_images')
     ->where('product_id', $id)
     ->first();
@@ -155,8 +156,8 @@ class ProductController extends Controller {
    $serializedimage='';
     $additional_prop_array='';
     if ($record->additional_properties!= null) {
-    $additional_prop_array = unserialize($record->additional_properties);
-    $dynamicfieldcount = count($additional_prop_array);
+      $additional_prop_array = unserialize($record->additional_properties);
+      $dynamicfieldcount = count($additional_prop_array);
     } 
     $subcategory = Category::select('id','name')
       ->where('id', $record['sub_cat_id'] )
