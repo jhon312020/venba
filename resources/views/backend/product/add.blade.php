@@ -102,14 +102,14 @@
    
                 <div class="form-group">
                   <label>Label</label>
-                  <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" class="form-control"/>
+                  <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" value="{{old('dynamicfield.0.label')}}" class="form-control"/>
                 </div>
               </div>
    
               <div class="col-xs-7 col-sm-7 col-md-7">
                 <div class="form-group">
                   <label>Value</label>
-                  <input autocomplete="off" name="dynamicfield[0][value]" type="text" placeholder="Type Value" class="form-control"/>
+                  <input autocomplete="off" name="dynamicfield[0][value]" type="text" value="{{old('dynamicfield.0.value')}}" placeholder="Type Value" class="form-control"/>
                 </div>
               </div> 
    
