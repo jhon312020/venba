@@ -123,31 +123,12 @@
           <div class="form-group">
             <label  for="image">Product Image/Images</label>
             <div class="input-group increment">
-              <!-- <div class="custom-file">
-                <input type="file" class="custom-file-input" id="image"  name="image">
-                <label class="custom-file-label" for="image">Choose file</label>
-              </div>
-              <div class="input-group-append">
-                <span class="input-group-text" id="">Upload</span>  -->
                  <input type="file" class="form-control" name="filename[]"   id="fileupload" multiple>
-                <!-- <div class="input-group-btn">
-                  <button type="button" class="btn btn-success addnewfield">Add</button>
-                </div>   -->
             </div>
            
             <br/>
             <div id="image_preview"></div>
-            <!-- <br> -->
-            <!-- <div class="clone hide">
-              <div class="input-group" style="margin-top:10px;">
-                <input type="file" class="form-control" name="filename[]"  name="image" id="fileupload">
-                <div class="input-group-btn">
-                  <button type="button" class="btn btn-danger removefield">Remove</button>
-                </div>  
-              </div>              
-            </div>
-            <div id="dvPreview">
-            </div> -->
+            
           </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">

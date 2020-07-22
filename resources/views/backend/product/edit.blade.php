@@ -39,12 +39,6 @@
         <div class="form-group">
           <label for="sub_cat_id">Sub Category</label>
           <select class="form-control"  name="sub_cat_id" id="sub_cat_id" >
-             <!-- @empty($subcategory)
-             @else
-            @foreach($subcategory as $item)
-          <option class="editsubcat" value="{{$item['id']}}" {{ old('sub_cat_id') == $item['id'] ? 'selected' : '' }}  selected>{{$item['name']}}</option> 
-          @endforeach 
-          @endempty -->
           
             @foreach($subcategorylist as $item)
          <option class="editsubcat" value="{{$item->id}}" {{ old('sub_cat_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -149,19 +143,9 @@
           <div class="form-group">
             <label for="image">Add more Product Image/Images</label>
             <div class="input-group increment">
-             <!--  <div class="custom-file">
-                <input type="file" class="custom-file-input" id="image"  name="image">
-                <label class="custom-file-label" for="image">Choose file</label>
-              </div>
-              <div class="input-group-append">
-                <span class="input-group-text" id="">Upload</span>
-              </div>
-            </div>
-          </div> -->
+           
           <input type="file" class="form-control" name="filename[]"  id="fileupload"  multiple>
-              <!--   <div class="input-group-btn">
-                  <button type="button" class="btn btn-success addnewfield">Add</button>
-                </div> -->  
+           
             </div>
              <br/>
             <div id="image_preview"></div>
