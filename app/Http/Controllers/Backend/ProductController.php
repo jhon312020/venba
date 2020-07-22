@@ -148,8 +148,11 @@ class ProductController extends Controller {
     $imageunserialized =Productimage::select('product_images')
     ->where('product_id', $id)
     ->first();
+    if(!empty($imageunserialized)){
     $datase = $imageunserialized->product_images;    
     $serializedimage =json_decode($datase);
+   }
+   $serializedimage='';
     $additional_prop_array='';
     if($record->additional_properties!= null){
     $additional_prop_array = unserialize($record->additional_properties);
