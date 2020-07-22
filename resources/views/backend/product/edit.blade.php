@@ -152,7 +152,8 @@
             
 
           </div> 
-          <div class="row">
+          @if(!empty($serializedimage))
+          <div class="row">            
             <?php $i =0;?>
           @foreach($serializedimage as $item)
            <div class="col-xs-12 col-sm-6 col-md-6" style="margin:15px 5px; position: relative;left: 25%">
@@ -160,8 +161,9 @@
                <button style="margin:15px 5px;" type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove image<i style="margin-left: 8px" class="fa fa-trash"></i></button>
           </div>
           <?php $i++; ?>
-            @endforeach
+            @endforeach           
           </div>
+           @endif
         </div><!-- /.box-body -->
       <div class="card-footer">
         <button type="submit" class="btn btn-primary">Update</button>
