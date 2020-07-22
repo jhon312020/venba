@@ -127,11 +127,11 @@
             <?php $i++;?>
             <div class="row">
               <div class="col-xs-4 col-sm-4 col-md-4">  <div class="form-group">
-                  <input name="dynamicfield[<?php echo $i;?>][label]" value="{{$item['label']}}" type="text" placeholder="Type Label" class="form-control"/>
+                  <input name="dynamicfield[<?php echo $i;?>][label]" value="{{old('dynamicfield.$i.label', $item['label'])}}" type="text" placeholder="Type Label" class="form-control"/>
                 </div>
               </div>
               <div class="col-xs-7 col-sm-7 col-md-7">  <div class="form-group">
-                  <input name="dynamicfield[<?php echo $i;?>][value]" value="{{$item['value']}}"type="text" placeholder="Type Value" class="form-control"/>
+                  <input name="dynamicfield[<?php echo $i;?>][value]" value="{{old('dynamicfield.$i.value',$item['value'])}}"type="text" placeholder="Type Value" class="form-control"/>
                 </div>
               </div>
               <div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div>

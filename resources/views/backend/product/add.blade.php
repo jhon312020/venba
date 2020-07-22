@@ -96,10 +96,8 @@
         </div>
           <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Add additional Properties<i style="position:relative;left:5px;" class="fa fa-arrow-up"></i></button>
           <div class="list_wrapper">
-            <div class="row">
-   
-              <div class="col-xs-4 col-sm-4 col-md-4">
-   
+            <div class="row">   
+              <div class="col-xs-4 col-sm-4 col-md-4">   
                 <div class="form-group">
                   <label>Label</label>
                   <input name="dynamicfield[0][label]" type="text" placeholder="Type Label" value="{{old('dynamicfield.0.label')}}" class="form-control"/>
@@ -118,6 +116,33 @@
                 <button class="btn btn-success list_add_button" type="button"><i class="fa fa-plus-circle"></i></button>
               </div>
             </div> 
+
+            @php($i = 1)
+           @if(!is_null((old('dynamicfield'))))
+            @foreach(old('dynamicfield') as $input)          
+            <div class="row">   
+              <div class="col-xs-4 col-sm-4 col-md-4">   
+                <div class="form-group">
+                  <label>Label</label>
+                  <input name="dynamicfield[{{$i}}][label]" type="text" placeholder="Type Label" value="{{old('dynamicfield.'.$i.'.label')}}" class="form-control"/>
+                </div>
+              </div>
+   
+              <div class="col-xs-7 col-sm-7 col-md-7">
+                <div class="form-group">
+                  <label>Value</label>
+                  <input autocomplete="off" name="dynamicfield[{{$i}}][value]" type="text" value="{{old('dynamicfield.'.$i.'.value')}}" placeholder="Type Value" class="form-control"/>
+                </div>
+              </div> 
+   
+              <div class="col-xs-1 col-sm-1 col-md-1">
+                <br>
+                <a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a>
+              </div>
+            </div>
+            @php($i++)
+        @endforeach
+        @endif 
           </div>  
           </br> </br>        
           <div class="form-group">
