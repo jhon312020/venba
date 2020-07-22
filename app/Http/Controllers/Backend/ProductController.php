@@ -290,13 +290,16 @@ class ProductController extends Controller {
       $retrivejson = Productimage::select('product_images')
        ->where('product_id', $id)
        ->first();
-      if (!empty($retrivejson)) {
-        $encodedimage =$retrivejson->product_images;
-        $imagesarray =json_decode($encodedimage);
-        $mergedimages= array_merge($imagesarray,$data); 
-      }
-      $mergedimages = $data;    
-      $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
+       if(!empty($retrivejson)){
+       $encodedimage =$retrivejson->product_images;
+       $imagesarray =json_decode($encodedimage);
+      $mergedimages= array_merge($imagesarray,$data);
+      $data =json_encode( $mergedimages) ;
+       $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
+      }   
+      $datas=json_encode($data);      
+        $insertimages =Productimage::create(['product_id'=> $id, 'product_images' => $datas]);
+
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
   }

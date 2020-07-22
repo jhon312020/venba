@@ -98,7 +98,7 @@
           </div>
         </div>
            <button type="Button" style="position: relative; left: 25%" class="btn btn-primary dynamicdisplay">Edit additional Properties<i style="position:relative;left:5px;" class="fa fa-arrow-up"></i></button> 
-          <div class="list_wrapper">
+          <div class="list_wrapper" name={{$dynamicfieldcount}}>
             <div class="row">
    
               <div class="col-xs-4 col-sm-4 col-md-4">
