@@ -156,6 +156,7 @@ class ProductController extends Controller {
     $additional_prop_array='';
     if($record->additional_properties!= null){
     $additional_prop_array = unserialize($record->additional_properties);
+    $dynamicfieldcount = count($additional_prop_array);
     } 
     $subcategory = Category::select('id','name')
     ->where('id', $record['sub_cat_id'] )
@@ -165,7 +166,7 @@ class ProductController extends Controller {
     $subcategorylist  = Category::select('id','name')
     ->where('cat_id', $record['cat_id'] )    
     ->get();
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategory'=>$subcategory, 'subcategorylist'=>$subcategorylist, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount));
   }
   /**
    * Function fetch()
@@ -290,9 +291,12 @@ class ProductController extends Controller {
        $retrivejson = Productimage::select('product_images')
        ->where('product_id', $id)
        ->first();
+       if(!empty($retrivejson)){
        $encodedimage =$retrivejson->product_images;
        $imagesarray =json_decode($encodedimage);
-      $mergedimages= array_merge($imagesarray,$data);     
+      $mergedimages= array_merge($imagesarray,$data); 
+      }
+      $mergedimages = $data;    
         $insertimages =Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
