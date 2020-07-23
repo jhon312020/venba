@@ -131,7 +131,7 @@
           </div>
         </div>
       </div>
-          <button type="Button" class="btn btn-primary dynamicdisplay rl">Add Properties<i  class="fa fa-arrow-up pl"></i></button>
+          <button type="Button" class="btn btn-primary dynamicdisplay rl">Add additional Properties<i  class="fa fa-arrow-up pl"></i></button>
           <div class="list_wrapper">
             <div class="row">   
               <div class="col-xs-12 col-sm-12 col-md-12 ">
