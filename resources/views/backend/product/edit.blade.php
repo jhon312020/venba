@@ -132,7 +132,7 @@
             </div>
           </div>
         </div>
-          <button type="Button" class="btn btn-primary dynamicdisplay rl">Edit additional Properties<i  class="fa fa-arrow-down pl "></i></button> 
+          <button type="Button" class="btn btn-primary dynamicdisplay rl">Edit Properties<i  class="fa fa-arrow-down pl "></i></button> 
           <div class="list_wrapper">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12">
