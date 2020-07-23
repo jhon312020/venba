@@ -347,18 +347,37 @@ return [
         [
             'text' => 'Concepts',
             'url'  => 'admin/concepts',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa fa-bolt',
         ],
         [
             'text' => 'Categories',
             'url'  => 'admin/categories',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa fa-lightbulb',
         ],
         [
             'text' => 'Products',
             'url'  => 'admin/products',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa fa-lightbulb',
+            'active' => ['admin/products', '', '/admin/product/*', 'regex:@^/[0-9]+$@']
         ],
+        'ORDER SETTINGS',
+        [
+            'text' => 'Invoices',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa fa-credit-card',
+        ],
+        [
+            'text' => 'Orders',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa fa-thumbs-up',
+        ],
+        'USER SETTINGS',
+        [
+            'text' => 'users',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa fa-users',
+        ],
+       
         /*[
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

@@ -94,18 +94,28 @@ $(document).ready(function() {
   var x = 0; //Initial field counter
   var list_maxField = 100; //Input fields increment limitation
   $('.list_add_button').click(function() {
-    if($('.list_wrapper').attr('name')){
-    var xvalue = $('.list_wrapper').attr('name');
-    if(x!=xvalue){
-      x=xvalue;
-    }
-  }
+      if ($('.list_wrapper :last-child').find(".lab").last().attr('name')) { 
+        //console.log(x);
+        var value =$('.list_wrapper :last-child').find(".lab").last().attr('name');
+        var indexvalue = value.substring(
+        value.indexOf("[") + 1, 
+        value.indexOf("]"));
+        //console.log(indexvalue);
+         if (x > 1) {         
+          x = indexvalue;
+          x++;
+           //console.log(x);
+          }
+
+      }
     //Check maximum number of input fields
-    if(x < list_maxField){ 
-      x++; //Increment field counter
-      var list_fieldHTML = '<div class="row"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="dynamicfield['+x+'][label]" type="text" placeholder="Type Label" class="form-control"/></div></div><div class="col-xs-7 col-sm-7 col-md-7"><div class="form-group"><input name="dynamicfield['+x+'][value]" type="text" placeholder="Type Value" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
+    if (x < list_maxField) { 
+      console.log(x);
+      
+      var list_fieldHTML = '<div class="row martop"><div class="col-xs-4 col-sm-4 col-md-4"><div class="form-group"><input name="dynamicfield['+x+'][label]" type="text" placeholder="Type Label" class="form-control lab"/></div></div><div class="col-xs-7 col-sm-7 col-md-7"><div class="form-group"><input name="dynamicfield['+x+'][value]" type="text" placeholder="Type Value" class="form-control"/></div></div><div class="col-xs-1 col-sm-7 col-md-1"><a href="javascript:void(0);" class="list_remove_button btn btn-danger">-</a></div></div>'; //New input field html 
       $('.list_wrapper').append(list_fieldHTML);
        //Add field html
+       x++; //Increment field counter
 
     }
   });
@@ -115,12 +125,7 @@ $(document).ready(function() {
     $(this).closest('div.row').remove(); //Remove field html
     x--; //Decrement field counter
   });
-  //toggle between additional properties fields
-  $('.list_wrapper').hide();
-  $('.dynamicdisplay').click(function(){
-    $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
-   $('.list_wrapper').toggle(); 
-  })
+  
   /** delete product images from edit form"*/
   $('.removeimage').click(function() {
     var thisObj = $(this);
@@ -135,9 +140,7 @@ $(document).ready(function() {
       cancelButtonText: "No, cancel!",
       reverseButtons: !0
     }).then(function(result) {
-      if (result.value) {
-        thisObj.prev().remove();
-        thisObj.remove();
+      if (result.value) {        
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var url = 
         $.ajax({
@@ -147,6 +150,8 @@ $(document).ready(function() {
           dataType: 'JSON',
           success: function (results) {
             if (results.success === true) {
+              thisObj.prev().remove();
+              thisObj.remove();
               Swal.fire("Done!", results.message, "success");
             } else {
               Swal.fire("Error!", results.message, "error");
@@ -160,7 +165,7 @@ $(document).ready(function() {
     $('#image_preview').html("");
     var total_file = $("#fileupload").get(0).files.length;
     for (var i = 0; i < total_file; i++) {
-      $('#image_preview').append("<img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'><br/><br/>");
+      $('#image_preview').append("<div class='col-xs-12 col-sm-4 col-md-4'><img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
     }
   });
 });

@@ -8,7 +8,7 @@ class Productimage extends Model
 {
 	use SoftDeletes;
   protected $dates = ['deleted_at'];
-  protected $table = 'productimages';
+  protected $table = 'product_images';
   
   protected $fillable = [
   'product_id', 'product_images',

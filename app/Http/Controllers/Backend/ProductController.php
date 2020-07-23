@@ -79,27 +79,6 @@ class ProductController extends Controller {
   }
 
   /**
-   * Function fetch()
-   * display sub category dropdown based on main category.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */ 
-  public function fetch(Request $request) {
-    $select = $request->get('select');
-    $value = $request->get('value');
-    $dependent = $request->get('dependent');
-    $data = Category::select('id', 'name')
-       ->where('cat_id', $value)
-       ->get();
-    $output = '<option value="" disabled selected>Select sub category</option>';
-    foreach($data as $row){
-      $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
-    }
-    echo $output;
-  }
-
-  /**
    * Function Store()
    * Store a newly created Product in table.
    *
@@ -107,10 +86,17 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
-    $validatedData = $request->validate($this->productValidator);
-    $dynamicField = $request['dynamicfield'];   
-    if (!empty($dynamicField[0]['label'])) {
-      $validatedData['additional_properties'] = serialize($request ['dynamicfield']);
+    $validatedData = $request->validate($this->productValidator);    
+    $dynamicField = $request['dynamicfield']; 
+    echo '<pre>'; 
+    print_r($dynamicField) ;
+    echo '</pre>'; 
+    if (!empty($dynamicField)) {
+      foreach ($dynamicField as $key => $value) {
+        $dy[$key] =$value;
+        # code...
+      }
+      $validatedData['additional_properties'] = serialize($dy);
     }
     $show = Product::create($validatedData); 
     if ($request->hasFile('filename')) {
@@ -146,7 +132,7 @@ class ProductController extends Controller {
       ->where('product_id', $id)
       ->first();
     if (!empty($imageunserialized)) {
-      $productImages = $imageunserialized->product_images;    
+      $productImages = $imageunserialized->product_images;  
       $serializedimage = json_decode($productImages);
     }
     if ($record->additional_properties != null) {
@@ -172,21 +158,30 @@ class ProductController extends Controller {
     $imagename = $request->get('imagename');
     $image_path = public_path()."/images/".$id."/".$imagename; 
     $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imagename;
+    $imagedeletepath=public_path()."/deletedimages/".$id."/"; 
+    $thumbnaildeletepath=public_path()."/deletedimages/thumbnail/".$id."/"; 
     // Value is not URL but directory file path
     if (File::exists($image_path)) {
-        File::delete($image_path);
+       File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
+
+      File::move($image_path,$imagedeletepath.'/'.$imagename);
+       // File::delete($image_path);
     }
     if (File::exists($thumbnailimage_path)) {
-        File::delete($thumbnailimage_path);
+        File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
+       File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
+       // File::delete($thumbnailimage_path);
     }
     $imageunserialized = Productimage::select('product_images')
     ->where('product_id', $id)
     ->first();
     $productImages = $imageunserialized->product_images;    
-    $serializedimage = json_decode($productImages);
+    $serializedimage = json_decode($productImages);    
     unset($serializedimage[$imageindex]);
-    $serializedimage = array_values($serializedimage);
-    $updatedimages = json_encode($serializedimage);
+    $serializedimage = array_values($serializedimage);    
+    $updatedimages = json_encode($serializedimage); 
+    /*echo $updatedimages;
+    die;*/   
     $updateimagesquery = Productimage::where('product_id', $id)
       ->update(['product_images' => $updatedimages]);
     $success = true;
@@ -210,14 +205,16 @@ class ProductController extends Controller {
     $validatedData = $request->validate($this->productValidator);
     $dynamicField = $request ['dynamicfield'];
     $serialized_array = null;
-    if (!empty($dynamicField[0]['label'])) {
-      $serialized_array = serialize($request ['dynamicfield']);
-    } elseif (!empty($dynamicField[1]['label'])) {
-      $dynamicField = $request ['dynamicfield'];
-      array_shift($dynamicField);
-      $serialized_array = serialize($dynamicField);
-    } 
+     if (!empty($dynamicField)) {
+      foreach ($dynamicField as $key => $value) {
+        $dy[$key] =$value;
+        # code...
+      }
+      $serialized_array = serialize($dy);
+    }
+    
     $validatedData['additional_properties'] = $serialized_array;
+    unset($validatedData['filename']); 
     Product::whereId($id)->update($validatedData);
     if ($request->hasFile('filename')) {      
       $newImages = $this->_createThumbnail($request->file('filename'), $id);
@@ -245,7 +242,31 @@ class ProductController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id) {
+  public function destroy($id) {    
+    $imagenames=Productimage::select('product_images')
+    ->where('product_id', $id)
+    ->first();    
+    if (!empty($imagenames)) {
+      $productImages = $imagenames->product_images;  
+      $serializedimage = json_decode($productImages);     
+      foreach($serializedimage as $imagename) {
+        $image_path = public_path()."/images/".$id."/".$imagename;
+        $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imagename;
+        $imagedeletepath=public_path()."/deletedimages/".$id."/"; 
+        $thumbnaildeletepath=public_path()."/deletedimages/thumbnail/".$id."/"; 
+        // Value is not URL but directory file path
+        if (File::exists($image_path)) {
+           File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
+          File::move($image_path,$imagedeletepath.'/'.$imagename);
+           // File::delete($image_path);
+        }
+        if (File::exists($thumbnailimage_path)) {
+            File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
+           File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
+           // File::delete($thumbnailimage_path);
+        }
+      }
+    }
     $product = Product::findOrFail($id);
     $product->delete();
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Deleted!'));
