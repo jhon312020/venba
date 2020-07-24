@@ -38,10 +38,17 @@ class Controller extends BaseController
     function _createThumbnail($files, $productId) {
     	$images = array();
     	foreach($files as $image) {
+            $ext =$image->getClientOriginalExtension();
         $name = $image->getClientOriginalName();
         $destinationPath = public_path('/thumbnail/'.$productId);
         File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);
         $resize_image = Image::make($image->getRealPath());
+        
+        if (file_exists( public_path() . '/thumbnail/' . $productId .'/'. $name)) {
+            $name =preg_replace('/.[^.]*$/', '', $name);
+            $add = rand();
+            $name= $name.$add.'.'.$ext;
+        } 
         $resize_image->resize(100, 100, function($constraint) {
           $constraint->aspectRatio();
         })->save($destinationPath . '/' . $name);   

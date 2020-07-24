@@ -32,9 +32,21 @@
 .imwh{
 	margin-bottom: 10px;
 	margin-top: 10px;
+
+}
+.mar{
+	position: relative;
+	left: 15%;
 }
 .card1{
 	width:75% !important;
 	position: relative;
 	left:15%;
+}
+.mw {
+	max-width: 600px;
+}
+.rll{
+	position: relative;
+	left: 20%;
 }
