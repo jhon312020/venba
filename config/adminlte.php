@@ -348,11 +348,13 @@ return [
             'text' => 'Concepts',
             'url'  => 'admin/concepts',
             'icon' => 'fas fa-fw fa fa-bolt',
+            'active' => ['admin/concepts', '', '/admin/concept/*', 'regex:@^/[0-9]+$@']
         ],
         [
             'text' => 'Categories',
             'url'  => 'admin/categories',
             'icon' => 'fas fa-fw fa fa-lightbulb',
+            'active' => ['admin/categories', '', '/admin/category/*', 'regex:@^/[0-9]+$@']
         ],
         [
             'text' => 'Products',
