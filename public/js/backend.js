@@ -142,7 +142,6 @@ $(document).ready(function() {
     }).then(function(result) {
       if (result.value) {        
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var url = 
         $.ajax({
           type: 'POST',
           url: "./deleteimage",
@@ -150,8 +149,11 @@ $(document).ready(function() {
           dataType: 'JSON',
           success: function (results) {
             if (results.success === true) {
-              thisObj.prev().remove();
-              thisObj.remove();
+             var imgid =thisObj.attr('id');
+              console.log(imgid);
+              $('#img_'+imgid).remove();
+              /*thisObj.prev().remove();
+              thisObj.remove();*/
               Swal.fire("Done!", results.message, "success");
             } else {
               Swal.fire("Error!", results.message, "error");

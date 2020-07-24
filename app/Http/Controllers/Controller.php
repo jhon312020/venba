@@ -42,7 +42,7 @@ class Controller extends BaseController
         $destinationPath = public_path('/thumbnail/'.$productId);
         File::isDirectory($destinationPath) or File::makeDirectory($destinationPath, 0755, true, true);
         $resize_image = Image::make($image->getRealPath());
-        $resize_image->resize(150, 150, function($constraint) {
+        $resize_image->resize(100, 100, function($constraint) {
           $constraint->aspectRatio();
         })->save($destinationPath . '/' . $name);   
         $destinationPath = public_path('/images/'.$productId);
