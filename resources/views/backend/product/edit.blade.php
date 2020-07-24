@@ -171,17 +171,18 @@
             </div>
           </div> 
           @if(!empty($serializedimage))
-          <div class="row mw">            
+          <div class="row">            
             <?php $i =0;?>
           @foreach($serializedimage as $item)
-           <div class="col-xs-12 col-sm-4 col-md-4 rll"  id="img_<?php echo $i?>">
+           <div class="col-2"  id="img_<?php echo $i?>">
             <div>
               <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh " alt="Image Alternative text" title="Image Title"/> <br/>
                  <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
              </div>
            </div>
             <?php $i++; ?>
-              @endforeach           
+              @endforeach 
+              </div>          
           </div>
            @endif
         </div><!-- /.box-body -->
