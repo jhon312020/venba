@@ -167,7 +167,7 @@ $(document).ready(function() {
     $('#image_preview').html("");
     var total_file = $("#fileupload").get(0).files.length;
     for (var i = 0; i < total_file; i++) {
-      $('#image_preview').append("<div class='col-xs-12 col-sm-4 col-md-4'><img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+      $('#image_preview').append("<div class='col-xs-12 col-sm-4 col-md-4 martop'><img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
     }
   });
 });

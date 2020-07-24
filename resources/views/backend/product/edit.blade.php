@@ -177,7 +177,7 @@
            <div class="col-xs-12 col-sm-4 col-md-4"  id="img_<?php echo $i?>">
             <div>
               <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh" alt="Image Alternative text" title="Image Title"/> <br/>
-                 <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove image<i class="fa fa-trash pl "></i></button>
+                 <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
              </div>
            </div>
             <?php $i++; ?>
