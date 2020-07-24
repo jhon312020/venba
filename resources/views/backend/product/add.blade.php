@@ -14,7 +14,7 @@
 @stop
 @section('content')
   @include('backend.includes.partials.messages')
-  <div class="card1 card-primary">
+  <div class="card1 card card-primary">
     <div class="card-header">
       <h3 class="card-title">Add Product</h3>
     </div>
