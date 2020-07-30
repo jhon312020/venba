@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/conceptlist', 'ConceptAddEdit@concept')->middleware('auth');
 Route::get('/addconcept', 'ConceptAddEdit@add')->middleware('auth');
 Route::post('/conceptadded/store', 'ConceptAddEdit@store')->name('conceptadded.store');
@@ -45,7 +45,10 @@ Route::get('/productlist/{id}',  'ProductController@delete');
 
 //Added by JR
 
-Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['namespace' => 'Backend', 'prefix' => 'admin','middleware' => [
+                            'auth',
+                            'role:admin'
+                        ], 'as' => 'admin.'], function () {
     /*
      * These routes need view-backend permission
      * (good if you want to allow more than one group in the backend,
@@ -55,4 +58,14 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.'], 
      * These routes can not be hit if the password is expired
      */
     include_route_files(__DIR__.'/backend/');
+});
+Route::group(['namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontview.'], function () {
+    /*
+     * These routes need view-frontend registered users
+     * (good if you want to allow more than one group in the frontend,
+     *
+     * Note: Registered users has all permissions so you do not have to specify the administrator role everywhere.
+     * These routes can not be hit if the user or password is expired
+     */
+    include_route_files(__DIR__.'/frontend/');
 });

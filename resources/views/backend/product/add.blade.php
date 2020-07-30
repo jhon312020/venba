@@ -107,13 +107,13 @@
           <textarea  class="form-control admin-field" id="technical_spec" name="technical_spec" placeholder="Enter technical spec">{{old('technical_spec')}} </textarea>
         </div>
         <div class="row">   
-          <div class="col-xs-12 col-sm-6 col-md-6 ">
+          <div class="col-xs-12 col-sm-4 col-md-4 ">
             <div class="form-group">
               <label for="addfea">Additional Features</label>
               <input  type="text" class="form-control admin-field" id="additional_features" name="additional_features" value="{{old('additional_features')}}"placeholder="Enter additional features">
             </div>
           </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 ">  
+        <div class="col-xs-12 col-sm-4 col-md-4 ">  
           <div class="form-group">
             <label>Wired or Wireless</label>
             <div class="radio">
@@ -130,6 +130,12 @@
             </div>
           </div>
         </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 ">
+            <div class="form-group">
+              <label for="addfea">Price</label>
+              <input  type="text" class="form-control admin-field" id="price" name="price" value="{{old('price')}}"placeholder="Enter price">
+            </div>
+          </div>
       </div>
           <button type="Button" class="btn btn-primary dynamicdisplay rl">Add additional Properties<i  class="fa fa-arrow-up pl"></i></button>
           <div class="list_wrapper">

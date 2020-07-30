@@ -24,11 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        /*$user = Auth::user();
-        echo $user->id;
+        $user = Auth::user();
+        $role =$user->role;
+        /*echo $role;
         die;*/
-
-      return view('home');
+        if($role == 'admin'){
+          return view('home');
+        } else {
+            return view('frontend.index');
+        }
     }
     public function profile()
     {

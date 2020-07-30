@@ -42,6 +42,7 @@ class ProductController extends Controller {
       'technical_spec' => '',
       'additional_features' => '',
       'wired_wireless' => 'in:wired,wireless',
+      'price' =>'required',
       'additional_properties'=>'',
       'filename' => '',
       'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
@@ -119,6 +120,8 @@ class ProductController extends Controller {
   public function edit($id, Request $request) {
     $record = Product::findOrFail($id);
     if ($request->session()->has('_old_input')) {
+      /*echo "hello";
+      die;*/
       $old_data = $request->session()->get('_old_input');
       $cat_id = $old_data['cat_id'];
       $record['sub_cat_id'] = '';
