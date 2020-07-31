@@ -4,15 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ProductsTable extends Migration
+class Productstable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-     public function up() {
-      Schema::create('products', function (Blueprint $table) {
+  /**
+  * Run the migrations.
+  *
+  * @return void
+  */
+  public function up() {
+    Schema::create('products', function (Blueprint $table) {
       $table->id();
       $table->string('name');
       $table->bigInteger('material_no');
@@ -25,7 +25,18 @@ class ProductsTable extends Migration
               ->references('id')->on('categories')
               ->onDelete('cascade');
       $table->bigInteger('sub_cat_id')->nullable();
-      $table->string('compatibility')->nullable();
+      $table->unsignedBigInteger('brand_id')->nullable();
+      $table->foreign('brand_id')
+              ->references('id')->on('brands')
+              ->onDelete('cascade');
+      $table->unsignedBigInteger('type_id')->nullable();
+      $table->foreign('type_id')
+              ->references('id')->on('type')
+              ->onDelete('cascade');      
+      $table->unsignedBigInteger('compatibility_id')->nullable();
+      $table->foreign('compatibility_id')
+              ->references('id')->on('compatibility')
+              ->onDelete('cascade');
       $table->string('power_consumption')->nullable();
       $table->string('physical_spec')->nullable();
       $table->string('light_color')->nullable();
@@ -35,11 +46,14 @@ class ProductsTable extends Migration
       $table->longText('technical_spec')->nullable();
       $table->longText('additional_features')->nullable();
       $table->enum('wired_wireless',['wired', 'wireless'])->nullable(); 
-      $table->string('price');      
+      $table->unsignedBigInteger('price'); 
+      $table->unsignedBigInteger('igst');
+      $table->unsignedBigInteger('sgst');
+      $table->unsignedBigInteger('transit');     
       $table->longText('additional_properties')->nullable();
       $table->timestampsTz(0);
       $table->softDeletes();
-      });
+    });
   }
 
   /**

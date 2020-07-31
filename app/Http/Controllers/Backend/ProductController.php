@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Product as Product;
 use App\Models\Concept as Concept;
 use App\Models\Category as Category;
+use App\Models\Brand as Brand;
+use App\Models\Type as Type;
+use App\Models\Compatibility as Compatibility;
+use App\Models\Powerconsumption as Powerconsumption;
 use App\Models\Productimage as Productimage;
+use App\Models\Productpower as Productpower;
 use Image;
 use File;
 
@@ -32,7 +37,9 @@ class ProductController extends Controller {
       'concept_id' => 'required',
       'cat_id' => 'required',
       'sub_cat_id' => 'required',
-      'compatibility' => '',
+      'brand_id' => '',
+      'type_id' => '',
+      'compatibility_id' => '',
       'power_consumption' => '',
       'physical_spec' => '',
       'light_color' => '',
@@ -43,6 +50,9 @@ class ProductController extends Controller {
       'additional_features' => '',
       'wired_wireless' => 'in:wired,wireless',
       'price' =>'required',
+      'igst' =>'required',
+      'sgst' =>'required',
+      'transit' =>'required',
       'additional_properties'=>'',
       'filename' => '',
       'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
@@ -69,6 +79,10 @@ class ProductController extends Controller {
    */
   public function add(Request $request) {
     $concepts  = Concept::all()->pluck('name', 'id');
+    $brands  = Brand::all()->pluck('name', 'id');
+    $types  = Type::all()->pluck('name', 'id');
+    $compatibilities  = Compatibility::all()->pluck('name', 'id');
+    $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategories = array();
     if ($request->session()->has('_old_input')) {
@@ -76,7 +90,9 @@ class ProductController extends Controller {
       $cat_id = $old_data['cat_id'];
       $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
     } 
-    return view('backend.product.add', compact('concepts', 'categories', 'subcategories'));
+   /* print_r($powerconsumption);
+    die;*/
+    return view('backend.product.add', compact('concepts', 'categories', 'subcategories','brands', 'types', 'compatibilities','powerconsumption'));
   }
 
   /**
@@ -87,25 +103,55 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
-    $validatedData = $request->validate($this->productValidator);    
+    $validatedData = $request->validate($this->productValidator);  
+    /*print_r($request->all());
+    echo '<br>'; */
+    $power = $request['power_consumption_id'];
+
+    /*print_r($power);
+    die;*/ 
     $dynamicField = $request['dynamicfield']; 
-    echo '<pre>'; 
+    /*echo '<pre>'; 
     print_r($dynamicField) ;
-    echo '</pre>'; 
+    echo '</pre>';*/ 
+
+   /* print_r($powerconsumption);
+    die;*/
     if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
         $dy[$key] =$value;
         # code...
-      }
+      }     
+      
       $validatedData['additional_properties'] = serialize($dy);
     }
+
+    if (!empty($power)) {
+      $powerconsumption ='';
+      array_shift($power);
+      foreach ($power as $key => $value) {
+       $powerconsumption .= $value.',';
+        # code...      
+      }
+      rtrim($powerconsumption, ',');
+      /*echo $powerconsumption;
+      die;*/
+      /*array_shift($powerconsumption);*/
+      $validatedData['power_consumption'] = $powerconsumption;
+    }
+    //unset($validatedData['power_consumption_id']); 
     $show = Product::create($validatedData); 
     if ($request->hasFile('filename')) {
       $images = $this->_createThumbnail($request->file('filename'), $show->id);
-      $images = json_encode($images);
-      $insertimages = Productimage::create(
-      array('product_id' => $show->id, 'product_images' => $images));
+      //$images = json_encode($images);
+     /* print_r($images);
+      die;*/
+      foreach($images as $image) {
+        $insertimages = Productimage::create(
+        array('product_id' => $show->id, 'product_images' => $image));
+      }
     }
+     
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
 
@@ -119,6 +165,9 @@ class ProductController extends Controller {
    */
   public function edit($id, Request $request) {
     $record = Product::findOrFail($id);
+   // $power = unserialize($record->power_consumption_id);
+    /*print_r($power);
+    die;*/
     if ($request->session()->has('_old_input')) {
       /*echo "hello";
       die;*/
@@ -129,23 +178,43 @@ class ProductController extends Controller {
       $cat_id = $record['cat_id'];
     }
     $dynamicfieldcount = null;
+    $brand = null;
+    $type = null;
+    $Compatibility = null;
+    $powerconsumption = null;
     $serializedimage = null;
     $additional_prop_array = null;
-    $imageunserialized = Productimage::select('product_images')
+    $power = null;
+    $images = Productimage::all()
       ->where('product_id', $id)
-      ->first();
-    if (!empty($imageunserialized)) {
+      ->pluck('product_images');      
+
+     /*echo '<pre>';
+     print_r($images);
+     echo '</pre>';
+     die;
+*/
+    /*if (!empty($imageunserialized)) {
       $productImages = $imageunserialized->product_images;  
       $serializedimage = json_decode($productImages);
-    }
+    }*/
     if ($record->additional_properties != null) {
       $additional_prop_array = unserialize($record->additional_properties);
       $dynamicfieldcount = count($additional_prop_array);
     } 
+    if ($record->power_consumption != null) {
+      $power = (explode(",",$record->power_consumption ));
+    }
+    /*print_r($power);
+    die;*/
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $serializedimage, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount));
+    $brands  = Brand::all()->pluck('name', 'id');
+    $types  = Type::all()->pluck('name', 'id');
+    $compatibilities  = Compatibility::all()->pluck('name', 'id');
+    $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,'power' => $power));
   }
 
   /**
@@ -175,18 +244,22 @@ class ProductController extends Controller {
        File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
        // File::delete($thumbnailimage_path);
     }
-    $imageunserialized = Productimage::select('product_images')
-    ->where('product_id', $id)
+    /*echo $imageindex;*/
+    $imagetobedeleted = Productimage::all()
+    ->where('product_images', $imagename)
     ->first();
-    $productImages = $imageunserialized->product_images;    
+   /* echo $imagetobedeleted;
+    die;*/
+    $imagetobedeleted->forceDelete();
+    /*$productImages = $imageunserialized->product_images;    
     $serializedimage = json_decode($productImages);    
     unset($serializedimage[$imageindex]);
-    $serializedimage = array_values($serializedimage);    
-    $updatedimages = json_encode($serializedimage); 
+    $serializedimage = array_values($serializedimage);*/    
+    /*$updatedimages = json_encode($serializedimage);*/ 
     /*echo $updatedimages;
     die;*/   
-    $updateimagesquery = Productimage::where('product_id', $id)
-      ->update(['product_images' => $updatedimages]);
+    /*$updateimagesquery = Productimage::where('product_id', $id)
+      ->update(['product_images' => $updatedimages]);*/
     $success = true;
     $message = "The image has been deleted successfully";
     return response()->json([
@@ -208,7 +281,7 @@ class ProductController extends Controller {
     $validatedData = $request->validate($this->productValidator);
     $dynamicField = $request ['dynamicfield'];
     $serialized_array = null;
-     if (!empty($dynamicField)) {
+    if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
         $dy[$key] =$value;
         # code...
@@ -217,11 +290,28 @@ class ProductController extends Controller {
     }
     
     $validatedData['additional_properties'] = $serialized_array;
+    $power = $request['power_consumption_id'];
+
+    if (!empty($power)) {
+      $powerconsumption ='';
+      array_shift($power);
+      foreach ($power as $key => $value) {
+       $powerconsumption .= $value.',';
+        # code...      
+      }
+      rtrim($powerconsumption, ',');
+      /*echo $powerconsumption;
+      die;*/
+      /*array_shift($powerconsumption);*/
+      $validatedData['power_consumption'] = $powerconsumption;
+      
+      
+    } 
     unset($validatedData['filename']); 
     Product::whereId($id)->update($validatedData);
     if ($request->hasFile('filename')) {      
       $newImages = $this->_createThumbnail($request->file('filename'), $id);
-      $retrivejson = Productimage::select('product_images')
+     /* $retrivejson = Productimage::select('product_images')
        ->where('product_id', $id)
        ->first();
       if (!empty($retrivejson)) {
@@ -230,10 +320,12 @@ class ProductController extends Controller {
         $mergedimages = array_merge($imagesarray, $newImages);
         $newImages = json_encode( $mergedimages) ;
         $insertimages = Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
-      } else {   
-        $images = json_encode($newImages);      
-        $insertimages = Productimage::create(['product_id'=> $id, 'product_images' => $images]);
-      }
+      } else {*/   
+        //$images = json_encode($newImages);
+          foreach($newImages as $image) {      
+          $insertimages = Productimage::create(['product_id'=> $id, 'product_images' => $image]);
+          }
+      /*}*/
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
   }
@@ -251,7 +343,9 @@ class ProductController extends Controller {
     ->first();    
     if (!empty($imagenames)) {
       $productImages = $imagenames->product_images;  
-      $serializedimage = json_decode($productImages);     
+      $serializedimage = Productimage::all()
+      ->where('product_id', $id)
+      ->pluck('product_images');       
       foreach($serializedimage as $imagename) {
         $image_path = public_path()."/images/".$id."/".$imagename;
         $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imagename;

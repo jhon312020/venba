@@ -166,9 +166,14 @@ $(document).ready(function() {
   $("#fileupload").change(function() {
     $('#image_preview').html("");
     var total_file = $("#fileupload").get(0).files.length;
-    for (var i = 0; i < total_file; i++) {
-      $('#image_preview').append("<div class='col-xs-12 col-sm-4 col-md-4 martop'><img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
-    }
+     if (total_file > 5) {
+        alert("You are only allowed to upload a maximum of 5 files");
+      document.getElementById('fileupload').value=''
+      } else {
+          for (var i = 0; i < total_file; i++) {
+            $('#image_preview').append("<div class='col-xs-12 col-sm-4 col-md-4 martop'><img style='width:100px;height:100px' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+          }
+        }
   });
 });
 

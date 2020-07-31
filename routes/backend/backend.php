@@ -2,6 +2,10 @@
 use App\Http\Controllers\Backend\ConceptController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\TypeController;
+use App\Http\Controllers\Backend\CompatibilityController;
+use App\Http\Controllers\Backend\PowerconsumptionController;
 
 // Concepts Management
 Route::get('concepts', [ConceptController::class, 'index'])->name('concept.index');
@@ -36,4 +40,40 @@ Route::group(['prefix' => 'product/{id}'], function () {
 
 	Route::patch('/', [ProductController::class, 'update'])->name('product.update');
 	Route::delete('/', [ProductController::class, 'destroy'])->name('product.destroy');
+});
+// Brands Management
+Route::get('brands', [BrandController::class, 'index'])->name('brand.index');
+Route::get('brand/add', [BrandController::class, 'add'])->name('brand.add');
+Route::post('brand', [BrandController::class, 'store'])->name('brand.store');
+Route::group(['prefix' => 'brand/{id}'], function () {
+  Route::get('edit', [BrandController::class, 'edit'])->name('brand.edit');
+  Route::patch('/', [BrandController::class, 'update'])->name('brand.update');
+  Route::delete('/', [BrandController::class, 'destroy'])->name('brand.destroy');
+});
+// Type Management
+Route::get('type', [TypeController::class, 'index'])->name('type.index');
+Route::get('type/add', [TypeController::class, 'add'])->name('type.add');
+Route::post('type', [TypeController::class, 'store'])->name('type.store');
+Route::group(['prefix' => 'type/{id}'], function () {
+  Route::get('edit', [TypeController::class, 'edit'])->name('type.edit');
+  Route::patch('/', [TypeController::class, 'update'])->name('type.update');
+  Route::delete('/', [TypeController::class, 'destroy'])->name('type.destroy');
+});
+// Compatibility Management
+Route::get('compatibility', [CompatibilityController::class, 'index'])->name('compatibility.index');
+Route::get('compatibility/add', [CompatibilityController::class, 'add'])->name('compatibility.add');
+Route::post('compatibility', [CompatibilityController::class, 'store'])->name('compatibility.store');
+Route::group(['prefix' => 'compatibility/{id}'], function () {
+  Route::get('edit', [CompatibilityController::class, 'edit'])->name('compatibility.edit');
+  Route::patch('/', [CompatibilityController::class, 'update'])->name('compatibility.update');
+  Route::delete('/', [CompatibilityController::class, 'destroy'])->name('compatibility.destroy');
+});
+// Powerconsumption Management
+Route::get('powerconsumption', [PowerconsumptionController::class, 'index'])->name('powerconsumption.index');
+Route::get('powerconsumption/add', [PowerconsumptionController::class, 'add'])->name('powerconsumption.add');
+Route::post('powerconsumption', [PowerconsumptionController::class, 'store'])->name('powerconsumption.store');
+Route::group(['prefix' => 'powerconsumption/{id}'], function () {
+  Route::get('edit', [PowerconsumptionController::class, 'edit'])->name('powerconsumption.edit');
+  Route::patch('/', [PowerconsumptionController::class, 'update'])->name('powerconsumption.update');
+  Route::delete('/', [PowerconsumptionController::class, 'destroy'])->name('powerconsumption.destroy');
 });

@@ -1,11 +1,17 @@
 @extends('backend.layouts.app')
 @section('plugins.Sweetalert2', true)
+@section('css')
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
+  <link rel="stylesheet" href="/css/admin.css">
+@stop
 @section('js')
   <script src="{{ URL::asset('js/backend.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> 
   <script type='text/javascript'>
     $(document).ready(function() {
       //toggle between additional properties fields
       //$('.list_wrapper').hide();
+      $('#multiple-checkboxes').selectpicker();
       $('.dynamicdisplay').click(function(){
         $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
         $('.list_wrapper').toggle(); 
@@ -62,16 +68,33 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 ">
             <div class="form-group">
-              <label for="compatability">Compatibility</label>
-              <input  type="text" class="form-control admin-field" id="compatibility" name="compatibility" placeholder="Enter compatibility" value="{{old('compatibility',$product->compatibility)}}">
+              <label for="compatibility">Compatibility</label>
+              <!-- <input  type="text" class="form-control admin-field" id="compatibility" name="compatibility" placeholder="Enter compatibility" value="{{old('compatibility',$product->compatibility)}}"> -->
+               {!! Form::select('compatibility_id', $compatibilities, old('compatibility_id',$product->compatibility_id), ['placeholder' => 'Please Select Compatibility', 'class' => 'form-control']) !!}
             </div>
           </div>
         </div>
         <div class="row">   
           <div class="col-xs-12 col-sm-6 col-md-6 ">
             <div class="form-group">
-              <label for="power_consumption">Power Consumption</label>
-              <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" placeholder="Enter powerconsumption" value="{{old('power_consumption',$product->power_consumption)}}">
+              <label for="brand">Brand</label>
+              {!! Form::select('brand_id', $brands, old('brand_id',$product->brand_id), ['placeholder' => 'Please Select Brand', 'class' => 'form-control']) !!}
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6 ">
+            <div class="form-group">
+              <label for="type">Type</label>
+              {!! Form::select('type_id', $types, old('type_id',$product->type_id), ['placeholder' => 'Please Select Type', 'class' => 'form-control']) !!}
+            </div>
+          </div>
+        </div>
+        <div class="row">   
+          <div class="col-xs-12 col-sm-6 col-md-6 ">
+            <div class="form-group">
+              <label for="power_consumption_id">Power Consumption</label>
+              <!-- <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" placeholder="Enter powerconsumption" value="{{old('power_consumption',$product->power_consumption)}}"> -->
+               {!! Form::select('power_consumption_id[]', $powerconsumption, old('power_consumption_id',$power), ['placeholder' => 'Please Select Powerconsumption', 'id' => 'multiple-checkboxes', 'class' => 'form-control','multiple'=> 'multiple']) !!}
+              
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 "> 
@@ -119,7 +142,7 @@
               <label>Wired or Wireless</label>
               <div class="radio">
                 <label>
-                <input type="radio" name="wired_wireless" id="wired_wireless" value="wired" {{old('wired_wireless', $product->wired_wireless) == 'wired' ? 'checked' : '' }} checked>
+                <input type="radio" name="wired_wireless" id="wired_wireless" value="wired" {{old('wired_wireless', $product->wired_wireless) == 'wired' ? 'checked' : '' }}>
                  Wired
                 </label>
               </div>
@@ -138,6 +161,26 @@
             </div>
           </div>
         </div>
+        <div class="row">   
+          <div class="col-xs-12 col-sm-4 col-md-4 ">
+             <div class="form-group">
+              <label for="addfea">igst</label>
+              <input  type="number" class="form-control admin-field" id="igst" name="igst" value="{{old('igst', $product->igst)}}"placeholder="Enter IGST">
+            </div>
+          </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 ">  
+           <div class="form-group">
+              <label for="addfea">SGST</label>
+              <input  type="number" class="form-control admin-field" id="sgst" name="sgst" value="{{old('sgst', $product->sgst)}}"placeholder="Enter SGST">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 ">
+            <div class="form-group">
+              <label for="addfea">Transit</label>
+              <input  type="number" class="form-control admin-field" id="transit" name="transit" value="{{old('transit', $product->transit)}}"placeholder="Enter Transit">
+            </div>
+          </div>
+      </div>
           <button type="Button" class="btn btn-primary dynamicdisplay rl">Edit additional Properties<i  class="fa fa-arrow-down pl "></i></button> 
           <div class="list_wrapper">
             <div class="row">
@@ -179,8 +222,8 @@
           @if(!empty($serializedimage))
           <div class="row">            
             <?php $i =0;?>
-          @foreach($serializedimage as $item)
-           <div class="col-2"  id="img_<?php echo $i?>">
+          @foreach($serializedimage as $key => $item)
+           <div class="col-2" name="{{$item}}" id="img_<?php echo $i?>">
             <div>
               <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh " alt="Image Alternative text" title="Image Title"/> <br/>
                  <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>

@@ -1,15 +1,22 @@
 @extends('backend.layouts.app')
-@section('js')
+@section('css')
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
+  <link rel="stylesheet" href="/css/admin.css">
+@stop
+@section('js')      
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> 
  <script src="{{ URL::asset('js/backend.js') }}"></script>
-<script type='text/javascript'>
-  $(document).ready(function() {
-    //toggle between additional properties fields
-    $('.list_wrapper').hide();
-    $('.dynamicdisplay').click(function(){
-      $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
-      $('.list_wrapper').toggle(); 
-    })     
-  });
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      $('#multiple-checkboxes').selectpicker();
+     
+      //toggle between additional properties fields
+      $('.list_wrapper').hide();
+      $('.dynamicdisplay').click(function(){
+        $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
+        $('.list_wrapper').toggle(); 
+      })     
+    });
   </script>
 @stop
 @section('content')
@@ -61,16 +68,32 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 ">
           <div class="form-group">
-            <label for="compatability">Compatibility</label>
-            <input  type="text" class="form-control admin-field" id="compatibility" name="compatibility" value="{{old('compatibility')}}" placeholder="Enter compatibility">
+            <label for="compatibility_id">Compatibility</label>
+              {!! Form::select('compatibility_id', $compatibilities, old('compatibility_id',null), ['placeholder' => 'Please Select Compatibility', 'class' => 'form-control']) !!}
+           </div>
+        </div>
+      </div>
+      <div class="row">   
+        <div class="col-xs-12 col-sm-6 col-md-6 "> 
+          <div class="form-group">
+            <label for="brand_id">Brand</label>
+            {!! Form::select('brand_id', $brands, old('brand_id',null), ['placeholder' => 'Please Select Brand', 'class' => 'form-control']) !!}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 ">
+          <div class="form-group">
+            <label for="type_id">Type</label>
+            {!! Form::select('type_id', $types, old('type_id',null), ['placeholder' => 'Please Select Type', 'class' => 'form-control']) !!}
           </div>
         </div>
       </div>
       <div class="row">   
         <div class="col-xs-12 col-sm-6 col-md-6 ">
           <div class="form-group">
-            <label for="power_consumption">Power Consumption</label>
-            <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" value="{{old('power_consumption')}}"  placeholder="Enter powerconsumption">
+            <label for="power_consumption_id">Power Consumption</label><br/>
+            <!-- <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" value="{{old('power_consumption')}}"  placeholder="Enter powerconsumption"> -->
+             {!! Form::select('power_consumption_id[]', $powerconsumption, old('power_consumption_id',null), ['placeholder' => 'Please Select Powerconsumption', 'id' => 'multiple-checkboxes', 'class' => 'form-control','multiple'=> 'multiple']) !!}
+           
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 ">        
@@ -133,7 +156,27 @@
         <div class="col-xs-12 col-sm-4 col-md-4 ">
             <div class="form-group">
               <label for="addfea">Price</label>
-              <input  type="text" class="form-control admin-field" id="price" name="price" value="{{old('price')}}"placeholder="Enter price">
+              <input  type="number" class="form-control admin-field" id="price" name="price" value="{{old('price')}}"placeholder="Enter price">
+            </div>
+          </div>
+      </div>
+        <div class="row">   
+          <div class="col-xs-12 col-sm-4 col-md-4 ">
+             <div class="form-group">
+              <label for="addfea">igst</label>
+              <input  type="number" class="form-control admin-field" id="igst" name="igst" value="{{old('igst')}}"placeholder="Enter IGST">
+            </div>
+          </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 ">  
+           <div class="form-group">
+              <label for="addfea">SGST</label>
+              <input  type="number" class="form-control admin-field" id="sgst" name="sgst" value="{{old('sgst')}}"placeholder="Enter SGST">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 ">
+            <div class="form-group">
+              <label for="addfea">Transit</label>
+              <input  type="number" class="form-control admin-field" id="transit" name="transit" value="{{old('transit')}}"placeholder="Enter Transit">
             </div>
           </div>
       </div>
@@ -176,11 +219,9 @@
             <label  for="image">Product Image/Images</label>
             <div class="input-group increment">
                  <input type="file" class="form-control" name="filename[]"   id="fileupload" multiple>
-            </div>
-           
-            <br/>
-            <div id="image_preview"></div>
-            
+            </div>           
+            <br/>            
+            <div id="image_preview" class="row"></div>    
           </div> 
         </div><!-- /.box-body -->
       <div class="card-footer">
