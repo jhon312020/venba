@@ -40,7 +40,7 @@ class ProductController extends Controller {
       'brand_id' => '',
       'type_id' => '',
       'compatibility_id' => '',
-      'power_consumption' => '',
+      'power_consumption_id' => '',
       'physical_spec' => '',
       'light_color' => '',
       'introduction' => '',
@@ -106,7 +106,7 @@ class ProductController extends Controller {
     $validatedData = $request->validate($this->productValidator);  
     /*print_r($request->all());
     echo '<br>'; */
-    $power = $request['power_consumption_id'];
+    //$power = $request['power_consumption_id'];
 
     /*print_r($power);
     die;*/ 
@@ -126,7 +126,7 @@ class ProductController extends Controller {
       $validatedData['additional_properties'] = serialize($dy);
     }
 
-    if (!empty($power)) {
+    /*if (!empty($power)) {
       $powerconsumption ='';
       array_shift($power);
       foreach ($power as $key => $value) {
@@ -136,9 +136,9 @@ class ProductController extends Controller {
       rtrim($powerconsumption, ',');
       /*echo $powerconsumption;
       die;*/
-      /*array_shift($powerconsumption);*/
+      /*array_shift($powerconsumption);
       $validatedData['power_consumption'] = $powerconsumption;
-    }
+    }*/
     //unset($validatedData['power_consumption_id']); 
     $show = Product::create($validatedData); 
     if ($request->hasFile('filename')) {
@@ -168,6 +168,10 @@ class ProductController extends Controller {
    // $power = unserialize($record->power_consumption_id);
     /*print_r($power);
     die;*/
+    /*echo '<pre>';
+    print_r($record);
+    echo '</pre>';
+    die;*/
     if ($request->session()->has('_old_input')) {
       /*echo "hello";
       die;*/
@@ -181,7 +185,7 @@ class ProductController extends Controller {
     $brand = null;
     $type = null;
     $Compatibility = null;
-    $powerconsumption = null;
+    //$powerconsumption = null;
     $serializedimage = null;
     $additional_prop_array = null;
     $power = null;
@@ -202,9 +206,9 @@ class ProductController extends Controller {
       $additional_prop_array = unserialize($record->additional_properties);
       $dynamicfieldcount = count($additional_prop_array);
     } 
-    if ($record->power_consumption != null) {
+    /*if ($record->power_consumption != null) {
       $power = (explode(",",$record->power_consumption ));
-    }
+    }*/
     /*print_r($power);
     die;*/
     $concepts  = Concept::all()->pluck('name', 'id');
@@ -214,7 +218,7 @@ class ProductController extends Controller {
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
     $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,'power' => $power));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
   }
 
   /**
@@ -290,9 +294,9 @@ class ProductController extends Controller {
     }
     
     $validatedData['additional_properties'] = $serialized_array;
-    $power = $request['power_consumption_id'];
+    //$power = $request['power_consumption_id'];
 
-    if (!empty($power)) {
+    /*if (!empty($power)) {
       $powerconsumption ='';
       array_shift($power);
       foreach ($power as $key => $value) {
@@ -303,10 +307,10 @@ class ProductController extends Controller {
       /*echo $powerconsumption;
       die;*/
       /*array_shift($powerconsumption);*/
-      $validatedData['power_consumption'] = $powerconsumption;
+      /*$validatedData['power_consumption'] = $powerconsumption;
       
       
-    } 
+    } */
     unset($validatedData['filename']); 
     Product::whereId($id)->update($validatedData);
     if ($request->hasFile('filename')) {      

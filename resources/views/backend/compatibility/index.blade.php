@@ -4,7 +4,7 @@
 @section('content')
 @include('backend.includes.partials.messages')
   <div class="page-header">
-    <h1>List of Concepts</h1>
+    <h1>List of Compatibility</h1>
     <a  href="{{ route('admin.compatibility.add') }}" class="btn btn-success"> <i class="fa fa-plus-circle"></i>
     </a>
   </div>
@@ -12,7 +12,7 @@
     <thead>
       <tr>
         <th>S.No.</th>
-        <th>Compatibility Name</th> 
+        <th>Name</th> 
         <th>Action</th>    
       </tr>
     </thead>

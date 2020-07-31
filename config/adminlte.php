@@ -355,13 +355,7 @@ return [
             'url'  => 'admin/categories',
             'icon' => 'fas fa-fw fa fa-lightbulb',
             'active' => ['admin/categories', '', '/admin/category/*', 'regex:@^/[0-9]+$@']
-        ],
-        [
-            'text' => 'Products',
-            'url'  => 'admin/products',
-            'icon' => 'fas fa-fw fa fa-lightbulb',
-            'active' => ['admin/products', '', '/admin/product/*', 'regex:@^/[0-9]+$@']
-        ],
+        ],        
          [
             'text' => 'Brands',
             'url'  => 'admin/brands',
@@ -385,6 +379,12 @@ return [
             'url'  => 'admin/powerconsumption',
             'icon' => 'fas fa-fw fa fa-bolt',
             'active' => ['admin/powerconsumption', '', '/admin/powerconsumption/*', 'regex:@^/[0-9]+$@']
+        ],
+        [
+            'text' => 'Products',
+            'url'  => 'admin/products',
+            'icon' => 'fas fa-fw fa fa-lightbulb',
+            'active' => ['admin/products', '', '/admin/product/*', 'regex:@^/[0-9]+$@']
         ],
         'ORDER SETTINGS',
         [

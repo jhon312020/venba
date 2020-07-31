@@ -1,14 +1,14 @@
 @extends('backend.layouts.app')
-@section('css')
+<!-- @section('css')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
   <link rel="stylesheet" href="/css/admin.css">
-@stop
+@stop -->
 @section('js')      
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> 
+ <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  -->
  <script src="{{ URL::asset('js/backend.js') }}"></script>
   <script type='text/javascript'>
     $(document).ready(function() {
-      $('#multiple-checkboxes').selectpicker();
+     /* $('#multiple-checkboxes').selectpicker();*/
      
       //toggle between additional properties fields
       $('.list_wrapper').hide();
@@ -90,9 +90,11 @@
       <div class="row">   
         <div class="col-xs-12 col-sm-6 col-md-6 ">
           <div class="form-group">
-            <label for="power_consumption_id">Power Consumption</label><br/>
+            <label for="power_consumption">Power Consumption</label><br/>
             <!-- <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" value="{{old('power_consumption')}}"  placeholder="Enter powerconsumption"> -->
-             {!! Form::select('power_consumption_id[]', $powerconsumption, old('power_consumption_id',null), ['placeholder' => 'Please Select Powerconsumption', 'id' => 'multiple-checkboxes', 'class' => 'form-control','multiple'=> 'multiple']) !!}
+             <!-- {!! Form::select('power_consumption_id[]', $powerconsumption, old('power_consumption_id',null), ['placeholder' => 'Please Select Powerconsumption', 'id' => 'multiple-checkboxes', 'class' => 'form-control','multiple'=> 'multiple']) !!}
+              -->
+              {!! Form::select('power_consumption_id', $powerconsumption, old('power_consumption_id',null), ['placeholder' => 'Please Select Powerconsumption', 'class' => 'form-control']) !!}
            
           </div>
         </div>
@@ -163,7 +165,7 @@
         <div class="row">   
           <div class="col-xs-12 col-sm-4 col-md-4 ">
              <div class="form-group">
-              <label for="addfea">igst</label>
+              <label for="addfea">IGST</label>
               <input  type="number" class="form-control admin-field" id="igst" name="igst" value="{{old('igst')}}"placeholder="Enter IGST">
             </div>
           </div>

@@ -12,7 +12,7 @@
     <thead>
       <tr>
         <th>S.No.</th>
-        <th>Type Name</th> 
+        <th>Name</th> 
         <th>Action</th>    
       </tr>
     </thead>

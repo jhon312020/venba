@@ -1,17 +1,17 @@
 @extends('backend.layouts.app')
 @section('plugins.Sweetalert2', true)
-@section('css')
+<!-- @section('css')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
   <link rel="stylesheet" href="/css/admin.css">
-@stop
+@stop -->
 @section('js')
   <script src="{{ URL::asset('js/backend.js') }}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> 
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  -->
   <script type='text/javascript'>
     $(document).ready(function() {
       //toggle between additional properties fields
       //$('.list_wrapper').hide();
-      $('#multiple-checkboxes').selectpicker();
+      //$('#multiple-checkboxes').selectpicker();
       $('.dynamicdisplay').click(function(){
         $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
         $('.list_wrapper').toggle(); 
@@ -93,7 +93,7 @@
             <div class="form-group">
               <label for="power_consumption_id">Power Consumption</label>
               <!-- <input  type="text" class="form-control admin-field" id="power_consumption" name="power_consumption" placeholder="Enter powerconsumption" value="{{old('power_consumption',$product->power_consumption)}}"> -->
-               {!! Form::select('power_consumption_id[]', $powerconsumption, old('power_consumption_id',$power), ['placeholder' => 'Please Select Powerconsumption', 'id' => 'multiple-checkboxes', 'class' => 'form-control','multiple'=> 'multiple']) !!}
+              {!! Form::select('power_consumption_id', $powerconsumption, old('power_consumption_id',$product->power_consumption_id), ['placeholder' => 'Please Select Powerconsumption', 'class' => 'form-control']) !!}
               
             </div>
           </div>
@@ -225,9 +225,11 @@
           @foreach($serializedimage as $key => $item)
            <div class="col-2" name="{{$item}}" id="img_<?php echo $i?>">
             <div>
-              <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh " alt="Image Alternative text" title="Image Title"/> <br/>
-                 <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
-             </div>
+              <div style="width:100px;height:100px">
+                <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh " alt="Image Alternative text" title="Image Title"/> <br/>
+              </div>
+              <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
+            </div>
            </div>
             <?php $i++; ?>
               @endforeach 

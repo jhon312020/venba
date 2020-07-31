@@ -17,7 +17,7 @@ class Product extends Model
   protected $table = 'products';
 
   protected $fillable = [
-    'name', 'material_no','concept_id','cat_id','sub_cat_id','brand_id','type_id','compatibility_id','power_consumption','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','price','igst','sgst','transit','product_image', 'additional_properties',
+    'name', 'material_no','concept_id','cat_id','sub_cat_id','brand_id','type_id','compatibility_id','power_consumption_id','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','price','igst','sgst','transit','product_image', 'additional_properties',
   ];
   public function images() {
     return $this->hasOne('App\Models\Productimage');
