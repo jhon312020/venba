@@ -1,0 +1,110 @@
+// Home Carousel
+.home-carousel {
+  .carousel {
+    .carousel-inner {
+      .carousel-item {
+        .container {
+          position: relative;
+        }
+        .carousel-caption {
+          padding-bottom: 15%;
+          left: 10%;
+          text-align: left;
+          width: 70%;
+          h1 {
+                // filter: blur(1px);
+                // color: rgba(0, 0, 0, 0.16);
+                // text-shadow: 15px 15px 50px rgba(0, 0, 0, 0.16);
+          }
+          .btn {
+            margin-top: 3rem;
+          }
+        }
+      }
+    }
+    // Indicators
+    .carousel-indicators {
+      .active {
+        background-color: $secondary;
+      }
+    }
+    // Left arrow
+    .carousel-control-prev {      
+      .carousel-control-prev-icon {
+        @include media-breakpoint-up(md) {
+          margin-left: -8rem;
+        }        
+      }
+    }
+    // Next arrow
+    .carousel-control-next {      
+      .carousel-control-next-icon {       
+        @include media-breakpoint-up(md) {
+           margin-right: -8rem;
+        }
+      }
+    }
+  }
+}
+
+
+// Connected Homes
+.connected-homes { 
+  h3 {
+    @include rfs(30);
+    font-family: $QS-semi-bold;
+    margin-bottom: 2rem;
+  }
+  p {
+    @include rfs(16);
+  }  
+}
+
+// Virtual demo
+.virtual-demo {
+  p {
+    @include rfs(16);
+    font-family: $QS-semi-bold;
+  }
+}
+
+// Package Type
+.package-type {
+  background: url(../../images/PackageBG.jpg) no-repeat;
+  h2 {
+    color: $white;
+    @include rfs(80);
+    font-family: $QS-semi-bold;
+    text-align: center;
+  }  
+  .card-deck {
+    .card {
+      background: $white;    
+      min-height: 450px; 
+      margin: 0 4rem; 
+      .card-body {
+        padding: 5rem 3rem;
+        position: relative;
+        .inner-box {
+          height: 100%;
+          display: flex;
+          align-items: baseline;
+          flex-wrap: wrap;
+        }
+        .card-title {
+          width: 80%;
+        }
+        .card-text { 
+          @include rfs(24); 
+          padding-top: 5rem;
+        }
+      }
+    }
+  }  
+}
+
+
+// Mobile
+@include media-breakpoint-down(sm) {
+    
+}

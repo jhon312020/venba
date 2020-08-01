@@ -1,0 +1,49 @@
+// Utilities
+.font-80 {
+    @include rfs(80);
+}
+
+.font-60 {
+    @include rfs(60);
+}
+
+.font-40 {
+    @include rfs(40);
+}
+
+.font-30 {
+    @include rfs(30);
+}
+
+
+// Yellow line
+.line {
+    position: relative;
+    &:after {
+        width: 6.563rem; // 105px
+        height: 0.188rem; // 3px
+        background: $secondary;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: .5rem;
+    }    
+}
+
+.h2-line {
+    position: relative;
+    display: inline-block;
+    font-family: $QS-semi-bold;
+    &:after {
+        width: 6.563rem; // 105px
+        height: 0.188rem; // 3px
+        background: $secondary;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 15px; 
+    }         
+}

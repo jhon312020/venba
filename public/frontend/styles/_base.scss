@@ -1,0 +1,98 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background: $light-gray;
+  // background: green;
+  font-family: $QS-regular;
+  color: $black; 
+  font-size: 100%;
+  margin: 0;  
+  @include media-breakpoint-up(lg) {
+    padding-top: 6rem;    
+  }
+  @include media-breakpoint-up(xl) {
+    padding-top: 6rem;     
+  }
+}
+
+ul, ol, a, p {
+  outline: none; 
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+p { 
+   @include rfs(16);
+   line-height: 25px;
+   margin-bottom: 1rem;
+}
+
+
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+ 
+strong { 
+  font-family: $QS-bold;
+  font-weight: normal;
+}
+
+// Sticky header
+// .fixed-top {  
+//    .navbar {
+//       height: 50px;
+//       transition: height 1s ease;
+//       padding: 1rem 0;
+//     img {
+//       width: 100px;
+//       transition: all 1s ease;
+//     }
+//    }
+// }
+
+// Container width
+// .container {
+//   @include media-breakpoint-up(xl) {
+//        max-width: 1648px;
+//     }
+// }
+
+
+// List style
+.list-unstyled {
+  list-style: disc;
+  li {
+    margin-bottom: .5rem;
+    @include media-breakpoint-up(lg) {
+       margin-bottom: 1rem;
+    }
+  }
+}
+
+// Hover Drop down
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
+
+
+// Tel
+.tel {
+  color: $white;
+  @include rfs(12);
+  text-decoration: none;
+  @include media-breakpoint-up(lg) {
+    pointer-events: none;
+  }
+}
+
+  
+ 

@@ -1,0 +1,14 @@
+// Breadcrumb
+.breadcrumb {
+	background: transparent;
+	border-radius: 0;
+	.home {
+		color: #272b2e;
+		font-family: 'Roboto-bold';
+	}
+	.breadcrumb-item {
+		 @include rfs(12);		 
+	}	
+} 
+
+

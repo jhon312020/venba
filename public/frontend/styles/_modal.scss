@@ -1,0 +1,94 @@
+// Modal
+
+
+// Modal
+.modal {
+  padding: 2rem 0;
+  .close {
+    position: absolute;
+    top: -30px;
+    right: -40px;
+  }
+}
+
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+
+// Modal Popup
+
+ 
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    border-radius: 0;
+    .close {
+      opacity: 1;
+      margin: 0px 12px 0 0;
+      font-size: 30px;
+    }
+    .modal-header {
+      padding: 0;
+      border: 0;
+    }
+}
+ 
+
+
+
+.modal { 
+    .modal-dialog {        
+        @include media-breakpoint-up(xl) {
+            width: 50.625rem; // 810px
+        }
+        .modal-content {   
+            padding: 1rem 0;        
+            width: 100%;
+            @include media-breakpoint-up(xl) {
+                 padding: 6.25rem 4.25rem;
+            }
+            .modal-header {
+                .modal-title {
+                    width: 100%;
+                    text-align: center;
+                    font-family: $QS-semi-bold;
+                }
+            }
+            .modal-body {               
+                @include media-breakpoint-up(xl) {
+                     padding-bottom: 3rem;
+                }
+            }
+            .modal-footer {
+                border: 0;
+                justify-content: space-between;
+                a {
+                    @include rfs(16);
+                    color: $black;                    
+                    @include media-breakpoint-down(sm) {
+                        width: 100%;
+                        text-align: center;
+                        @include rfs(14);
+                    }
+                }
+            } 
+        }
+    }
+}
+
+
+ 

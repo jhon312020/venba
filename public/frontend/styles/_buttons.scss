@@ -1,0 +1,63 @@
+// Buttons
+
+.btn {
+	border-radius: 0.625rem; // 10px
+	height: 3.125rem; // 50px
+	min-width: 10rem;  
+	font-family: $QS-semi-bold;
+	cursor:pointer;
+	color: $white;   
+  	border: 0; 
+  	padding: .5rem 1rem;
+	@include rfs(18);
+	transition: all 1s ease;
+}
+
+// Primary Button 
+.btn-primary {
+	&:hover {
+		background: $light-purple;
+		color: $black;
+	}
+}
+
+// Secodary Button 
+.btn-secondary {
+	// border: 1px solid $white;
+	&:hover {
+		background: $pale-yellow;
+		color: $black;
+	}
+	&:focus, &:focus:active {
+		background: $primary;
+		border-color: $primary;
+		box-shadow:  none;
+		color: $white;
+	}
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active, 
+.btn-secondary:not(:disabled):not(.disabled).active, 
+.show > .btn-secondary.dropdown-toggle {
+	background: $primary;
+	border-color: $primary;
+	box-shadow:  none;
+	color: $white;
+}
+
+// Button light 
+.btn-light {
+	background: $pale-yellow;
+	border: 1px solid $secondary;
+	border-radius: 40px;
+	color: $black; 
+}
+
+
+// Mobile
+@include media-breakpoint-down(sm) {
+	.btn {
+		min-width: 150px;
+		height: 3rem;
+	}
+}

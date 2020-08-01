@@ -1,0 +1,109 @@
+// footer
+.footer {
+    background: $primary;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    h5 {
+        color: $white;
+        @include rfs(18);
+        font-family: $QS-semi-bold;
+        margin-bottom: 2rem;
+        
+    }
+    h6 {
+        color: $white;
+        @include rfs(16);
+        font-family: $QS-bold;
+    }
+    p {
+        color: $white;
+        @include rfs(14);
+        font-family: $QS-regular;
+        line-height: 24px;
+    }
+    a {
+        color: $white; 
+        display: block;
+        @include rfs(14);
+    }
+
+    .contact-us {
+        ul {
+            list-style: none;
+            li {
+                color: $white; 
+                margin-bottom: 1rem; 
+                display: flex;
+                @include rfs(14);
+                &:last-child {
+                    margin-bottom: 0rem; 
+                }
+                span {
+                    margin-right: 1rem;
+                }    
+                .txt-vertical {
+                    display: flex;
+                    align-items: center;
+                }         
+            }
+        }
+        [class^="icon-"], [class*=" icon-"] {
+                background: $white;
+                width: 37px;  
+                height: 37px;
+                border-radius: 100%;
+                padding: 1rem;
+                display: inline-flex;
+                text-align: center;
+                vertical-align: middle;
+                align-items: center;
+                justify-content: center;
+        }
+        .icon-Location:before, .icon-Social:before, .icon-Mail:before, .icon-Phone:before,
+        .icon-pay:before {
+            @include rfs(24);
+            color: $black;
+        }
+        .icon-Mail:before {
+            @include rfs(20);
+        }
+    }    
+} 
+
+// Copy right
+.copy-right {
+    background: $white;
+    padding: 1rem;
+    min-height: 45px;
+    @include rfs(14);    
+    display: flex;
+    align-items: center;
+    font-family: $QS-semi-bold;
+}
+
+
+
+// Mobile
+@include media-breakpoint-down(sm) {
+   .footer {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+   }
+   .footer-mob {
+       .nav {
+           .nav-item {
+               .nav-link {
+                   color: $white;
+                   @include rfs(16);
+                    font-family: $QS-semi-bold;
+               }
+           }
+       }
+   }
+   // Copy right
+    .copy-right { 
+           @include media-breakpoint-down(sm) {
+            padding-bottom: 4.5rem;     
+        } 
+    }
+}

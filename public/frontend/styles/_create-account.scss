@@ -1,0 +1,96 @@
+// login-box
+.login-box {
+    background: url(../../images/FOD-mob.jpg) no-repeat;
+    background-size: 100% 70%;
+    background-position: top center;
+    @include media-breakpoint-up(lg) {
+        background: url(../../images/FOD.jpg) no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    h2 {
+        color: $white;
+        margin: 2rem 1rem 1rem;
+    }
+    .outer-box {
+        background: $white;
+        border: 1px solid $primary;
+        margin: 1rem;
+        padding: 3rem 1rem 1rem;
+        width: 100%; 
+        @include media-breakpoint-up(lg) {
+           width: 50.625rem; // 810px
+           margin: 5rem;
+           padding: 5rem;
+        }
+        h2 {
+            margin-bottom: 3rem;
+            color: $black;
+        }
+        .inner-box {
+            .footer-links {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: 3rem;
+                @include media-breakpoint-down(sm) {
+                     flex-wrap: wrap;
+                     padding-top: 1rem;
+                }
+                a {
+                    @include rfs(16);
+                    color: $black;                    
+                    @include media-breakpoint-down(sm) {
+                        width: 100%;
+                        text-align: center;
+                        @include rfs(14);
+                        margin-bottom: 1rem;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            } 
+        }
+    }     
+}
+
+// Create Account
+.create-account {    
+    p {
+        text-align: left;
+        @include rfs(18);
+        color: $gray;
+        line-height: 30px;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+    }
+    .sign-in {
+         @include rfs(16);
+         text-align: center;
+         @include media-breakpoint-down(sm) {
+            @include rfs(14);
+         }
+         a {
+             color: $black;
+             font-family: $QS-bold;
+         }
+    }
+}
+ 
+
+
+
+
+ // Forgot password
+ .forgot-password {
+     .outer-box {
+         @include media-breakpoint-down(sm) {
+             min-height: 359px;
+             .btn {
+                 margin-top: 3rem;
+             }
+         }
+     }
+ }

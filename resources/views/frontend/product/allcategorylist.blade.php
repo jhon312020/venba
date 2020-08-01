@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 @section('content')
-	<section> 
+<section> 
     <!--Product Listing Start-->    
     <!--Top Banner Start-->
     <div class="container-fluid">
@@ -291,4 +291,5 @@
     <!--Filter Prodcuts End-->
 
     <!--Product Listing End-->
+			
 	@endsection		

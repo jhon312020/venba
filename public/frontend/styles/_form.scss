@@ -1,0 +1,287 @@
+// form
+
+
+.form {
+ 
+  .form-group {
+      .form-control {
+          height: 3.125rem; // 50px
+          @include media-breakpoint-down(sm) {
+               height: 2.5rem; // 40px
+          }
+      }
+      input::-webkit-input-placeholder{
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      } 
+
+      input:-ms-input-placeholder {
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      input::-ms-input-placeholder {
+        color: $mid-gray;
+          @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      input::-moz-placeholder {
+        color: $mid-gray;
+        @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      input::placeholder {
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      textarea::-webkit-input-placeholder {
+          color: $mid-gray;
+          @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      textarea:-ms-input-placeholder {
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      textarea::-ms-input-placeholder {
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      textarea::-moz-placeholder {
+        color: $mid-gray;
+        @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+
+      textarea::placeholder {
+        color: $mid-gray;
+         @include rfs(18);
+        font-family: $QS-regular;
+        @include media-breakpoint-down(sm) {
+            @include rfs(14);
+        }
+      }
+  }
+   
+}
+
+
+// Floating label
+.floating-control-group {
+    position: relative;
+}
+.floating-label {
+    opacity: 0.7;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: .375rem;
+    padding-left: .75rem;
+    opacity: 0;
+}
+
+.fl-lg {
+    padding-top: .875rem;
+    padding-left: .75rem;
+}
+
+.fl-sm {
+    padding-top: .25rem;
+    padding-left: .5rem;
+}
+
+.floating-label-on {
+    font-size: 0.75rem;
+    opacity: 1;
+    padding: 0;
+    top: 0px;
+    transform: translate3d(0, -100%, 0);
+}
+
+.floating-label-primary {
+    color: #666666;
+    @include rfs(14);
+}
+
+.floating-label-secondary {
+    color: #383d41;
+}
+
+.floating-label-success {
+    color: #155724;
+}
+
+.floating-label-danger {
+    color: #721c24;
+}
+
+.floating-label-warning {
+    color: #856404;
+}
+
+.floating-label-info {
+    color: #0c5460;
+}
+
+.floating-label-light {
+    color: #818182;
+}
+
+.floating-label-dark {
+    color: #1b1e21;
+}
+
+.floating-input {
+    transition: border-bottom 100ms ease;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    outline: none !important;
+    border: none !important;
+    -webkit-border-radius: unset !important;
+    -moz-border-radius: unset !important;
+    border-radius: unset !important;
+    border: 1px solid $light-blue !important;
+    border-radius: 0.625rem !important; // 10px
+    // padding: 0.5rem 0 0.2rem;
+}
+
+
+.floating-input:focus {
+    // box-shadow: none !important;
+    // -moz-box-shadow: none !important;
+    // -webkit-box-shadow: none !important;
+    // -webkit-appearance: none !important;
+    // -moz-appearance: none !important;
+    // outline: none !important;
+    // border: none !important;
+}
+
+.floating-input-primary:focus{
+    border: 1px solid $primary !important;
+}
+
+.floating-input-secondary:focus{
+    border-bottom: 1px solid #383d41 !important;
+}
+
+.floating-input-success:focus{
+    border-bottom: 1px solid #155724 !important;
+}
+
+.floating-input-danger:focus{
+    border-bottom: 1px solid #721c24 !important;
+}
+
+.floating-input-warning:focus{
+    border-bottom: 1px solid #856404 !important;
+}
+
+.floating-input-info:focus{
+    border-bottom: 1px solid #0c5460 !important;
+}
+
+.floating-input-light:focus{
+    border-bottom: 1px solid #818182 !important;
+}
+
+.floating-input-dark:focus{
+    border-bottom: 1px solid #1b1e21 !important;
+}
+
+textarea {
+    resize: none;
+}
+
+.text-area {
+    border: 1px solid #979797 !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    height: 90px;
+    margin-top: 40px;
+    &:focus {
+        border: 1px solid #979797 !important;
+         border-radius: 4px !important;
+    }
+}
+
+.form-group {
+    margin-bottom: 3rem;
+    @include media-breakpoint-down(sm) {
+        margin-bottom: 1.5rem;
+    }
+}
+
+
+// Checkbox
+.custom-checkbox {
+    padding-left: 1.6rem;
+    margin-bottom: .5rem; 
+    .custom-control-label {
+        @include rfs(16);
+        padding-left: 10px;
+        &:before {
+            border: 1px solid $gray;
+            border-radius: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        &:after {
+            background: no-repeat 60% / 70% 70%;
+            top: 0.35rem;
+            left: -1.4rem;
+        }
+    }
+}
+
+// Radio 
+.custom-control {
+    .custom-control-input {
+        border-color: $gray;
+    }
+}

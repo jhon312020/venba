@@ -1,0 +1,403 @@
+// Shopping Kart
+.shopping-kart {
+  h2 {
+    @include rfs(50);
+  }
+  // Your items
+  .product-items {
+    .border {
+      border: 0 !important;
+    }
+    .box-item {
+      border-bottom: 1px solid $black;
+      background: $white;
+      .price {
+        @include rfs(24);
+      }
+      .toast-text {
+        color: $primary;
+        @include rfs(16);
+      }
+    }
+    // Number counts
+    .number-counts {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .counts {
+        border: 1px solid #707070;
+        width: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        .minus, .plus {
+          background: #707070;
+          color: $white;
+          @include rfs(32);
+          width: 30px;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .plus {
+          @include rfs(30);
+          margin-right: -1px;
+        }
+        .number {
+            color: $black;
+            @include rfs(20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: $QS-bold;
+        }         
+      }
+      .delete {
+        width: 50px;
+        margin-left: 1rem;
+        cursor: pointer;
+      }
+    }
+  }
+  // Your cost
+  .product-cost {
+    .box {
+      background: $white;
+      padding: 1rem;
+      &.cost-details {
+        .table {
+          thead {
+            border-top: 1px solid $black;
+            border-bottom: 1px solid $black;
+            padding-top: .3rem;
+            padding-bottom: .3rem;   
+            @include rfs(18);
+            font-family: $QS-semi-bold;
+            tr {          
+              th {
+                border: 0;
+                padding: 0;         
+              }
+            }
+          }
+          
+          tr {
+            td {
+              border: 0;
+              padding-left: 0;
+              padding-right: 0;
+              padding-bottom: 0;
+              @include rfs(18);
+              font-family: $QS-semi-bold;
+            }
+          }
+        }        
+      }   
+      .promotion {
+        .form-inline {
+          display: flex;
+          align-items: center;
+          .form-group {
+            .form-control-plaintext {
+              width: 315px;
+              height: 44px;
+              border: 1px solid $black !important;
+              border-radius: 10px;
+              @include rfs(16);
+              padding: 1rem;
+              margin-right: 0.5rem;
+              color: $mid-gray;
+              font-family: $QS-semi-bold;              
+            }
+          }
+          .btn {
+            min-width: 100px;
+            height: 44px;
+            border: 1px solid $black;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            @include rfs(16);
+            background: transparent;
+            color: $black;
+            font-family: $QS-semi-bold;
+          }
+        }
+        .price {
+          display: flex;
+          align-items: center;
+          span {
+            @include rfs(18);
+            color: $black;
+            font-family: $QS-semi-bold;
+          }
+        }
+      }   
+    }
+    .g-total {
+      @include rfs(20);
+      font-family: $QS-bold;
+    }
+  }
+
+}
+
+
+// Order process    
+.progressbar-wrapper { 
+    width: 100%;
+    padding: 1rem 10rem;
+    .progressbar li {
+        list-style-type: none;
+        width: 33%;
+        float: left; 
+        position: relative;
+        text-align: center; 
+        color: $black;
+        @include rfs(14);
+    }     
+
+    .progressbar li:before {
+        width: 55%;
+        height: 45px;
+        content: "";
+        line-height: 45px; 
+        display: block;
+        text-align: center;
+        margin: -1.4rem auto 7px auto;
+        border-radius: 10px;
+        position: relative;
+        z-index: 2;
+        background: $gray;
+    }
+    .progressbar li:after {
+        width: 100%;
+        height: 1px;
+        content: '';
+        position: absolute;
+        background-color: $black;
+        // background-color: $light-gray;
+        top: 5px;
+        // left: -50%;
+        left: 0;
+        z-index: 0;
+    }        
+  // .progressbar li:first-child:after {
+  //         content: none;
+  //     }
+      .progressbar li.active {
+          // color: $secondary;
+          // font-weight: bold;
+      }
+      .progressbar li.active:before {
+          border-color: $secondary;
+          background: $secondary;
+      }
+    //   .progressbar li.active + li:after {
+    //       background-color: $secondary;
+    //   }
+    
+    // .progressbar-2 li.active:before {
+    //     background: $secondary  url(user.svg) no-repeat center center;
+    //     background-size: 60%;
+    // }
+    // .progressbar-2 li::before {
+    //     background: #fff url(user.svg) no-repeat center center;
+    //     background-size: 60%;
+    // }
+    .progressbar li {
+      .text {
+        position: relative;
+        top: -2.6rem;
+        z-index: 3;
+        @include rfs(16);
+        font-family: $QS-bold;
+        color: $white;
+      }
+    }
+}
+
+
+// Mobile
+@include media-breakpoint-down(md) {
+  .shopping-kart {
+     // Your items
+    .product-items {
+      .horizantal-swipe {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 1rem;
+      }
+      .box-item {
+        padding-right: 2rem;
+        border:0; 
+        .border {
+          border: 1px solid #c1c1c1 !important;
+          border-radius: 10px;
+          box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+          padding: 1rem 0;
+          min-height: 170px;
+        }
+        h4 {
+          @include rfs(14);
+        }
+        p {
+          @include rfs(12);
+        }
+        .price {
+          @include rfs(16);
+        }
+      }
+      .number-counts {
+        .counts {
+          width: 85px;
+          .minus, .plus {
+            height: 28px;
+          }
+          .number {
+            @include rfs(15);
+          }
+        }
+      }
+    }
+    // Your cost
+    .product-cost {
+      .box {
+        border: 1px solid #c1c1c1;
+        border-radius: 10px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        padding: 1rem;
+        &.cost-details {
+          .table {
+            thead {
+              
+              tr {
+                border: 0;
+                th {
+                  border: 0;
+                  display: none;
+                }
+              }              
+            }
+            tr {
+                border: 0;
+                td {
+                  border: 0;
+                  &:nth-child(3) {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                  }
+                }
+              }
+          }
+        }
+        .promotion {
+          .form-inline {
+            flex-wrap: nowrap;
+            .form-group {
+              .form-control-plaintext {
+                width: 100%;
+                height: 46px;
+                border-radius: 5px !important;
+              }              
+            }
+            .btn {
+              min-width: inherit;
+              margin-left: .5rem;
+              height: 46px;
+              border-radius: 5px;
+            }
+          }
+          .price {
+            justify-content: flex-end;
+            padding-top: .5rem;
+          }
+        }
+        &.g-total {
+          // padding: 0;
+        }        
+      }
+      .btns-group {
+        .btn {
+          @include rfs(14);
+          min-height: inherit;
+        }
+      }
+    }
+  }
+
+  // Order process    
+.progressbar-wrapper{ 
+  width: 100%;
+  padding: 1rem 0;
+  .progressbar li {
+      list-style-type: none;
+      width: 33%;
+      float: left; 
+      position: relative;
+      text-align: center; 
+      color: $black;
+      @include rfs(14);
+  }     
+
+  .progressbar li:before {
+      width: 10px;
+      height: 10px;
+      content: "";
+      line-height: 10px; 
+      display: block;
+      text-align: center;
+      margin: 0 auto 7px auto;
+      border-radius: 50%;
+      position: relative;
+      z-index: 2;
+      background: $gray;
+  }
+  .progressbar li:after {
+      width: 100%;
+      height: 1px;
+      content: '';
+      position: absolute;
+      // background-color: $light-gray;
+      background-color: $black;
+      top: 5px;
+      left: -50%;
+      z-index: 0;
+  }        
+.progressbar li:first-child:after {
+        content: none;
+    }
+    .progressbar li.active {
+        // color: $secondary;
+        // font-weight: bold;
+    }
+    .progressbar li.active:before {
+        border-color: $secondary;
+        background: $secondary;
+    }
+  //   .progressbar li.active + li:after {
+  //       background-color: $secondary;
+  //   }
+  
+  // .progressbar-2 li.active:before {
+  //     background: $secondary  url(user.svg) no-repeat center center;
+  //     background-size: 60%;
+  // }
+  // .progressbar-2 li::before {
+  //     background: #fff url(user.svg) no-repeat center center;
+  //     background-size: 60%;
+  // }
+  .progressbar li {
+      .text {
+        position: inherit; 
+        @include rfs(14);
+        font-family: $QS-regular;
+        color: $black;
+        top: inherit;
+      }
+    }
+  }
+}
+
+

@@ -1,0 +1,78 @@
+// Font variables
+
+$QS-regular:    Quicksand-Regular;
+$QS-semi-bold:  Quicksand-SemiBold;
+$QS-bold:       Quicksand-Bold;
+$QS-medium:     Quicksand-Medium;
+$QS-light:      Quicksand-Light; 
+
+// Variables colors
+
+$primary:       #5E2762; // Purple
+$secondary:     #FFC300; // Yellow
+$light-purple:  #EFE9EF; // Light Purple
+$pale-yellow:   #FFEDB2; // Pale Purple
+$white:         #fff;    // White
+$black:         #000;    // Black
+$gray:          #707070; // Gray
+$mid-gray:      #808080; // Mid Gray
+$light-gray:    #F3F3F3; // Light Gray
+$light-blue:    #efefef; // Light Blue
+
+
+
+// Body color
+$body-color: $black !default;
+
+// RFS
+$enable-responsive-font-sizes:  true !default;
+
+// Breakpoint at where font-size starts decreasing if screen width is smaller
+$rfs-breakpoint: 1400px !default;
+
+// Resize font-size based on screen height and width
+// $rfs-two-dimensional: true !default;
+
+// Factor of decrease
+$rfs-factor: 50 !default;
+
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+
+$h1-font-size:                $font-size-base * 3.125 !default;      // 50px
+$h2-font-size:                $font-size-base * 2.5 !default;        // 40px
+$h3-font-size:                $font-size-base * 1.875 !default;      // 30px
+$h4-font-size:                $font-size-base * 1.5 !default;        // 24px 
+$h5-font-size:                $font-size-base * 1.25 !default;       // 20px 
+$h6-font-size:                $font-size-base * 1.125 !default;       // 18px
+
+$font-80:  5rem !default;        // 80px
+$font-60:  3.75rem !default;     // 60px
+$font-40:  2.5rem !default;      // 40px
+$font-30:  1.875rem !default;    // 30px 
+
+h1, .h1 {  
+    font-family: $QS-bold; 
+}
+h2, .h2 {  
+    font-family: $QS-bold; 
+}
+h3, .h3 {  
+    font-family: $QS-bold;  
+}
+h4, .h4 {  
+    font-family: $QS-bold;  
+} 
+h5, .h5 {  
+    font-family: $QS-bold;  
+} 
+h6, .h6 {  
+    font-family: $QS-bold;  
+} 
+
+
+ 

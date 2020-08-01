@@ -1,0 +1,91 @@
+// Filters
+.filters {
+    border: 5px solid $light-blue;
+    background: $white;
+    padding: 2rem;
+    min-height: 103rem; 
+    h5 {
+        margin: 1rem 0;
+    }
+    .filter-items { 
+         &.dropdown-menu {
+             @include media-breakpoint-up(lg) {
+                position: inherit;
+                border: 0;
+                top: inherit;
+                display: block;
+             }            
+         }
+    }
+}
+
+
+// Mobile
+@include media-breakpoint-down(md) {
+  .filters {
+     border: 0;
+     padding: 0;
+     min-height: inherit;
+     .filter-title {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         h4 {
+             display: flex;
+             align-items: center;
+             .icon-back {
+                 margin-right: .5rem;
+                 @include rfs(16);
+             }
+         }
+         .filter-clear {             
+             .text {
+                 @include rfs(16);
+             }
+             .icon-filter {
+                 @include rfs(16);
+                 position: relative;
+                 .count {
+                     background: $secondary;
+                     border-radius: 100%; 
+                     width:18px;
+                     height: 18px;
+                     color: $white;
+                     @include rfs(14);
+                     font-family: $QS-bold;
+                     display: inline-block;
+                     text-align: center;
+                     position: absolute;
+                     left: 10px;
+                     top: -9px;
+                     padding-top: 2px;
+                 }
+             } 
+         }
+     }
+     .filter-items {
+         .apply {
+             background: $primary;
+             text-align: center;
+             margin: 0 -1rem;
+             padding: 1rem;
+             .btn {
+                 min-width: 152px;
+                 height: 35px;
+                 @include rfs(16);
+                justify-content: center;
+                align-items: center;
+                display: inline-flex;
+             }
+         }
+        &.dropdown-menu {
+            
+            &.show {
+                width: 100%;
+                padding: 0 1rem;
+                border: 0;
+            }
+        }
+     }
+  }
+}
