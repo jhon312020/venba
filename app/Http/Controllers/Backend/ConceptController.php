@@ -95,7 +95,7 @@ class ConceptController extends Controller {
 
   /**
    * Function destroy()
-   * Does a soft delete of specified concept from tan;e.
+   * Does a soft delete of specified concept from table.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
