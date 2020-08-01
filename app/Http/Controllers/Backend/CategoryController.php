@@ -71,7 +71,7 @@ class CategoryController extends Controller {
     $record = Category::select('id', 'name', 'cat_id')
        ->findOrFail($id);
     $categories  = Category::all()->where('id','!=', $id)->whereNull('cat_id')->pluck('name', 'id');
-    return view('backend.category.edit' , array ( 'category' => $record, 'categories'=>$categories));
+    return view('backend.category.edit' , array ( 'category' => $record, 'categories' => $categories));
   }
 
   /**

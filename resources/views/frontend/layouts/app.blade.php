@@ -29,10 +29,19 @@
             <a class="navbar-brand col-3 col-lg-2 pr-0 px-lg-0 my-2 order-1 order-lg-1" href="{{URL('/')}}"><img class="img-fluid logo" src="{{ URL::asset('frontend/images/logo.jpg')}}" alt="Venba" title="Venba" /></a>
             <div class="col-6 col-lg-3 order-2 order-lg-3 text-right top-icons">
               <div class="row">
-                <div class="col text-center pTop">
-                  <span class="icon-login"></span>
-                  <p data-toggle="modal" data-target="#createAccount">Login</p> 
-                </div>
+                @auth
+                  <div class="col text-center pTop">
+                    <span class="icon-login"></span>
+                    <a  href="{{ route('logout')}}"><p>Logout</p></a>
+                  </div>
+                @endauth
+                @guest
+                  <div class="col text-center pTop">
+                    <span class="icon-login"></span>
+                    <!-- <p data-toggle="modal" data-target="#createAccount">Login</p> --> 
+                    <a  href="{{ route('login')}}"><p>Login</p></a>
+                  </div>
+                @endguest
                 <div class="col text-center pTop">                 
                   <span class="icon-Cart"></span>
                    <span class="count">3</span>

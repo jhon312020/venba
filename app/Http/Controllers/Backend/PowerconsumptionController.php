@@ -18,7 +18,7 @@ class PowerconsumptionController extends Controller
   
   /**
    * Function index()
-   * Display a listing of the concepts.
+   * Display a listing of the power consumptions.
    *
    * @return \Illuminate\Http\Response
    */
@@ -29,7 +29,7 @@ class PowerconsumptionController extends Controller
   
   /**
    * Function add()
-   * Displays the add concept form
+   * Displays the add power consumption form
    *
    * @return \Illuminate\Http\Response
    */
@@ -39,7 +39,7 @@ class PowerconsumptionController extends Controller
 
   /**
    * Function Store()
-   * Store a newly created concept in table.
+   * Store a newly created power consumption in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -58,7 +58,7 @@ class PowerconsumptionController extends Controller
 
   /**
    * Function edit()
-   * Display the specified concept.
+   * Display the specified power consumption.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
@@ -71,7 +71,7 @@ class PowerconsumptionController extends Controller
 
   /**
    * Function update()
-   * Update the specified concept in table.
+   * Update the specified power consumption in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $id
@@ -89,7 +89,7 @@ class PowerconsumptionController extends Controller
 
   /**
    * Function destroy()
-   * Does a soft delete of specified concept from tan;e.
+   * Does a soft delete of specified power consumption from table.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response

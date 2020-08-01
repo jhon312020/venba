@@ -19,7 +19,7 @@ class TypeController extends Controller
   
   /**
    * Function index()
-   * Display a listing of the concepts.
+   * Display a listing of the types.
    *
    * @return \Illuminate\Http\Response
    */
@@ -30,7 +30,7 @@ class TypeController extends Controller
   
   /**
    * Function add()
-   * Displays the add concept form
+   * Displays the add type form
    *
    * @return \Illuminate\Http\Response
    */
@@ -40,7 +40,7 @@ class TypeController extends Controller
 
   /**
    * Function Store()
-   * Store a newly created concept in table.
+   * Store a newly created type in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -59,7 +59,7 @@ class TypeController extends Controller
 
   /**
    * Function edit()
-   * Display the specified concept.
+   * Display the specified type.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
@@ -72,7 +72,7 @@ class TypeController extends Controller
 
   /**
    * Function update()
-   * Update the specified concept in table.
+   * Update the specified type in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $id
@@ -90,7 +90,7 @@ class TypeController extends Controller
 
   /**
    * Function destroy()
-   * Does a soft delete of specified concept from tan;e.
+   * Does a soft delete of specified type from table.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response

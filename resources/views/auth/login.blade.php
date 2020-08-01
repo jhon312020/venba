@@ -13,7 +13,7 @@
                 <form class="form text-center" action="{{ route('login') }}" method="post">
                   @csrf
                   <div class="form-group floating-control-group">
-                    <label for="email">Email</label>
+                    <!-- <label for="email">Email</label> -->
                     <input type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" id="email" name="email" required="" placeholder="Email">
                     @error('email')
                       <span class="invalid-feedback" role="alert">
@@ -22,7 +22,7 @@
                     @enderror
                   </div> 
                     <div class="form-group floating-control-group">
-                    <label for="password">Password </label>
+                   <!--  <label for="password">Password </label> -->
                     <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required="" placeholder="Password">
                     @error('password')
                       <span class="invalid-feedback" role="alert">
@@ -66,8 +66,6 @@
   </div>
 </div>
  <!-- Login Modal End --> 
-
-
   @endsection
   @section('belowfooter')
   <!-- Login Modal -->  

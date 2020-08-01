@@ -119,7 +119,7 @@ class ProductController extends Controller {
     die;*/
     if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
-        $dy[$key] =$value;
+        $dy[$key] = $value;
         # code...
       }     
       
@@ -218,7 +218,7 @@ class ProductController extends Controller {
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
     $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=>$concepts, 'categories'=>$categories,'subcategories'=>$subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' =>$id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
   }
 
   /**
@@ -287,7 +287,7 @@ class ProductController extends Controller {
     $serialized_array = null;
     if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
-        $dy[$key] =$value;
+        $dy[$key] = $value;
         # code...
       }
       $serialized_array = serialize($dy);
@@ -342,7 +342,7 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function destroy($id) {    
-    $imagenames=Productimage::select('product_images')
+    $imagenames = Productimage::select('product_images')
     ->where('product_id', $id)
     ->first();    
     if (!empty($imagenames)) {

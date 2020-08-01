@@ -30,7 +30,7 @@ class CompatibilityController extends Controller
   
   /**
    * Function add()
-   * Displays the add concept form
+   * Displays the add compatibility form
    *
    * @return \Illuminate\Http\Response
    */
@@ -40,7 +40,7 @@ class CompatibilityController extends Controller
 
   /**
    * Function Store()
-   * Store a newly created concept in table.
+   * Store a newly created compatibility in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -59,7 +59,7 @@ class CompatibilityController extends Controller
 
   /**
    * Function edit()
-   * Display the specified concept.
+   * Display the specified compatibility.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
@@ -72,7 +72,7 @@ class CompatibilityController extends Controller
 
   /**
    * Function update()
-   * Update the specified concept in table.
+   * Update the specified compatibility in table.
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $id
@@ -90,7 +90,7 @@ class CompatibilityController extends Controller
 
   /**
    * Function destroy()
-   * Does a soft delete of specified concept from tan;e.
+   * Does a soft delete of specified compatibility from table.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
