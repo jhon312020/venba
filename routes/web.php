@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'FrontendController@index')->name('home')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/conceptlist', 'ConceptAddEdit@concept')->middleware('auth');
 Route::get('/addconcept', 'ConceptAddEdit@add')->middleware('auth');
 Route::post('/conceptadded/store', 'ConceptAddEdit@store')->name('conceptadded.store');
