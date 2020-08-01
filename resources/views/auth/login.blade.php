@@ -32,7 +32,7 @@
                   <button class="btn btn-secondary">Login</button>
                   <div class="footer-links">
                     <a href="{{ route('password.request') }}">Forgot Password ?</a>
-                    <a href="{{URL('/')}}">Create Account</a>
+                    <a href="{{ route('register') }}">Create Account</a>
                   </div>
                 </form>
               </div> 
