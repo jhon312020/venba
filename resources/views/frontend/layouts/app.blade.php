@@ -5,6 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Venba</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,7 +13,7 @@
   <!--<link rel="stylesheet" href="styles/css/bootstrap.min.css">-->
   <!--<link rel="stylesheet" href="node_modules/scss/bootstrap.scss">-->
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ URL::asset('frontend/styles/css/main.css')}}"> 
+  <link rel="stylesheet" href="{{ URL::asset('frontend/styles/css/main.css')}}">
   <!-- Fav Icons -->
 
   <!--<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
@@ -76,12 +77,9 @@
                 Products
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{route('frontview.product.index')}}">Lighting</a>
-                <a class="dropdown-item" href="#">Security</a> 
-                <a class="dropdown-item" href="#">IR Devices</a>
-                <a class="dropdown-item" href="#">Music</a> 
-                <a class="dropdown-item" href="#">Curtain Controls</a>
-                <a class="dropdown-item" href="#">Accessories</a>  
+                @foreach ($categories as $category)
+                <a class="dropdown-item" href="{{URL('/products', $category->name )}}" id="{{$category->id}}">{{$category->name}}</a>
+                @endforeach
               </div>
             </li> 
             <li class="nav-item dropdown">
@@ -231,12 +229,14 @@
   @yield('belowfooter')
   <script src="{{ URL::asset('frontend/js/jquery.min.js')}}"></script>
   <script src="{{ URL::asset('frontend/js/bootstrap.min.js')}}"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+  <script   src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>  
   <script src="{{ URL::asset('frontend/js/common.js')}}"></script> 
   <script src="{{ URL::asset('frontend/js/floating.labels.js')}}"></script>
+  <script src="{{ URL::asset('js/frontend.js')}}"></script>
   <script>
     $('.form-group').floatingLabel({
       floatingLabelClass: 'floating-label',
