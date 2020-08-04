@@ -21,7 +21,7 @@ $(document).ready(function() {
           	var id= name.substr(name.indexOf("_") + 1);
           	compatibilityids.push(id);
           }
-        console.log(brandids);
+        
       });	
     
     	if($(this). prop("checked") == false) {
@@ -41,7 +41,11 @@ $(document).ready(function() {
         	var remove_id= name.substr(name.indexOf("_") + 1);
         	var compatibilityids = $(compatibilityids).not([remove_id]).get(); 
       	}
+      	console.log(brandids);
+      console.log(typeids);
+      console.log(compatibilityids);
       }
+      
        //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
       //console.log(favourite)	;
 		 /*alert("brand ids are" + brandids.join(", ") 
