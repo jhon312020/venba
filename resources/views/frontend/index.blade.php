@@ -21,7 +21,7 @@
                     <span>|</span>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" id ="categoryid">Lighting</a>
+                    <a class="nav-link" href="#" id ="categoryid">{{$category}}</a>
                   </li> 
                 </ul>
               </div>
@@ -35,7 +35,7 @@
          <!--Mobile view start -->
         <div class="row top-banner-mob d-block d-lg-none">
             <div class="col-12 px-0">
-              <h2>Lighting</h2>
+              <h2>{{$category}}</h2>
             </div>
           </div>
         <!--Mobile view end -->
