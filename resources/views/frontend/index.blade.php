@@ -10,7 +10,7 @@
             <div class="products-nav">
               <h6 class="line">Products</h6>
               <div class="navigation">
-                <h2>Lighting</h2>
+                <h2>{{$category}}</h2>
                 <ul class="nav">
                   <li class="nav-item">
                     <a class="nav-link active" href="{{URL('/')}}">Home</a>
