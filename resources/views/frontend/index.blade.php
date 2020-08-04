@@ -13,7 +13,7 @@
                 <h2>Lighting</h2>
                 <ul class="nav">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="{{URL('/')}}">Home</a>
                     <span>|</span>
                   </li>
                   <li class="nav-item">
@@ -21,7 +21,7 @@
                     <span>|</span>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Lighting</a>
+                    <a class="nav-link" href="#" id ="categoryid">Lighting</a>
                   </li> 
                 </ul>
               </div>
@@ -47,9 +47,9 @@
 
     <!--Filter Products Start-->
     <div class="container">
-      <div class="row">
+      <div class="row" id="filterlist">
         <div class="col-12 col-lg-3">
-          <div class="filters">
+          <div class="filters checkbox-choices">
             <div class="filter-title">
               <h4><span class="icon-back d-block d-lg-none"></span> Filters</h4>
               <div class="filter-clear d-block d-lg-none">
@@ -61,48 +61,27 @@
             </div>            
             <div class="filter-items dropdown-menu" id="fillterDropdown">
               <h5>BRAND</h5>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Philips">
-                <label class="custom-control-label" for="Philips">Philips</label>
+              @foreach($brandlist as $brand)
+              <div id="{{$category}}" class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="{{$brand->name}}" name="brand_{{$brand->id}}" value="{{$brand->name}}">
+                <label class="custom-control-label" for="{{$brand->name}}">
+                  {{$brand->name}}</label>
               </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Koogeek">
-                <label class="custom-control-label" for="Koogeek">Koogeek</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Yale">
-                <label class="custom-control-label" for="Yale">Yale</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="CP Van">
-                <label class="custom-control-label" for="CP Van">CP Van</label>
-              </div>
+              @endforeach              
               <h5>TYPE</h5>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="B22">
-                <label class="custom-control-label" for="B22">B22</label>
+              @foreach($typelist as $type)
+              <div class="custom-control custom-checkbox type">
+                <input type="checkbox" class=" custom-control-input" id="{{$type->name}}" name="type_{{$type->id}}" value="{{$type->name}}">
+                <label class="custom-control-label" for="{{$type->name}}">{{$type->name}}</label>
               </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="E14">
-                <label class="custom-control-label" for="E14">E14</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="E27">
-                <label class="custom-control-label" for="E27">E27</label>
-              </div> 
+              @endforeach              
               <h5>COMPATABILITY</h5>
+              @foreach($compatibilitylist as $compatibility)
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Google Home">
-                <label class="custom-control-label" for="Google Home">Google Home</label>
+                <input type="checkbox" class="custom-control-input" id="{{$compatibility->name}}" name="compatibility_{{$compatibility->id}}" value="{{$compatibility->name}}">
+                <label class="custom-control-label" for="{{$compatibility->name}}">{{$compatibility->name}}</label>
               </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Siri">
-                <label class="custom-control-label" for="Siri">Siri</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Alexa">
-                <label class="custom-control-label" for="Alexa">Alexa</label>
-              </div> 
+              @endforeach              
               <h5>COLOUR</h5>
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="Multi colour">
@@ -124,16 +103,17 @@
         </div>
         <div class="col-12 col-lg-9 px-0">
            <div class="col-12">
-            <div class="row mb-lg-5">             
+            <div class="row mb-lg-5 productlist"> 
+             @foreach($productlist as $product)            
               <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class="card">
                     <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
                     <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
+                      <p class="card-text">{{$product->name}}</p>                      
+                      <div class="row">                   
                         <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
+                          <p class="card-text mb-0">{{$product->accessories_required}}</p>
+                          <h5 class="card-title">Rs.{{$product->price}}</h5>
                         </div>
                         <div class="col col-lg-12 px-0">
                           <button class="btn btn-secondary">Add to Kart</button>
@@ -142,146 +122,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div> 
-            <div class="row mb-lg-5">             
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div> 
-            <div class="row mb-lg-5">             
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-               <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
-                    <div class="card-body">
-                      <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>                      
-                      <div class="row">
-                        <div class="col col-lg-12">
-                          <p class="card-text mb-0"><img src="{{ URL::asset('frontend/images/requires-a-hue-bridge.jpg')}}" class="card-img-bot" alt=""></p>
-                          <h5 class="card-title">Rs. 2,150.00</h5>
-                        </div>
-                        <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
+              @endforeach             
             </div> 
 
           </div>
