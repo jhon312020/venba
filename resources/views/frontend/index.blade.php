@@ -10,7 +10,11 @@
             <div class="products-nav">
               <h6 class="line">Products</h6>
               <div class="navigation">
+                @if(isset($category))
                 <h2>{{$category}}</h2>
+                @else 
+                <h2>Lighting</h2>
+                @endif
                 <ul class="nav">
                   <li class="nav-item">
                     <a class="nav-link active" href="{{URL('/')}}">Home</a>
@@ -21,7 +25,12 @@
                     <span>|</span>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" id ="categoryid">{{$category}}</a>
+                    @if(isset($category))
+                      <a class="nav-link" href="#" id ="categoryid">{{$category}}</a>
+                    @else 
+                      <a class="nav-link" href="#" id ="categoryid">Lighting</a>
+                    @endif
+                    
                   </li> 
                 </ul>
               </div>
@@ -35,7 +44,11 @@
          <!--Mobile view start -->
         <div class="row top-banner-mob d-block d-lg-none">
             <div class="col-12 px-0">
+              @if(isset($category))
               <h2>{{$category}}</h2>
+              @else 
+              <h2>Lighting</h2>
+              @endif
             </div>
           </div>
         <!--Mobile view end -->
@@ -62,7 +75,12 @@
             <div class="filter-items dropdown-menu" id="fillterDropdown">
               <h5>BRAND</h5>
               @foreach($brandlist as $brand)
+              @if(isset($category))
               <div id="{{$category}}" class="custom-control custom-checkbox">
+              @else 
+              <div  class="custom-control custom-checkbox">
+              @endif
+              
                 <input type="checkbox" class="custom-control-input" id="{{$brand->name}}" name="brand_{{$brand->id}}" value="{{$brand->name}}">
                 <label class="custom-control-label" for="{{$brand->name}}">
                   {{$brand->name}}</label>
