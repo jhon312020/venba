@@ -31,11 +31,18 @@
             <div class="col-6 col-lg-3 order-2 order-lg-3 text-right top-icons">
               <div class="row">
                 @auth
-                  <div class="col text-center pTop">
-                    <span class="icon-login"></span>
-                    <a  href="{{ route('logout')}}"><p>Logout</p></a>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    My Account
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{ url('/my_profile') }}">My Profile</a>
+                    <a class="dropdown-item" href="{{ url('/my_orders') }}">My Orders</a>
+                    <a class="dropdown-item" href="{{ url('/my_wishlist') }}">My Wish List</a>
+                    <a class="dropdown-item" href="{{ route('logout')}}">SignOut</a>
                   </div>
-                @endauth
+                </div>
+               @endauth
                 @guest
                   <div class="col text-center pTop">
                     <span class="icon-login"></span>

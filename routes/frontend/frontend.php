@@ -17,3 +17,6 @@ Route::get('/trouble_shooting', [FrontendController::class, 'trouble_shooting'])
 Route::get('/online_support', [FrontendController::class, 'online_support'])->name('frontend.online');
 Route::get('/faq', [FrontendController::class, 'faq'])->name('frontend.faq');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.contact');
+Route::get('/my_profile', [FrontendController::class, 'my_profile'])->name('frontend.myprofile');
+Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('frontend.mywishlist');
+Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');

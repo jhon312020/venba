@@ -127,5 +127,38 @@ class FrontendController extends Controller
   	$categories = $this->category_fetch();
   	return view('frontend.contact', compact('categories'));
   }
+  /**
+   * Function my_profile()
+   * returns frontend onlinesupport page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function my_profile() {
+
+    $categories = $this->category_fetch();
+    return view('frontend.online_support', compact('categories'));
+  }
+  /**
+   * Function my_wishlist()
+   * returns frontend onlinesupport page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function my_wishlist() {
+
+    $categories = $this->category_fetch();
+    return view('frontend.online_support', compact('categories'));
+  }
+  /**
+   * Function my_orders()
+   * returns frontend onlinesupport page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function my_orders() {
+
+    $categories = $this->category_fetch();
+    return view('frontend.online_support', compact('categories'));
+  }
 }
 
