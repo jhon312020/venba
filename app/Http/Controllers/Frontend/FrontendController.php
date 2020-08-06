@@ -193,5 +193,25 @@ class FrontendController extends Controller
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdetails','productimages','id'));
   }
+  /**
+   * Function deletefromcart()
+   * Display a product from cart.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function deletefromcart(Request $request) {
+
+
+  }
+  /**
+   * Function select_address()
+   * returns frontend selectaddress page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function select_address(Request $request) {
+
+  }
+
 }
 

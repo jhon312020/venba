@@ -93,4 +93,19 @@ $(document).ready(function() {
       }
    })
   });
+  $("#shoppingcart #deletefromcart").click(function(){
+    var product_id = $("#product_id_no").val();
+    alert(product_id);
+    $.ajax({
+      url:"/deletefromcart",
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{product_id:product_id},
+      success:function(result) {
+       $('#message').html(result);
+      }
+   })
+  });
 });

@@ -10,6 +10,7 @@ Route::post('filterproductlist', [ProductlistingController::class, 'filterproduc
 Route::get('{id}', [ProductlistingController::class, 'singleproduct'])->name('product.detail');
 });
 Route::post('/addtocart', [ProductlistingController::class, 'addtocart'])->name('product.addtocart');
+Route::post('/deletefromcart', [FrontendController::class, 'deletefromcart'])->name('product.deletefromcart');
 Route::get('/basic_solution', [FrontendController::class, 'basic_solution'])->name('frontend.basic');
 Route::get('/advanced_solution', [FrontendController::class, 'advanced_solution'])->name('frontend.advanced');
 Route::get('/premium_solution', [FrontendController::class, 'premium_solution'])->name('frontend.premium');
@@ -22,3 +23,4 @@ Route::get('/my_profile', [FrontendController::class, 'my_profile'])->name('fron
 Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('frontend.mywishlist');
 Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');
 Route::post('/shopping-basket', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
+Route::post('/select_address', [FrontendController::class, 'select_address'])->name('frontend.select_address');
