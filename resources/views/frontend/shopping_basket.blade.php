@@ -14,7 +14,7 @@
              <div class="progressbar-wrapper clearfix progressbar-wrapper-mob">
                 <ul class="progressbar">
                   <li class="active"><span class="text">Confirm Order</span></li>
-                  <li><span class="text">Select Address</span></li>
+                  <li><span class="text"><a style="color:#fff" href="{{URL('/select-address')}}">Select Address</a></span></li>
                   <li><span class="text">Payment</span></li> 
                 </ul>
               </div> 

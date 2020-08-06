@@ -23,4 +23,4 @@ Route::get('/my_profile', [FrontendController::class, 'my_profile'])->name('fron
 Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('frontend.mywishlist');
 Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');
 Route::post('/shopping-basket', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
-Route::post('/select_address', [FrontendController::class, 'select_address'])->name('frontend.select_address');
+Route::get('/select-address', [FrontendController::class, 'select_address'])->name('frontend.select_address');

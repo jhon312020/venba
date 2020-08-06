@@ -210,6 +210,8 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function select_address(Request $request) {
+    $categories = $this->category_fetch();     
+    return view('frontend.select_address', compact('categories'));
 
   }
 
