@@ -35,7 +35,7 @@ class Productstable extends Migration
           ->onDelete('cascade');
       $table->unsignedBigInteger('compatibility_id')->nullable();
       $table->foreign('compatibility_id')
-          ->references('id')->on('type')
+          ->references('id')->on('compatibility')
           ->onDelete('cascade');      
       $table->unsignedBigInteger('power_consumption_id')->nullable();
       $table->string('physical_spec')->nullable();

@@ -88,14 +88,22 @@
               @endforeach              
               <h5>TYPE</h5>
               @foreach($typelist as $type)
-              <div class="custom-control custom-checkbox type">
+               @if(isset($category))
+              <div id="{{$category}}" class="custom-control custom-checkbox">
+              @else 
+              <div  class="custom-control custom-checkbox">
+              @endif
                 <input type="checkbox" class=" custom-control-input" id="{{$type->name}}" name="type_{{$type->id}}" value="{{$type->name}}">
                 <label class="custom-control-label" for="{{$type->name}}">{{$type->name}}</label>
               </div>
               @endforeach              
               <h5>COMPATABILITY</h5>
               @foreach($compatibilitylist as $compatibility)
-              <div class="custom-control custom-checkbox">
+               @if(isset($category))
+              <div id="{{$category}}" class="custom-control custom-checkbox">
+              @else 
+              <div  class="custom-control custom-checkbox">
+              @endif
                 <input type="checkbox" class="custom-control-input" id="{{$compatibility->name}}" name="compatibility_{{$compatibility->id}}" value="{{$compatibility->name}}">
                 <label class="custom-control-label" for="{{$compatibility->name}}">{{$compatibility->name}}</label>
               </div>
@@ -122,16 +130,25 @@
         <div class="col-12 col-lg-9 px-0">
            <div class="col-12">
             <div class="row mb-lg-5 productlist"> 
-             @foreach($productlist as $product)            
+             @foreach($productlist as $product)  
+             @php
+             $i =  $product['id']; 
+             @endphp        
               <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class="card">
-                    <img src="{{ URL::asset('frontend/images/product-img.jpg')}}" class="card-img-top" alt="">
+                  @if(isset($ima[$i]))
+                  <a id="{{$i}}"href="{{route('frontview.product.detail' , ['category' => $category ,'id' => $i])}}">
+                    <img src="/thumbnail/{{$product['id']}}/{{$ima[$i]}}" class="card-img-top" alt="">
+                  </a>
+                    @else
+                    <img src="" class="card-img-top" alt="">
+                    @endif
                     <div class="card-body">
-                      <p class="card-text">{{$product->name}}</p>                      
+                      <p class="card-text">{{$product['name']}}</p>                      
                       <div class="row">                   
                         <div class="col col-lg-12">
-                          <p class="card-text mb-0">{{$product->accessories_required}}</p>
-                          <h5 class="card-title">Rs.{{$product->price}}</h5>
+                          <p class="card-text mb-0">{{$product['accessories_required']}}</p>
+                          <h5 class="card-title">Rs.{{$product['price']}}</h5>
                         </div>
                         <div class="col col-lg-12 px-0">
                           <button class="btn btn-secondary">Add to Kart</button>

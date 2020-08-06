@@ -2,9 +2,18 @@
 use App\Http\Controllers\Frontend\ProductlistingController;
 use App\Http\Controllers\Frontend\FrontendController;
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
-Route::get('/home', [FrontendController::class, 'index'])->name('frontend.index');
+Route::get('/homefrontview', [FrontendController::class, 'index'])->name('frontend.index');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('frontend.logout');
 Route::get('products/{category}', [ProductlistingController::class, 'index'])->name('product.index');
 Route::group(['prefix' => 'products/{category}'], function () {
 Route::post('filterproductlist', [ProductlistingController::class, 'filterproductlist'])->name('productlist.filter');
+Route::get('{id}', [ProductlistingController::class, 'singleproduct'])->name('product.detail');
 });
+Route::get('/basic_solution', [FrontendController::class, 'basic_solution'])->name('frontend.basic');
+Route::get('/advanced_solution', [FrontendController::class, 'advanced_solution'])->name('frontend.advanced');
+Route::get('/premium_solution', [FrontendController::class, 'premium_solution'])->name('frontend.premium');
+Route::get('/installation_guide', [FrontendController::class, 'installation_guide'])->name('frontend.basic');
+Route::get('/trouble_shooting', [FrontendController::class, 'trouble_shooting'])->name('frontend.trouble');
+Route::get('/online_support', [FrontendController::class, 'online_support'])->name('frontend.online');
+Route::get('/faq', [FrontendController::class, 'faq'])->name('frontend.faq');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.contact');

@@ -12,6 +12,14 @@ use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
 class FrontendController extends Controller
 {
+	/**
+   * Function index()
+   * returns frontend homepage.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  
+
   /**
    * Function index()
    * returns frontend homepage.
@@ -19,19 +27,105 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function index() {
+  	
     $productlist = 	Product::select('name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
      $brandlist = Brand::select('id', 'name')
     ->get();
-    $categories = Category::select('id', 'name')
-    ->where('cat_id', null)
-    ->get();
+     $categories = $this->category_fetch();
      $typelist = Type::select('id', 'name')
     ->get();
      $compatibilitylist = Compatibility::select('id', 'name')
     ->get();
   	return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories'));
   	}
+  	/**
+   * Function basic_solution()
+   * returns frontend basicsolution page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function basic_solution() {
+	$categories = $this->category_fetch();
+	return view('frontend.basic_sol', compact('categories'));
+  }
+  /**
+   * Function advanced_solution()
+   * returns frontend advancedsolution page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function advanced_solution() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.advanced_sol', compact('categories'));
+  }
+  /**
+   * Function premium_solution()
+   * returns frontend premiumsolution page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function premium_solution() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.premium_sol', compact('categories'));
+  }
+  /**
+   * Function installation_guide()
+   * returns frontend installation page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function installation_guide() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.installation_guide', compact('categories'));
+  }
+  /**
+   * Function trouble_shooting()
+   * returns frontend troubleshooting page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function trouble_shooting() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.trouble_shooting', compact('categories'));
+  }
+  /**
+   * Function online_support()
+   * returns frontend onlinesupport page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function online_support() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.online_support', compact('categories'));
+  }
+  /**
+   * Function faq()
+   * returns frontend faq page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function faq() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.faq', compact('categories'));
+  }
+  /**
+   * Function contact()
+   * returns frontend contact page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function contact() {
+
+  	$categories = $this->category_fetch();
+  	return view('frontend.contact', compact('categories'));
+  }
 }
 

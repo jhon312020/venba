@@ -45,7 +45,9 @@
                 @endguest
                 <div class="col text-center pTop">                 
                   <span class="icon-Cart"></span>
+                  @if(session()->has('cart'))
                    <span class="count">3</span>
+                  @endif
                   <p>Cart</p>                 
                 </div>
                 <div class="col text-center pTop">
@@ -87,9 +89,9 @@
                 Solutions
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Basic</a>
-                <a class="dropdown-item" href="#">Advanced</a> 
-                <a class="dropdown-item" href="#">Premium</a>
+                <a class="dropdown-item" href="{{ url('/basic_solution') }}">Basic</a>
+                <a class="dropdown-item" href="{{ url('/advanced_solution') }}">Advanced</a> 
+                <a class="dropdown-item" href="{{ url('/premium_solution') }}">Premium</a>
               </div>
             </li> 
             <li class="nav-item dropdown">
@@ -97,16 +99,16 @@
                 Support
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Installation guides</a>
-                <a class="dropdown-item" href="#">Trouble shooting</a> 
-                <a class="dropdown-item" href="#">Online support</a>
+                <a class="dropdown-item" href="{{ url('/installation_guide') }}">Installation guides</a>
+                <a class="dropdown-item" href="{{ url('/trouble_shooting') }}">Trouble shooting</a> 
+                <a class="dropdown-item" href="{{ url('/online_support') }}">Online support</a>
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="faqs.html">FAQs</a>
+              <a class="nav-link" href="{{ url('/faq') }}">FAQs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact-us.html">Contact Us</a>
+              <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
             </li>
           </ul>           
           </div>

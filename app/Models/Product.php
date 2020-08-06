@@ -20,7 +20,7 @@ class Product extends Model
     'name', 'material_no','concept_id','cat_id','sub_cat_id','brand_id','type_id','compatibility_id','power_consumption_id','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','price','igst','sgst','transit','product_image', 'additional_properties',
   ];
   public function images() {
-    return $this->hasOne('App\Models\Productimage');
+    return $this->hasMany('App\Models\Productimage');
   }
   public function concept() {
     return $this->belongsTo('App\Models\Concept');

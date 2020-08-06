@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-
+use App\Models\Category as Category;
 use Image;
 use File;
 
@@ -59,4 +59,11 @@ class Controller extends BaseController
       }
       return $images;
     }
+    public function category_fetch() {
+    $categories = Category::select('id', 'name')
+    ->where('cat_id', null)
+    ->get();
+    return $categories;
+
+  }
 }

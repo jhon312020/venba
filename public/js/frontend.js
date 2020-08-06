@@ -41,9 +41,6 @@ $(document).ready(function() {
         	var remove_id= name.substr(name.indexOf("_") + 1);
         	var compatibilityids = $(compatibilityids).not([remove_id]).get(); 
       	}
-      	console.log(brandids);
-      console.log(typeids);
-      console.log(compatibilityids);
       }
       
        //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -56,11 +53,31 @@ $(document).ready(function() {
       	  headers: {
         		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     			},   	
-      	data:{brandids:brandids, typeids:typeids,compatibilityids:compatibilityids},
+      	data:{brandids:brandids,typeids:typeids,compatibilityids:compatibilityids},
       	success:function(result) {
        		$('#filterlist .productlist').html(result);
       	}
    		})
 	  
 	});
+  $("#tech_spec").hide();
+  $("#tech").click(function(){
+         $("#tech_spec").toggle();
+    });
+  $("#phy_spec").hide();
+  $("#phy").click(function(){
+         $("#phy_spec").toggle();
+    });
+  $("#warranty_detail").hide();
+  $("#warranty").click(function(){
+         $("#warranty_detail").toggle();
+    });
+  $("#compatibility").hide();
+  $("#comp").click(function(){
+         $("#compatibility").toggle();
+    });
+  $("#addtocart #addcart").click(function(){
+      var count = $("#no_of_quantity").val();
+      alert(count);
+  });
 });

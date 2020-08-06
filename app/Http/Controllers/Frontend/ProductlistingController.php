@@ -9,28 +9,64 @@ use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
+use App\Models\Powerconsumption as Powerconsumption;
 class ProductlistingController extends Controller
 {
   /**
    * Function index()
    * Display a listing of the products.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\Response, category
   */
   public function index(Request $request, $category) {  
     
     $categoryid = Category::all()
         ->where('name', $category)
         ->pluck('id');
-        $cat_id= $categoryid[0];        
-    $productlist =  Product::select('name', 'accessories_required', 'price')
+    $cat_id = $categoryid[0];   
+    $imagearray = array(); 
+    $image = array();    
+    $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id)
-      ->get();
+      ->get()->toArray();
+      /*echo '<pre>';
+      print_r($productlist);
+      echo '</pre>';
+
+      die;*/      
+      foreach($productlist as $product) {
+        $imagelist = Product::find($product['id']);
+        foreach ($imagelist->images as $image) {
+          $imagearray[$product['id']][] = $image->product_images;          
+        }
+      } 
+      foreach($imagearray as $key => $value) {
+        $ima[$key] =  $value[0];
+        
+      }
+      /*print_r($ima);*/
+
+      /*$keys = array_keys($imagearray);
+      for($i = 0; $i < count($imagearray); $i++) {
+        foreach($imagearray[$keys[$i]] as $key => $value) {
+          $image[$key] = $value;
+        }
+      }*/
+      //die;    
+      /*echo '<pre>';
+      print_r($imagearray);
+      echo '</pre>';
+      die;*/
+      /*foreach($imagearray[$product_id] as $key=>$value) {
+        $image[$key] = $value[0];
+        echo $image;
+      }*/
+
+      /*$product_images = $productlist->pluck('images')->collapse();*/
+     
     $brandlist = Brand::select('id', 'name')
       ->get();
-    $categories = Category::select('id', 'name')
-      ->where('cat_id', null)
-      ->get();
+    $categories = $this->category_fetch();
     $typelist = Type::select('id', 'name')
       ->get();
     $compatibilitylist = Compatibility::select('id', 'name')
@@ -49,44 +85,64 @@ class ProductlistingController extends Controller
       /*$categories = Category::select('id', 'name')
         ->where('cat_id', null)
         ->get();*/
-  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories',))->with('category', $category);
+  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
     
   }
   /**
-   * Function index()
-   * Fetches the filtered list of the products.
+   * Function filterproductlist()
+   * Fetches the filtered list of the products based on selection.
    * 
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \Illuminate\Http\Request  $request, category
    * @return \Illuminate\Http\Response
   */
   public function filterproductlist(Request $request, $category) {
     //echo $category;
     $brand_id = $request->get('brandids');
    /* print_r($brand_id);
+    echo '<br>';*/
+   /* print_r($brand_id);
     die;*/
     $compatibility_id = $request->get('compatibilityids');
     $type_id = $request->get('typeids');
-    $filters = [
-     'brand_id' => $brand_id,
-     'compatibility_id' => $compatibility_id,
-     'type_id' => $type_id,
-    ];
+    /*print_r($type_id);*/
+    /*if(!empty($type_id)) {
+      echo "success";
+      die;
+      }
+*/    /*echo '<br>';
+    print_r($compatibility_id);
+    echo '<br>';*/
     $category_id = Category::all()
         ->where('name', $category)
         ->pluck('id');
-        $cat_id= $category_id[0];     
+    $cat_id = $category_id[0];     
     $productlist =  Product::select('name', 'accessories_required', 'price')
-      ->where('cat_id', $cat_id)
-      ->where(function ($query) use ( $filters) {
+      ->where('cat_id', $cat_id);
+     /* ->where(function ($query) use ( $filters) {
         foreach ($filters as $column => $key) {
           $query->when($key, function ($query, $value) use ($column) {
             $query->whereIn($column, $value);
           });
         }
-      })
+      })*/
       
-      ->get();
-      //print_r($productlist);
+     if(!empty($brand_id)) {
+      /*echo "hello";
+      die;*/
+       $productlist = $productlist -> whereIn('brand_id', $brand_id);
+      }
+       if(!empty($type_id)) {
+       /* echo "hello";
+        die;*/  
+        $productlist = $productlist -> whereIn('type_id', $type_id);    
+      }
+      if(!empty($compatibility_id)) {
+       $productlist = $productlist -> whereIn('compatibility_id', $compatibility_id);
+      }
+    
+      /*echo $productlist;
+      die;*/
+     $productlist = $productlist->get();
       $output = '';
       foreach($productlist as $product) {
       $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
@@ -111,12 +167,56 @@ class ProductlistingController extends Controller
     echo $output;
 
   }
+  /**
+   * Function singleproduct()
+   * Display a listing of the singleproduct detail.
+   *
+   * @return \Illuminate\Http\Response, id, category
+   */
+  public function singleproduct(Request $request ,$category, $id) {
+    $productdetails = Product::find($id);
+    /*echo '<pre>';
+    print_r($productdetails);
+    echo '</pre>';
+    die;*/
+    $powerconsumption = Powerconsumption::find($productdetails->power_consumption_id);
+    $compatibility = Compatibility::find($productdetails->compatibility_id);
+    foreach ($productdetails->images as $image) {
+      $imagearray[$id][] = $image->product_images;          
+    }
+       
+    foreach($imagearray as $key => $value) {
+      $productimages =  $value;        
+    }
+    /*echo $id;
+    echo '<br>';
+    echo  $category;
+    echo '<br>';
+    echo '<pre>';
+    print_r($productimages);
+    echo '</pre>';
+    die;*/
+    $categories = $this->category_fetch();
+
+    return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','compatibility'));
+  }
+  /**
+   * Function addtocart()
+   * Display a listing of the products.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function addtocart(Request $request) {
+
    /**
    * Function imagefetch()
    * Display a listing of the products.
    *
    * @return \Illuminate\Http\Response
    */
+   
+
+  }
   public function imagefetch(Request $request) {
   	$imageunserialized = Productimage::select('product_id' ,'product_images')
       ->get();
