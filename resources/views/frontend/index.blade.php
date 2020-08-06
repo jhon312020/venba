@@ -138,7 +138,7 @@
                 <div class="card">
                   @if(isset($ima[$i]))
                   <a id="{{$i}}"href="{{route('frontview.product.detail' , ['category' => $category ,'id' => $i])}}">
-                    <img src="/thumbnail/{{$product['id']}}/{{$ima[$i]}}" class="card-img-top" alt="">
+                    <img src="/thumbnail/{{$i}}/{{$ima[$i]}}" class="card-img-top" alt="">
                   </a>
                     @else
                     <img src="" class="card-img-top" alt="">
@@ -151,7 +151,11 @@
                           <h5 class="card-title">Rs.{{$product['price']}}</h5>
                         </div>
                         <div class="col col-lg-12 px-0">
-                          <button class="btn btn-secondary">Add to Kart</button>
+                          <form action="{{url('/shopping-basket')}}" method="post">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="productid" value="{{$i}}">
+                           <button type="submit" class="btn btn-secondary">Add to Kart</button>
+                        </form>
                         </div>
                       </div>
                     </div>

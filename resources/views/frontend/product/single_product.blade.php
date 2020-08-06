@@ -61,6 +61,8 @@
      </div>
     </div>
     <div class="col-6" id="addtocart">
+    	<input type="hidden" id="product_id_no" value="{{$id}}">
+    	<input type="hidden" id="category" value="{{$category}}">
     	<h3 id="product_name">{{$productdetails->name}}</h3>
     	<p>Product no:{{$productdetails->material_no}}</p>
     	<br>    
@@ -71,6 +73,7 @@
     	<span id="addcart" class="icon-Cart" style="margin-left:100px"></span>
     	</span>
     	<hr>
+    	<div id="message"></div>
     	<p>{{$productdetails->introduction}}</p>
     	<div style="display:inline-flex">
     		<div>

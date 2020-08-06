@@ -79,7 +79,18 @@ $(document).ready(function() {
   $("#addtocart #addcart").click(function(){
       var count = $("#no_of_quantity").val();
       var name = $("#addtocart").children('#product_name').text();
-      var product_id = '';
-      alert(name);
+      var product_id = $("#product_id_no").val();
+      var category = $("#category").val();
+       $.ajax({
+      url:"/addtocart",
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{count:count,name:name,product_id:product_id,category:category},
+      success:function(result) {
+       $('#message').html(result);
+      }
+   })
   });
 });

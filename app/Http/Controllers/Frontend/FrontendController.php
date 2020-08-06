@@ -10,6 +10,7 @@ use App\Models\Productimage as Productimage;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
+use Session;
 class FrontendController extends Controller
 {
 	/**
@@ -159,6 +160,38 @@ class FrontendController extends Controller
 
     $categories = $this->category_fetch();
     return view('frontend.online_support', compact('categories'));
+  }
+  /**
+   * Function shopping_basket()
+   * returns frontend onlinesupport page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function shopping_basket(Request $request) {
+    $id = $request->productid;
+    /*echo $id;
+    die;*/
+     $productdetails = Product::find($id);
+     /*echo $productdetails->name;
+     die;*/
+     foreach ($productdetails->images as $image) {
+      $imagearray[$id][] = $image->product_images;          
+    }
+       
+    foreach($imagearray as $key => $value) {
+      $productimages =  $value;        
+    }
+    $cart = Session::get('cart');
+    $cart[$id] = array(
+        "id" => $id,
+        "name" => $productdetails->name,   
+    );
+  
+    Session::put('cart', $cart);
+    /*print_r($cart);
+    die;*/   
+    $categories = $this->category_fetch();     
+    return view('frontend.shopping_basket', compact('categories','cart','productdetails','productimages','id'));
   }
 }
 

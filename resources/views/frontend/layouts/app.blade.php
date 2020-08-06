@@ -53,7 +53,7 @@
                 <div class="col text-center pTop">                 
                   <span class="icon-Cart"></span>
                   @if(session()->has('cart'))
-                   <span class="count">3</span>
+                   <span class="count">{{count(Session::get('cart'))}}</span>
                   @endif
                   <p>Cart</p>                 
                 </div>
