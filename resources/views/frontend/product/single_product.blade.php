@@ -55,13 +55,13 @@
       <img src="/images/{{$id}}/{{$productimages[0]}}">
       </div>
     </div>
-    <div class="col-6">
-    	<h3>{{$productdetails->name}}</h3>
+    <div class="col-6" id="addtocart">
+    	<h3 id="product_name">{{$productdetails->name}}</h3>
     	<p>Product no:{{$productdetails->material_no}}</p>
     	<br>    
     	<p style="font-weight:bold">{{$productdetails->accessories_required}}</p>
     	<hr>
-    	<span id="addtocart" >
+    	<span>
     	<input id="no_of_quantity" style="width:50px;" type="number" placeholder="1">
     	<span id="addcart" class="icon-Cart" style="margin-left:100px"></span>
     	</span>
@@ -84,28 +84,28 @@
     		</div>
   		</div>
   		<div style="display:flex">
-  			<p>Technical Specification</p>
+  			<p style="width:40%">Technical Specification</p>
   			<p id="tech"  style="position:relative;left:50%">+</p>
   		</div>
   		<div id="tech_spec" style="background:#eee">
   			<p>{!! nl2br(e($productdetails->technical_spec)) !!}</p>
 			</div>
 			<div style="display:flex">
-  			<p>Compatibility</p>
+  			<p style="width:40%">Compatibility</p>
   			<p id="comp"  style="position:relative;left:50%">+</p>
   		</div>
   		<div id="compatibility" style="background:#eee">
   			<p>{{$compatibility->name}}</p>
 			</div>
 			<div style="display:flex">
-  			<p>Warranty</p>
+  			<p style="width:40%">Warranty</p>
   			<p id="warranty"  style="position:relative;left:50%">+</p>
   		</div>
   		<div id="warranty_detail" style="background:#eee">
   			<p>{{$productdetails->warranty}}</p>
 			</div>
 			<div style="display:flex">
-  			<p>Physical Specification</p>
+  			<p style="width:40%">Physical Specification</p>
   			<p id="phy"  style="position:relative;left:50%">+</p>
   		</div>
   		<div id="phy_spec" style="background:#eee">

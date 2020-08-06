@@ -78,6 +78,8 @@ $(document).ready(function() {
     });
   $("#addtocart #addcart").click(function(){
       var count = $("#no_of_quantity").val();
-      alert(count);
+      var name = $("#addtocart").children('#product_name').text();
+      var product_id = '';
+      alert(name);
   });
 });

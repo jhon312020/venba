@@ -206,7 +206,7 @@ class ProductlistingController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function addtocart(Request $request) {
+  public function addtocart(Request $request, $category, $id) {
 
    /**
    * Function imagefetch()
@@ -214,7 +214,7 @@ class ProductlistingController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-   
+
 
   }
   public function imagefetch(Request $request) {
