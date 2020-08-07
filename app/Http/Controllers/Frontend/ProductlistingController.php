@@ -161,7 +161,7 @@ class ProductlistingController extends Controller
       foreach($productlist as $product) {
       $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class = "card">
-                    <img src = "frontend/images/<?php echo $ima[$product->id]; ?>" class = "card-img-top" alt="">
+                    <img src = "/thumbnail/'.$product->id.'/'.$ima[$product->id].'" class = "card-img-top" alt="">
                     <div class = "card-body">
                       <p class = "card-text">'.$product->name.'</p>                      
                       <div class = "row">                   
