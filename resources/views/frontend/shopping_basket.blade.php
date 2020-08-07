@@ -37,7 +37,7 @@
                     <strong class="price">Rs. {{$value->price}}</strong>
                   </div>
                   <div class="col">
-                    <div class="number-counts">
+                    <div class="number-counts" id="{{$key}}">
                       @csrf
                       <input id="no_of_quantity" style="width:50px;" type="number" value="{{Session::get('cart')[$key]['quantity']}}"> 
                       <div class="delete" id="{{$key}}">
@@ -66,14 +66,20 @@
                     <th scope="col" class="text-right">Cost</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="checkoutlist">
+                  @php
+                    $i=1;
+                    @endphp
+                    @foreach ($cart as $key => $value)
                   <tr>
-
-                    <td class="d-none d-lg-block">1.</td>
-                    <td>Philips - 31184 MEMURU</td>
-                    <td class="text-right">1</td>
-                    <td class="text-right">2130.00</td>
+                    <td class="d-none d-lg-block">{{$i}}</td>
+                    <td>{{$value['name']}}</td>
+                    <td class="text-right">{{$value['quantity']}}</td>
+                    <td class="text-right">{{$value['price']}}</td>
                   </tr>
+                 @php $i++;
+                 @endphp
+                  @endforeach
                   <tr>
                     <td class="d-none d-lg-block">2.</td>
                     <td>Hue Bridge</td>

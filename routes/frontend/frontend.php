@@ -9,8 +9,9 @@ Route::group(['prefix' => 'products/{category}'], function () {
 Route::post('filterproductlist', [ProductlistingController::class, 'filterproductlist'])->name('productlist.filter');
 Route::get('{id}', [ProductlistingController::class, 'singleproduct'])->name('product.detail');
 });
-Route::post('/addtocart', [ProductlistingController::class, 'addtocart'])->name('product.addtocart');
-Route::post('/deletefromcart', [FrontendController::class, 'deletefromcart'])->name('product.deletefromcart');
+Route::post('/addtocart', [ProductlistingController::class, 'add_to_cart'])->name('product.addtocart');
+Route::post('/deletefromcart', [FrontendController::class, 'delete_from_cart'])->name('product.deletefromcart');
+Route::post('/updatecartquantity', [FrontendController::class, 'update_cart_quantity'])->name('product.updatecart');
 Route::get('/basic_solution', [FrontendController::class, 'basic_solution'])->name('frontend.basic');
 Route::get('/advanced_solution', [FrontendController::class, 'advanced_solution'])->name('frontend.advanced');
 Route::get('/premium_solution', [FrontendController::class, 'premium_solution'])->name('frontend.premium');

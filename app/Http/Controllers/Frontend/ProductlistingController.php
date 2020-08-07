@@ -210,7 +210,7 @@ class ProductlistingController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function addtocart(Request $request) {
+  public function add_to_cart(Request $request) {
     $id = $request->get('product_id');
     $name = $request->get('name');
     $category = $request->get('category');

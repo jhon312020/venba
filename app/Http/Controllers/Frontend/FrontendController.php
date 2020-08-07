@@ -223,11 +223,11 @@ class FrontendController extends Controller
           $imagearray[$key][] = $image->product_images;         
         }
       }
-    } 
+    } /*
     echo '<pre>';
     print_r($cart);
     echo '</pre>';
-    die;
+    die;*/
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
@@ -237,7 +237,7 @@ class FrontendController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function deletefromcart(Request $request) {
+  public function delete_from_cart(Request $request) {
     /*$cart = session()->pull('cart', []);*/
     $id = $request->product_id;
     /*Session::pull('cart', $id);*/
@@ -263,6 +263,15 @@ class FrontendController extends Controller
     ]);
     
      /*unset($cart[$id]);*/
+  }
+  /**
+   * Function updatecartquantity()
+   * update product quantity in cart.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function update_cart_quantity(Request $request) {
+
   }
   /**
    * Function select_address()
