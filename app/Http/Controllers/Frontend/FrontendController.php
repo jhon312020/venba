@@ -214,13 +214,20 @@ class FrontendController extends Controller
     foreach($cart as $key => $value) {/*  
     echo $key;
     die;*/   ;
-      $productdet[$key] = Product::find($key);  
+      $productdet[$key] = Product::find($key); 
+      $cart[$key]['price'] = $productdet[$key]->price;
+      Session::put('cart', $cart);
+      Session::save();
       if($productdet[$key]) {    
         foreach ($productdet[$key]->images as $image) {
           $imagearray[$key][] = $image->product_images;         
         }
       }
     } 
+    echo '<pre>';
+    print_r($cart);
+    echo '</pre>';
+    die;
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
