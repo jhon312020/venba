@@ -41,6 +41,10 @@ class FrontendController extends Controller
     ->get();
     foreach($productlist as $product) {
         $imagelist = Product::find($product['id']);
+        /*echo '<pre>';
+        print_r($imagelist);
+        echo '</pre>';
+        die;*/
         foreach ($imagelist->images as $image) {
           $imagearray[$product['id']][] = $image->product_images;          
         }
@@ -181,7 +185,9 @@ class FrontendController extends Controller
     /*echo $id;
     die;*/
      $productdetails = Product::find($id);
-    /* print_r($productdetails);
+    /*echo '<pre>';
+    print_r($productdetails);
+    echo '</pre>';
      die;*/
      /*echo $productdetails->name;
      die;*/
@@ -201,12 +207,19 @@ class FrontendController extends Controller
   
     Session::put('cart', $cart);
     Session::save();
-    foreach($cart as $key => $value) {     
-      $productdet[$key] = Product::find($key);      
-      foreach ($productdet[$key]->images as $image) {    
-        $imagearray[$key][] = $image->product_images;         
-      }          
-      
+    /*echo '<pre>';
+    print_r($cart);
+    echo '</pre>';
+    die;*/
+    foreach($cart as $key => $value) {/*  
+    echo $key;
+    die;*/   ;
+      $productdet[$key] = Product::find($key);  
+      if($productdet[$key]) {    
+        foreach ($productdet[$key]->images as $image) {
+          $imagearray[$key][] = $image->product_images;         
+        }
+      }
     } 
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));

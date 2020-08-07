@@ -23,10 +23,11 @@
             <h2 class="ml-n3">Your Items</h2>
             <div class="row pb-lg-3 horizantal-swipe">
               @foreach($productdet as $key => $value)
+              @if(isset($imagearray[$key]))
               <div class="col-12 box-item pb-3" id="product_{{$key}}" >
                 <div class="row border">
-                  <div class="col-4 col-lg-4">
-                    <img src="/thumbnail/{{$id}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt="">
+                  <div class="col-4 col-lg-4">                    
+                    <img src="/thumbnail/{{$id}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt="">                    
                   </div>
                   <div class="col-8 col-lg-8 pt-lg-5">
                     <h4>{{$value->name}}</h4>
@@ -45,7 +46,8 @@
                     </div>
                   </div>
                 </div>
-              </div>              
+              </div>   
+              @endif           
               @endforeach             
             </div>
             
