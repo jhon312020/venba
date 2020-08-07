@@ -22,31 +22,33 @@
            <div class="col-12 col-lg-6 product-items">
             <h2 class="ml-n3">Your Items</h2>
             <div class="row pb-lg-3 horizantal-swipe">
-              <div class="col-12 box-item pb-3">
-                <div class="row border"id="shoppingcart">
-                  <input type="hidden" id="product_id_no" value="{{$id}}">
+              @foreach($productdet as $key => $value)
+              <div class="col-12 box-item pb-3" id="product_{{$key}}" >
+                <div class="row border">
                   <div class="col-4 col-lg-4">
-                    <img src="/thumbnail/{{$id}}/{{$productimages[0]}}" style="position: relative;top:50px"  alt="">
+                    <img src="/thumbnail/{{$id}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt="">
                   </div>
                   <div class="col-8 col-lg-8 pt-lg-5">
-                    <h4>{{$productdetails->name}}</h4>
-                    <p>Rs. {{$productdetails->price}}</p>
+                    <h4>{{$value->name}}</h4>
+                    <p>Rs. {{$value->price}}</p>
                   </div>
                   <div class="col">
-                    <strong class="price">Rs. {{$productdetails->price}}</strong>
+                    <strong class="price">Rs. {{$value->price}}</strong>
                   </div>
                   <div class="col">
                     <div class="number-counts">
-                      <input id="no_of_quantity" style="width:50px;" type="number" placeholder="1"> 
-                      <div class="delete">
-                        <span id="deletefromcart" class="icon-login"></span>
+                      @csrf
+                      <input id="no_of_quantity" style="width:50px;" type="number" value="{{Session::get('cart')[$key]['quantity']}}"> 
+                      <div class="delete" id="{{$key}}">
+                        <span class="deletefromcart icon-login"></span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>              
-                           
+              @endforeach             
             </div>
+            
             
            </div>
            <div class="col-12 col-lg-6 product-cost">
@@ -90,6 +92,7 @@
               <div class="row promotion">
                 <div class="col-12 col-lg-10">
                   <form class="form-inline">
+                    @csrf
                     <div class="form-group mb-2"> 
                       <input type="text"  class="form-control-plaintext" id="Apply" value="Enter coupon number">
                     </div> 
@@ -142,7 +145,7 @@
             </div>
             <div class="row btns-group">
                 <div class="col">
-                  <button class="btn btn-secondary">Continue Shopping</button>
+                  <a href="{{URL::previous() }}" class="btn btn-secondary">Continue Shopping</a>
                 </div>
                 <div class="col text-right">
                   <button class="btn btn-secondary">Check Out</button>

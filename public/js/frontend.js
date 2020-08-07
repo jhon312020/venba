@@ -88,23 +88,30 @@ $(document).ready(function() {
           },
       type:"POST",
       data:{count:count,name:name,product_id:product_id,category:category},
-      success:function(result) {
-       $('#message').html(result);
+       dataType: 'JSON',
+      success:function(results) {
+        $('#cart_count').text(results.count);
+       $('#message').html(results.message);
       }
    })
   });
-  $("#shoppingcart #deletefromcart").click(function(){
-    var product_id = $("#product_id_no").val();
-    alert(product_id);
+  $("#shoppingcart .deletefromcart").click(function(){
+    var thisObj = $(this);
+    var product_id = $(this).parent().attr('id');/*
+   alert(product_id);*/
     $.ajax({
       url:"/deletefromcart",
-      headers: {
+       headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
       type:"POST",
       data:{product_id:product_id},
-      success:function(result) {
-       $('#message').html(result);
+      dataType: 'JSON',
+      success:function(results) {
+        $('#cart_count').text(results.count);
+        var product_id = thisObj.parent().attr('id');        
+        console.log('#product_'+product_id);
+        $('#product_'+product_id).remove();
       }
    })
   });

@@ -22,7 +22,7 @@
 
 </head>
 
-<body >
+<body id="{{ Request::is('shopping-basket/*') ? 'shoppingcart' : '' }}" >
   <!--Header-->
   <header class="header sticky fixed-top">    
       <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
@@ -32,7 +32,7 @@
               <div class="row">
                 @auth
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #fff;    color: #000;">
                     My Account
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -53,7 +53,7 @@
                 <div class="col text-center pTop">                 
                   <span class="icon-Cart"></span>
                   @if(session()->has('cart'))
-                   <span class="count">{{count(Session::get('cart'))}}</span>
+                   <span id="cart_count" class="count">{{count(Session::get('cart'))}}</span>
                   @endif
                   <p>Cart</p>                 
                 </div>

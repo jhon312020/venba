@@ -151,11 +151,7 @@
                           <h5 class="card-title">Rs.{{$product['price']}}</h5>
                         </div>
                         <div class="col col-lg-12 px-0">
-                          <form action="{{url('/shopping-basket')}}" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="productid" value="{{$i}}">
-                           <button type="submit" class="btn btn-secondary">Add to Kart</button>
-                        </form>
+                           <a href="{{ route('frontview.frontend.shopping-basket', ['id' => $i]) }}" class="btn btn-secondary">Add to Kart</a>
                         </div>
                       </div>
                     </div>

@@ -163,35 +163,43 @@ class FrontendController extends Controller
   }
   /**
    * Function shopping_basket()
-   * returns frontend onlinesupport page.
+   * returns frontend shopping_basket page.
    *
    * @return \Illuminate\Http\Response
   */
-  public function shopping_basket(Request $request) {
-    $id = $request->productid;
+  public function shopping_basket(Request $request,$id) {
     /*echo $id;
     die;*/
      $productdetails = Product::find($id);
+    /* print_r($productdetails);
+     die;*/
      /*echo $productdetails->name;
      die;*/
-     foreach ($productdetails->images as $image) {
+    /*foreach ($productdetails->images as $image) {
       $imagearray[$id][] = $image->product_images;          
     }
        
     foreach($imagearray as $key => $value) {
       $productimages =  $value;        
-    }
+    }*/
     $cart = Session::get('cart');
     $cart[$id] = array(
         "id" => $id,
-        "name" => $productdetails->name,   
+        "name" => $productdetails->name, 
+        "quantity" => 3,  
     );
   
     Session::put('cart', $cart);
-    /*print_r($cart);
-    die;*/   
+    Session::save();
+    foreach($cart as $key => $value) {     
+      $productdet[$key] = Product::find($key);      
+      foreach ($productdet[$key]->images as $image) {    
+        $imagearray[$key][] = $image->product_images;         
+      }          
+      
+    } 
     $categories = $this->category_fetch();     
-    return view('frontend.shopping_basket', compact('categories','cart','productdetails','productimages','id'));
+    return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
   /**
    * Function deletefromcart()
@@ -200,8 +208,31 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function deletefromcart(Request $request) {
-
-
+    /*$cart = session()->pull('cart', []);*/
+    $id = $request->product_id;
+    /*Session::pull('cart', $id);*/
+    /*Session::flush();*/
+    $cart = Session::get('cart');
+   /* unset($cart[$id]);
+    print_r($cart);
+    die;*/
+    unset($cart[$id]);
+    session()->forget('cart');
+    session()->flush();
+    Session::save();
+    Session::put('cart', $cart);
+    Session::save();
+    /*Session::forget('cart.' . $id);*/
+    $success = true;
+    $count = count($cart);
+    /*print_r($cart);
+    die;*/
+    return response()->json([
+      'success' => $success,
+      'count' => $count,
+    ]);
+    
+     /*unset($cart[$id]);*/
   }
   /**
    * Function select_address()

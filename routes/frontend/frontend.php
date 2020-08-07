@@ -22,5 +22,5 @@ Route::get('/contact', [FrontendController::class, 'contact'])->name('frontend.c
 Route::get('/my_profile', [FrontendController::class, 'my_profile'])->name('frontend.myprofile');
 Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('frontend.mywishlist');
 Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');
-Route::post('/shopping-basket', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
+Route::get('/shopping-basket/{id}', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
 Route::get('/select-address', [FrontendController::class, 'select_address'])->name('frontend.select_address');

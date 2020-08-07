@@ -69,7 +69,7 @@
     	<p style="font-weight:bold">{{$productdetails->accessories_required}}</p>
     	<hr>
     	<span>
-    	<input id="no_of_quantity" style="width:50px;" type="number" placeholder="1">
+    	<input id="no_of_quantity" style="width:50px;" type="number" value="1">
     	<span id="addcart" class="icon-Cart" style="margin-left:100px"></span>
     	</span>
     	<hr>

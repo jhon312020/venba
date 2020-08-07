@@ -45,6 +45,9 @@ class ProductlistingController extends Controller
         $ima[$key] =  $value[0];
         
       }
+       /*$cart = Session::get('cart');
+       print_r($cart);
+       die;*/
       /*print_r($ima);*/
 
       /*$keys = array_keys($imagearray);
@@ -212,23 +215,21 @@ class ProductlistingController extends Controller
     $name = $request->get('name');
     $category = $request->get('category');
     $quantity = $request->get('count');
-    /*echo $id;    
-    echo $name;
-    echo $category;
-    echo $quantity;
-    die;*/
 
     $cart = Session::get('cart');
     $cart[$id] = array(
         "id" => $id,
-        "name" => $name,  
-        "category" => $category, 
+        "name" => $name, 
         "quantity" => $quantity    
-    );
-  
+    );    
     Session::put('cart', $cart);
-    $output = '<p>successfully added to session</p>';
-    echo $output;
+    Session::save();
+    $count = count($cart);
+    $message = '<p>successfully added to session</p>';
+    return response()->json([
+      'count' => $count,
+      'message' => $message,
+    ]);
 
   }
 
