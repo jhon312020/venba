@@ -120,7 +120,7 @@ class ProductlistingController extends Controller
         ->where('name', $category)
         ->pluck('id');
     $cat_id = $category_id[0];     
-    $productlist =  Product::select('name', 'accessories_required', 'price')
+    $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id);
      /* ->where(function ($query) use ( $filters) {
         foreach ($filters as $column => $key) {
@@ -149,9 +149,19 @@ class ProductlistingController extends Controller
      $productlist = $productlist->get();
       $output = '';
       foreach($productlist as $product) {
+         $imagelist = Product::find($product['id']);
+        foreach ($imagelist->images as $image) {
+          $imagearray[$product['id']][] = $image->product_images;          
+        }
+      } 
+      foreach($imagearray as $key => $value) {
+        $ima[$key] =  $value[0];
+        
+      }
+      foreach($productlist as $product) {
       $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class = "card">
-                    <img src = "frontend/images/product-img.jpg" class = "card-img-top" alt="">
+                    <img src = "frontend/images/<?php echo $ima[$product->id]; ?>" class = "card-img-top" alt="">
                     <div class = "card-body">
                       <p class = "card-text">'.$product->name.'</p>                      
                       <div class = "row">                   
