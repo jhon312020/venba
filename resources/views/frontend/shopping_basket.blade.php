@@ -84,13 +84,13 @@
                     <td class="d-none d-lg-block">2.</td>
                     <td>Hue Bridge</td>
                     <td class="text-right">1</td>
-                    <td class="text-right">1100.00</td>
+                    <td class="text-right">1000</td>
                   </tr>
                   <tr>
                     <td class="d-none d-lg-block">3.</td>
                     <td>Transit</td>
                     <td class="text-right">1</td>
-                    <td class="text-right">500.00</td>
+                    <td class="text-right">500</td>
                   </tr>
                 </tbody>
               </table>

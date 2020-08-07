@@ -201,7 +201,7 @@ class FrontendController extends Controller
     $cart = Session::get('cart');
     $cart[$id] = array(
         "id" => $id,
-        "name" => $productdetails->name, 
+        "name" => substr("$productdetails->name",0,15), 
         "quantity" => 3,  
     );
   
@@ -215,7 +215,7 @@ class FrontendController extends Controller
     echo $key;
     die;*/   ;
       $productdet[$key] = Product::find($key); 
-      $cart[$key]['price'] = $productdet[$key]->price;
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
       Session::put('cart', $cart);
       Session::save();
       if($productdet[$key]) {    

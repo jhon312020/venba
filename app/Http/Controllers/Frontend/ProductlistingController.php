@@ -219,7 +219,7 @@ class ProductlistingController extends Controller
     $cart = Session::get('cart');
     $cart[$id] = array(
         "id" => $id,
-        "name" => $name, 
+        "name" => substr("$name",0,15), 
         "quantity" => $quantity    
     );    
     Session::put('cart', $cart);
