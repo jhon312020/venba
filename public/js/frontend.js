@@ -112,6 +112,7 @@ $(document).ready(function() {
         var product_id = thisObj.parent().attr('id');        
         console.log('#product_'+product_id);
         $('#product_'+product_id).remove();
+        $('#checkoutlist').html(results.output);
       }
    })
   });
