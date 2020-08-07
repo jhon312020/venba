@@ -28,8 +28,8 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function index() {
-  	
-    $productlist = 	Product::select('name', 'accessories_required', 'price')
+  	$category = "Ligihting";
+    $productlist = 	Product::select('id','name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
      $brandlist = Brand::select('id', 'name')
@@ -39,7 +39,17 @@ class FrontendController extends Controller
     ->get();
      $compatibilitylist = Compatibility::select('id', 'name')
     ->get();
-  	return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories'));
+    foreach($productlist as $product) {
+        $imagelist = Product::find($product['id']);
+        foreach ($imagelist->images as $image) {
+          $imagearray[$product['id']][] = $image->product_images;          
+        }
+      } 
+      foreach($imagearray as $key => $value) {
+        $ima[$key] =  $value[0];
+        
+      }
+  	return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
   	}
   	/**
    * Function basic_solution()
