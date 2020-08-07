@@ -118,7 +118,7 @@ $(document).ready(function() {
    $('#shoppingcart #no_of_quantity').change(function() {
     var quantity = $(this).val();
     var product_id = $(this).parent().attr('id');
-    console.log(product_id);
+    alert("product quantity updated");
     $.ajax({
       url:"/updatecartquantity",
        headers: {
