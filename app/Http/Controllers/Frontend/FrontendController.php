@@ -185,19 +185,6 @@ class FrontendController extends Controller
     /*echo $id;
     die;*/
      $productdetails = Product::find($id);
-    /*echo '<pre>';
-    print_r($productdetails);
-    echo '</pre>';
-     die;*/
-     /*echo $productdetails->name;
-     die;*/
-    /*foreach ($productdetails->images as $image) {
-      $imagearray[$id][] = $image->product_images;          
-    }
-       
-    foreach($imagearray as $key => $value) {
-      $productimages =  $value;        
-    }*/
     $cart = Session::get('cart');
     $cart[$id] = array(
         "id" => $id,
@@ -207,13 +194,7 @@ class FrontendController extends Controller
   
     Session::put('cart', $cart);
     Session::save();
-    /*echo '<pre>';
-    print_r($cart);
-    echo '</pre>';
-    die;*/
-    foreach($cart as $key => $value) {/*  
-    echo $key;
-    die;*/   ;
+    foreach($cart as $key => $value) {
       $productdet[$key] = Product::find($key); 
       $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
       Session::put('cart', $cart);
@@ -223,11 +204,7 @@ class FrontendController extends Controller
           $imagearray[$key][] = $image->product_images;         
         }
       }
-    } /*
-    echo '<pre>';
-    print_r($cart);
-    echo '</pre>';
-    die;*/
+    } 
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
@@ -238,31 +215,30 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function delete_from_cart(Request $request) {
-    /*$cart = session()->pull('cart', []);*/
     $id = $request->product_id;
-    /*Session::pull('cart', $id);*/
-    /*Session::flush();*/
     $cart = Session::get('cart');
-   /* unset($cart[$id]);
-    print_r($cart);
-    die;*/
     unset($cart[$id]);
     session()->forget('cart');
     session()->flush();
     Session::save();
     Session::put('cart', $cart);
     Session::save();
-    /*Session::forget('cart.' . $id);*/
+    $output='';
+    $i=1;
+    foreach($cart as $key => $value) {
+      $output.='<tr><td class="d-none d-lg-block">'.$i.'</td><td>'.$value['name'].'</td><td class="text-right">'.$value['quantity'].'</td><td class="text-right">'.$value['price'].'</td></tr>';
+     $i++;
+    }
+    $output.='<tr><td class="d-none d-lg-block">2.</td><td>Hue Bridge</td><td class="text-right">1</td><td class="text-right">1000</td></tr><tr><td class="d-none d-lg-block">3.</td><td>Transit</td><td class="text-right">1</td><td class="text-right">500</td>
+                  </tr>';
+    
     $success = true;
     $count = count($cart);
-    /*print_r($cart);
-    die;*/
     return response()->json([
       'success' => $success,
       'count' => $count,
+      'output' => $output,
     ]);
-    
-     /*unset($cart[$id]);*/
   }
   /**
    * Function updatecartquantity()
