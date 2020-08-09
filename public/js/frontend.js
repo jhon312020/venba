@@ -99,13 +99,12 @@ $(document).ready(function() {
     var thisObj = $(this);
     var product_id = $(this).parent().attr('id');/*
    alert(product_id);*/
+    var csrfToken = $('[name="csrf_token"]').attr('content');
+
     $.ajax({
       url:"/deletefromcart",
-       headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
       type:"POST",
-      data:{product_id:product_id},
+      data:{_token:csrfToken,product_id:product_id},
       dataType: 'JSON',
       success:function(results) {
         $('#cart_count').text(results.count);

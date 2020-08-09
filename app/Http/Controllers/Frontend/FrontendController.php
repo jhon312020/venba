@@ -186,14 +186,16 @@ class FrontendController extends Controller
     die;*/
      $productdetails = Product::find($id);
     $cart = Session::get('cart');
-    $cart[$id] = array(
+    if(!isset($cart[$id])) {
+      $cart[$id] = array(
         "id" => $id,
         "name" => substr("$productdetails->name",0,15), 
-        "quantity" => 3,  
-    );
+        "quantity" => 1,  
+      );
   
-    Session::put('cart', $cart);
-    Session::save();
+      Session::put('cart', $cart);
+      Session::save();
+    }
     foreach($cart as $key => $value) {
       $productdet[$key] = Product::find($key); 
       $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
