@@ -16165,3 +16165,23 @@ textarea {
     border: none;
     cursor: pointer;
 }
+/*codecycnus code */
+.ajaxbg{
+  display:flex;
+  height:60px; 
+  background:#fff
+}
+.ajaxcol{
+  color:green;
+  font-weight:bold;
+  position:relative;
+  top:20px
+}
+.ajaxpl{
+  position:relative;
+  left:20%;
+}
+.pt{
+  position:relative;
+  top:20px
+}
