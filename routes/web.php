@@ -59,7 +59,9 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin','middleware' => [
      */
     include_route_files(__DIR__.'/backend/');
 });
-Route::group(['namespace' => 'Frontend', 'prefix' => '', 'as' => 'frontview.'], function () {
+Route::group(['namespace' => 'Frontend', 'prefix' => '','middleware' => [
+                            'revalidate'
+                        ], 'as' => 'frontview.'], function () {
     /*
      * These routes need view-frontend registered users
      * (good if you want to allow more than one group in the frontend,
