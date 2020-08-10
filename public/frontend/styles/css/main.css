@@ -16185,3 +16185,14 @@ textarea {
   position:relative;
   top:20px
 }
+.single_pro_sty {
+  display:flex;
+  border-bottom: 2px solid #0000001c;
+}
+.single_pro_sty .wid{
+  width:40%;
+}
+.single_pro_sty .prl{
+  position:relative;
+  left:50%;
+}

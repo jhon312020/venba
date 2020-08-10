@@ -91,30 +91,30 @@
     			</div>
     		</div>
   		</div>
-  		<div style="display:flex">
-  			<p style="width:40%">Technical Specification</p>
-  			<p id="tech"  style="position:relative;left:50%">+</p>
+  		<div class="single_pro_sty">
+  			<p class="wid">Technical Specification</p>
+  			<p id="tech"  class="prl">+</p>
   		</div>
   		<div id="tech_spec" style="background:#eee">
   			<p>{!! nl2br(e($productdetails->technical_spec)) !!}</p>
 			</div>
-			<div style="display:flex">
-  			<p style="width:40%">Compatibility</p>
-  			<p id="comp"  style="position:relative;left:50%">+</p>
+			<div class="single_pro_sty">
+  			<p class="wid">Compatibility</p>
+  			<p id="comp" class="prl">+</p>
   		</div>
   		<div id="compatibility" style="background:#eee">
   			<p>{{$compatibility->name}}</p>
 			</div>
-			<div style="display:flex">
-  			<p style="width:40%">Warranty</p>
-  			<p id="warranty"  style="position:relative;left:50%">+</p>
+			<div class="single_pro_sty">
+  			<p class="wid">Warranty</p>
+  			<p id="warranty" class="prl">+</p>
   		</div>
   		<div id="warranty_detail" style="background:#eee">
   			<p>{{$productdetails->warranty}}</p>
 			</div>
-			<div style="display:flex">
-  			<p style="width:40%">Physical Specification</p>
-  			<p id="phy"  style="position:relative;left:50%">+</p>
+			<div class="single_pro_sty">
+  			<p class="wid">Physical Specification</p>
+  			<p id="phy" class="prl">+</p>
   		</div>
   		<div id="phy_spec" style="background:#eee">
   			<p>{!! nl2br(e($productdetails->physical_spec)) !!}</p>

@@ -235,7 +235,7 @@ class ProductlistingController extends Controller
     Session::put('cart', $cart);
     Session::save();
     $count = count($cart);
-    $message = '<div style="display:flex;height:60px; background:#fff"><p style="color:green;font-weight:bold;position:relative;top:20px">successfully added to session</p><a style="position:relative;left:20%;" href="/shopping-basket/'.$id.'"><span style ="position:relative;top:20px" class="icon-login"></span></a></div>';
+    $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/'.$id.'"><span class="icon-login pt"></span></a></div>';
     return response()->json([
       'count' => $count,
       'message' => $message,

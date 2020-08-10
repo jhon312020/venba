@@ -182,7 +182,7 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function shopping_basket(Request $request,$id) {
-     $productdetails = Product::find($id);
+    $productdetails = Product::find($id);
     $cart = Session::get('cart');
     if(isset($cart[$id])) {
       $quantity = $cart[$id]['quantity'] ;
