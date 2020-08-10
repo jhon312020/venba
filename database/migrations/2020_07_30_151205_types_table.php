@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Brands extends Migration
+class TypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class Brands extends Migration
      * @return void
      */
     public function up() {
-    Schema::create('brands', function (Blueprint $table) {
-      $table->id();
-      $table->string('name');            
-      $table->timestampsTz(0);
-      $table->softDeletes();
-    });
+    Schema::create('types', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');            
+        $table->timestampsTz(0);
+        $table->softDeletes();
+      });
   }
 
   /**
@@ -26,7 +26,7 @@ class Brands extends Migration
   * @return void
   */
   public function down() {
-    Schema::drop('brands');
+    Schema::drop('types');
        
   }
 }

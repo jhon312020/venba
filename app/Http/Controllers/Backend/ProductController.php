@@ -10,9 +10,9 @@ use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
-use App\Models\Powerconsumption as Powerconsumption;
-use App\Models\Productimage as Productimage;
-use App\Models\Productpower as Productpower;
+use App\Models\PowerConsumption as PowerConsumption;
+use App\Models\Image as ProductImage;
+use App\Models\ProductPower as ProductPower;
 use Image;
 use File;
 
@@ -82,7 +82,7 @@ class ProductController extends Controller {
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
-    $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
+    $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategories = array();
     if ($request->session()->has('_old_input')) {
@@ -90,8 +90,6 @@ class ProductController extends Controller {
       $cat_id = $old_data['cat_id'];
       $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
     } 
-   /* print_r($powerconsumption);
-    die;*/
     return view('backend.product.add', compact('concepts', 'categories', 'subcategories','brands', 'types', 'compatibilities','powerconsumption'));
   }
 
@@ -103,20 +101,8 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
-    $validatedData = $request->validate($this->productValidator);  
-    /*print_r($request->all());
-    echo '<br>'; */
-    //$power = $request['power_consumption_id'];
-
-    /*print_r($power);
-    die;*/ 
+    $validatedData = $request->validate($this->productValidator);
     $dynamicField = $request['dynamicfield']; 
-    /*echo '<pre>'; 
-    print_r($dynamicField) ;
-    echo '</pre>';*/ 
-
-   /* print_r($powerconsumption);
-    die;*/
     if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
         $dy[$key] = $value;
@@ -125,30 +111,12 @@ class ProductController extends Controller {
       
       $validatedData['additional_properties'] = serialize($dy);
     }
-
-    /*if (!empty($power)) {
-      $powerconsumption ='';
-      array_shift($power);
-      foreach ($power as $key => $value) {
-       $powerconsumption .= $value.',';
-        # code...      
-      }
-      rtrim($powerconsumption, ',');
-      /*echo $powerconsumption;
-      die;*/
-      /*array_shift($powerconsumption);
-      $validatedData['power_consumption'] = $powerconsumption;
-    }*/
-    //unset($validatedData['power_consumption_id']); 
     $show = Product::create($validatedData); 
     if ($request->hasFile('filename')) {
       $images = $this->_createThumbnail($request->file('filename'), $show->id);
-      //$images = json_encode($images);
-     /* print_r($images);
-      die;*/
-      foreach($images as $image) {
-        $insertimages = Productimage::create(
-        array('product_id' => $show->id, 'product_images' => $image));
+     foreach($images as $image) {
+        $insertimages = ProductImage::create(
+        array('product_id' => $show->id, 'name' => $image));
       }
     }
      
@@ -165,16 +133,7 @@ class ProductController extends Controller {
    */
   public function edit($id, Request $request) {
     $record = Product::findOrFail($id);
-   // $power = unserialize($record->power_consumption_id);
-    /*print_r($power);
-    die;*/
-    /*echo '<pre>';
-    print_r($record);
-    echo '</pre>';
-    die;*/
     if ($request->session()->has('_old_input')) {
-      /*echo "hello";
-      die;*/
       $old_data = $request->session()->get('_old_input');
       $cat_id = $old_data['cat_id'];
       $record['sub_cat_id'] = '';
@@ -184,41 +143,25 @@ class ProductController extends Controller {
     $dynamicfieldcount = null;
     $brand = null;
     $type = null;
-    $Compatibility = null;
+    $compatibility = null;
     //$powerconsumption = null;
     $serializedimage = null;
     $additional_prop_array = null;
     $power = null;
-    $images = Productimage::all()
-      ->where('product_id', $id)
-      ->pluck('product_images');      
-
-     /*echo '<pre>';
-     print_r($images);
-     echo '</pre>';
-     die;
-*/
-    /*if (!empty($imageunserialized)) {
-      $productImages = $imageunserialized->product_images;  
-      $serializedimage = json_decode($productImages);
-    }*/
+    $images = ProductImage::where('product_id', $id)
+      ->pluck('name', 'id');   
     if ($record->additional_properties != null) {
       $additional_prop_array = unserialize($record->additional_properties);
       $dynamicfieldcount = count($additional_prop_array);
     } 
-    /*if ($record->power_consumption != null) {
-      $power = (explode(",",$record->power_consumption ));
-    }*/
-    /*print_r($power);
-    die;*/
     $concepts  = Concept::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
-    $powerconsumption = Powerconsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'serializedimage' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
+    $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
   }
 
   /**
@@ -230,40 +173,23 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function deleteimage(Request $request ,$id) {
-    $imageindex = $request->get('imageid');
-    $imagename = $request->get('imagename');
-    $image_path = public_path()."/images/".$id."/".$imagename; 
-    $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imagename;
+    $imageId = $request->get('imageid');
+    $imageName = $request->get('imagename');
+    $image_path = public_path()."/images/".$id."/".$imageName; 
+    $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imageName;
     $imagedeletepath=public_path()."/deletedimages/".$id."/"; 
     $thumbnaildeletepath=public_path()."/deletedimages/thumbnail/".$id."/"; 
     // Value is not URL but directory file path
     if (File::exists($image_path)) {
-       File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
-
-      File::move($image_path,$imagedeletepath.'/'.$imagename);
-       // File::delete($image_path);
+      File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
+      File::move($image_path,$imagedeletepath.'/'.$imageName);
     }
     if (File::exists($thumbnailimage_path)) {
-        File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
-       File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
-       // File::delete($thumbnailimage_path);
+      File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
+      File::move($thumbnailimage_path, $thumbnaildeletepath.'/'.$imageName);
     }
-    /*echo $imageindex;*/
-    $imagetobedeleted = Productimage::all()
-    ->where('product_images', $imagename)
-    ->first();
-   /* echo $imagetobedeleted;
-    die;*/
-    $imagetobedeleted->forceDelete();
-    /*$productImages = $imageunserialized->product_images;    
-    $serializedimage = json_decode($productImages);    
-    unset($serializedimage[$imageindex]);
-    $serializedimage = array_values($serializedimage);*/    
-    /*$updatedimages = json_encode($serializedimage);*/ 
-    /*echo $updatedimages;
-    die;*/   
-    /*$updateimagesquery = Productimage::where('product_id', $id)
-      ->update(['product_images' => $updatedimages]);*/
+    ProductImage::findOrFail($imageId)->delete();
+    //$imagetobedeleted->forceDelete();
     $success = true;
     $message = "The image has been deleted successfully";
     return response()->json([
@@ -294,42 +220,15 @@ class ProductController extends Controller {
     }
     
     $validatedData['additional_properties'] = $serialized_array;
-    //$power = $request['power_consumption_id'];
-
-    /*if (!empty($power)) {
-      $powerconsumption ='';
-      array_shift($power);
-      foreach ($power as $key => $value) {
-       $powerconsumption .= $value.',';
-        # code...      
-      }
-      rtrim($powerconsumption, ',');
-      /*echo $powerconsumption;
-      die;*/
-      /*array_shift($powerconsumption);*/
-      /*$validatedData['power_consumption'] = $powerconsumption;
-      
-      
-    } */
+   
     unset($validatedData['filename']); 
     Product::whereId($id)->update($validatedData);
     if ($request->hasFile('filename')) {      
       $newImages = $this->_createThumbnail($request->file('filename'), $id);
-     /* $retrivejson = Productimage::select('product_images')
-       ->where('product_id', $id)
-       ->first();
-      if (!empty($retrivejson)) {
-        $encodedimage = $retrivejson->product_images;
-        $imagesarray =json_decode($encodedimage);
-        $mergedimages = array_merge($imagesarray, $newImages);
-        $newImages = json_encode( $mergedimages) ;
-        $insertimages = Productimage::where('product_id', $id)->update(['product_images' => $mergedimages]);
-      } else {*/   
-        //$images = json_encode($newImages);
-          foreach($newImages as $image) {      
-          $insertimages = Productimage::create(['product_id'=> $id, 'product_images' => $image]);
-          }
-      /*}*/
+        foreach($newImages as $image) { 
+          $insertimage = ProductImage::create(['product_id'=> $id, 'name' => $image]);
+          //$insertimage->save();
+        }
     }
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Updated!'));    
   }
@@ -342,29 +241,22 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function destroy($id) {    
-    $imagenames = Productimage::select('product_images')
-    ->where('product_id', $id)
-    ->first();    
-    if (!empty($imagenames)) {
-      $productImages = $imagenames->product_images;  
-      $serializedimage = Productimage::all()
-      ->where('product_id', $id)
-      ->pluck('product_images');       
-      foreach($serializedimage as $imagename) {
+    $images = ProductImage::where('product_id', $id);    
+    if ($images->count()) {
+      $productImages = $images->pluck('name');        
+      foreach($productImages as $imagename) {
         $image_path = public_path()."/images/".$id."/".$imagename;
         $thumbnailimage_path = public_path()."/thumbnail/".$id."/".$imagename;
         $imagedeletepath=public_path()."/deletedimages/".$id."/"; 
         $thumbnaildeletepath=public_path()."/deletedimages/thumbnail/".$id."/"; 
         // Value is not URL but directory file path
         if (File::exists($image_path)) {
-           File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
+          File::isDirectory($imagedeletepath) or File::makeDirectory($imagedeletepath, 0755, true, true);
           File::move($image_path,$imagedeletepath.'/'.$imagename);
-           // File::delete($image_path);
         }
         if (File::exists($thumbnailimage_path)) {
-            File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
-           File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
-           // File::delete($thumbnailimage_path);
+          File::isDirectory($thumbnaildeletepath) or File::makeDirectory($thumbnaildeletepath, 0755, true, true);
+          File::move($thumbnailimage_path,$thumbnaildeletepath.'/'.$imagename);
         }
       }
     }

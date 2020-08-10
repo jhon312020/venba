@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category as Category;
 use App\Models\Product as Product;
-use App\Models\Productimage as Productimage;
+use App\Models\Image as ProductImage;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
@@ -46,7 +46,7 @@ class FrontendController extends Controller
         echo '</pre>';
         die;*/
         foreach ($imagelist->images as $image) {
-          $imagearray[$product['id']][] = $image->product_images;          
+          $imagearray[$product['id']][] = $image->name;          
         }
       } 
       foreach($imagearray as $key => $value) {
@@ -206,7 +206,7 @@ class FrontendController extends Controller
       Session::save();
       if($productdet[$key]) {    
         foreach ($productdet[$key]->images as $image) {
-          $imagearray[$key][] = $image->product_images;         
+          $imagearray[$key][] = $image->name;         
         }
       }
     } 

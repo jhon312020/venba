@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Compatibility extends Migration
+class CompatibilitiesTable extends Migration
 {
   /**
   * Run the migrations.
@@ -12,7 +12,7 @@ class Compatibility extends Migration
   * @return void
   */
   public function up() {
-    Schema::create('compatibility', function (Blueprint $table) {
+    Schema::create('compatibilities', function (Blueprint $table) {
         $table->id();
         $table->string('name');            
         $table->timestampsTz(0);
@@ -26,7 +26,7 @@ class Compatibility extends Migration
   * @return void
   */
   public function down() {
-    Schema::drop('compatibility');
+    Schema::drop('compatibilities');
        
   }
 }

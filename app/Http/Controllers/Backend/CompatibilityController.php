@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Compatibility as Compatibility;
 
-class CompatibilityController extends Controller
-{
-    /**
+class CompatibilityController extends Controller {
+  
+  /**
    * Function constructor()
    * 
    * @return \Illuminate\Http\Response

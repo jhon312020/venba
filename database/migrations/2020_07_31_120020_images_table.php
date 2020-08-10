@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Productimagestable extends Migration
+class ImagesTable extends Migration
 {
   /**
   * Run the migrations.
@@ -13,13 +13,13 @@ class Productimagestable extends Migration
   */
   public function up() {
        
-    Schema::create('product_images', function (Blueprint $table) {
+    Schema::create('images', function (Blueprint $table) {
       $table->id();
       $table->unsignedBigInteger('product_id');      
       $table->foreign('product_id')
               ->references('id')->on('products')
               ->onDelete('cascade');
-      $table->longText('product_images')->nullable();
+      $table->longText('name')->nullable();
       $table->unsignedBigInteger('order')->nullable();
       $table->timestampsTz(0);
       $table->softDeletes();
@@ -33,6 +33,6 @@ class Productimagestable extends Migration
   * @return void
   */
   public function down() {
-    Schema::drop('product_images');
+    Schema::drop('images');
   }
 }

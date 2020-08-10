@@ -10,8 +10,8 @@ use App\Models\Category as Category;
 use Image;
 use File;
 
-class Controller extends BaseController
-{
+class Controller extends BaseController {
+  
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
    
     /**
@@ -22,9 +22,9 @@ class Controller extends BaseController
 	   * @return array
 	   */
     function pr($data) {
- 			echo '<pre>';
- 			print_r($data);
- 			echo '</pre>';
+    	echo '<pre>';
+    	print_r($data);
+    	echo '</pre>';
     }
 
   	/**
@@ -59,11 +59,17 @@ class Controller extends BaseController
       }
       return $images;
     }
-    public function category_fetch() {
+
+  /**
+   * Function category_fetch()
+   * Update the specified Product in table.
+   *
+   * @return category records objects
+   */
+  public function category_fetch() {
     $categories = Category::select('id', 'name')
     ->where('cat_id', null)
     ->get();
     return $categories;
-
   }
 }

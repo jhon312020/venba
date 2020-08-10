@@ -1,21 +1,21 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Concept as Concept;
+use App\Models\Brand as Brand;
 
-class ConceptSeeder extends Seeder {
- 
+class BrandSeeder extends Seeder {
+
   /**
    * Run the database seeds.
    *
    * @return void
    */
   public function run() {
-  	$json = File::get("database/jsondata/concept.json");
+    $json = File::get("database/jsondata/brand.json");
     $data = json_decode($json);
     foreach($data as $obj){
-    	Concept::create(array(
-    		'name' => $obj->name
+    	Brand::create(array(
+    		'name' => $obj->name,
     	));
     }
   }

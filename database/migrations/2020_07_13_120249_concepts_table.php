@@ -1,22 +1,22 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ProductCategory extends Migration
+class ConceptsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+   public function up()
     {
-       Schema::create('categories', function (Blueprint $table) {
+       Schema::create('concepts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->bigInteger('cat_id')->nullable();            
+            $table->string('name');            
             $table->timestampsTz(0);
             $table->softDeletes();
         });
@@ -29,6 +29,7 @@ class ProductCategory extends Migration
      */
     public function down()
     {
-         Schema::drop('categories');
+       Schema::drop('concepts');
+       
     }
 }

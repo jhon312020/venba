@@ -4,10 +4,10 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Powerconsumption as Powerconsumption;
-class PowerconsumptionController extends Controller
-{
-    /**
+use App\Models\PowerConsumption as PowerConsumption;
+class PowerConsumptionController extends Controller {
+  
+  /**
    * Function constructor()
    * 
    * @return \Illuminate\Http\Response
@@ -23,7 +23,7 @@ class PowerconsumptionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $powerconsumptions  = Powerconsumption::all();
+    $powerconsumptions  = PowerConsumption::all();
     return view('backend.powerconsumption.index' , compact('powerconsumptions'));
   }
   
@@ -48,11 +48,11 @@ class PowerconsumptionController extends Controller
     $validatedData = $request->validate([
       'name' => 'required|max:25',
     ]);
-    if (Powerconsumption::where('name', '=', $request['name'])->exists()) {
-       return back()->with('flash_danger', 'Powerconsumption Already Exists!!');
+    if (PowerConsumption::where('name', '=', $request['name'])->exists()) {
+      return back()->with('flash_danger', 'Powerconsumption Already Exists!!');
     } else {
-    $show = Powerconsumption::create($validatedData);
-    return redirect()->route('admin.powerconsumption.index')->withFlashSuccess(__('Successfully Added!'));
+      $show = PowerConsumption::create($validatedData);
+      return redirect()->route('admin.powerconsumption.index')->withFlashSuccess(__('Successfully Added!'));
     }
   }
 
@@ -64,7 +64,7 @@ class PowerconsumptionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($id) {
-  	$record = Powerconsumption::select('id', 'name')
+  	$record = PowerConsumption::select('id', 'name')
        ->findOrFail($id);
 	  return view('backend.powerconsumption.edit' , array ( 'powerconsumption' => $record));
   }
@@ -82,7 +82,7 @@ class PowerconsumptionController extends Controller
     $validatedData = $request->validate([
       'name' => 'required|max:25',
     ]);
-    Powerconsumption::whereId($id)->update($validatedData);
+    PowerConsumption::whereId($id)->update($validatedData);
   	return redirect()->route('admin.powerconsumption.index')->withFlashSuccess(__('Successfully Updated!'));
 	         
 	}
@@ -95,7 +95,7 @@ class PowerconsumptionController extends Controller
    * @return \Illuminate\Http\Response
    */
 	public function destroy($id) {
-    $concept = Powerconsumption::findOrFail($id);
+    $concept = PowerConsumption::findOrFail($id);
     $concept->delete();
     return redirect()->route('admin.powerconsumption.index')->withFlashSuccess(__('Successfully Deleted!'));
   }

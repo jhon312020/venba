@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Type as Type;
 
-class TypeController extends Controller
-{
-   /**
+class TypeController extends Controller {
+  
+  /**
    * Function constructor()
    * 
    * @return \Illuminate\Http\Response

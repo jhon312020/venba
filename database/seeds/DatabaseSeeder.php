@@ -2,16 +2,21 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
-    {
-         $this->call(ConceptSeeder::class);
-          $this->call(CategorySeeder::class);
-    }
+class DatabaseSeeder extends Seeder {
+
+  /**
+   * Seed the application's database.
+   *
+   * @return void
+   */
+  public function run() {
+    $this->call([
+    	BrandSeeder::class,
+			CategorySeeder::class,
+    	CompatbilitySeeder::class,
+    	ConceptSeeder::class,
+    	PowerConsumptionSeeder::class,
+    	TypeSeeder::class,
+    ]);
+  }
 }

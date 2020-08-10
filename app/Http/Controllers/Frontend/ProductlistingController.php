@@ -9,7 +9,7 @@ use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
-use App\Models\Powerconsumption as Powerconsumption;
+use App\Models\PowerConsumption as PowerConsumption;
 use Session;
 class ProductlistingController extends Controller
 {
@@ -38,7 +38,7 @@ class ProductlistingController extends Controller
       foreach($productlist as $product) {
         $imagelist = Product::find($product['id']);
         foreach ($imagelist->images as $image) {
-          $imagearray[$product['id']][] = $image->product_images;          
+          $imagearray[$product['id']][] = $image->name;          
         }
       } 
       foreach($imagearray as $key => $value) {
@@ -66,7 +66,7 @@ class ProductlistingController extends Controller
         echo $image;
       }*/
 
-      /*$product_images = $productlist->pluck('images')->collapse();*/
+      /*$name = $productlist->pluck('images')->collapse();*/
      
     $brandlist = Brand::select('id', 'name')
       ->get();
@@ -151,7 +151,7 @@ class ProductlistingController extends Controller
       foreach($productlist as $product) {
          $imagelist = Product::find($product['id']);
         foreach ($imagelist->images as $image) {
-          $imagearray[$product['id']][] = $image->product_images;          
+          $imagearray[$product['id']][] = $image->name;          
         }
       } 
       foreach($imagearray as $key => $value) {
@@ -193,10 +193,10 @@ class ProductlistingController extends Controller
     print_r($productdetails);
     echo '</pre>';
     die;*/
-    $powerconsumption = Powerconsumption::find($productdetails->power_consumption_id);
+    $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
     $compatibility = Compatibility::find($productdetails->compatibility_id);
     foreach ($productdetails->images as $image) {
-      $imagearray[$id][] = $image->product_images;          
+      $imagearray[$id][] = $image->name;          
     }
        
     foreach($imagearray as $key => $value) {
@@ -250,11 +250,11 @@ class ProductlistingController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function imagefetch(Request $request) {
-  	$imageunserialized = Productimage::select('product_id' ,'product_images')
+  	$imageunserialized = Productimage::select('product_id' ,'name')
       ->get();
     $image = array();   
     foreach ($imageunserialized as $item) {
-	    $image[$item->product_id]['encoded'] = $item->product_images ; 	        	
+	    $image[$item->product_id]['encoded'] = $item->name ; 	        	
     }
   }
   /**

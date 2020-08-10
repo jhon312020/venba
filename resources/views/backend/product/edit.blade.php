@@ -219,16 +219,16 @@
               
             </div>
           </div> 
-          @if(!empty($serializedimage))
+          @if(!empty($images))
           <div class="row">            
             <?php $i =0;?>
-          @foreach($serializedimage as $key => $item)
-           <div class="col-2" name="{{$item}}" id="img_<?php echo $i?>">
+          @foreach($images as $key => $item)
+           <div class="col-2" name="{{$item}}" id="img_<?php echo $key?>">
             <div>
               <div style="width:100px;height:100px">
-                <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh " alt="Image Alternative text" title="Image Title"/> <br/>
+                <img src="/thumbnail/{{$id}}/{{$item}}" class="{{$item}} imwh" alt="Product Image" title="Image Title"/> <br/>
               </div>
-              <button  type="button" id="<?php echo $i;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
+              <button  type="button" id="<?php echo $key;?>" name ="{{ $item}}" class="btn btn-danger removeimage">Remove<i class="fa fa-trash pl "></i></button>
             </div>
            </div>
             <?php $i++; ?>

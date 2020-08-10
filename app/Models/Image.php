@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Compatibility extends Model {
-  
-  use SoftDeletes;
-  
+class Image extends Model {
+	
+	use SoftDeletes;
+
   /**
    * The table associated with the model.
    *
    * @var string
    */
-  protected $table = 'compatibilities';
+  protected $table = 'images';
 
   /**
    * The attributes that are mass assignable.
@@ -22,7 +22,7 @@ class Compatibility extends Model {
    * @var array
    */
   protected $fillable = [
-    'name', 
+  	'product_id', 'name', 'order',
   ];
 
   /**
@@ -33,12 +33,12 @@ class Compatibility extends Model {
   protected $dates = ['deleted_at'];
 
   /**
-   * One to One relationship with Product Model 
+   * BelongsTo relationship with Product Model 
    * for lazy loading
    *
-   * @var array
+   * @param null
    */
   public function product() {
-    return $this->hasOne('App\Models\Product');
+    return $this->belongsTo('App\Models\Product');
   }
 }
