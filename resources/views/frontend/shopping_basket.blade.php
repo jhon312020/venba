@@ -38,7 +38,6 @@
                   </div>
                   <div class="col">
                     <div class="number-counts" id="{{$key}}">
-                      @csrf
                       <input id="no_of_quantity" style="width:50px;" type="number" value="{{Session::get('cart')[$key]['quantity']}}"> 
                       <div class="delete" id="{{$key}}">
                         <span class="deletefromcart icon-login"></span>
@@ -100,9 +99,10 @@
               <div class="row promotion">
                 <div class="col-12 col-lg-10">
                   <form class="form-inline">
-                    @csrf
+                   <!--  @csrf -->
                     <div class="form-group mb-2"> 
                       <input type="text"  class="form-control-plaintext" id="Apply" value="Enter coupon number">
+                     <!--  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}"> -->
                     </div> 
                     <button type="submit" class="btn btn-primary mb-2">Apply</button>
                   </form>

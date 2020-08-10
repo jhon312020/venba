@@ -182,8 +182,6 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function shopping_basket(Request $request,$id) {
-    /*echo $id;
-    die;*/
      $productdetails = Product::find($id);
     $cart = Session::get('cart');
     if(!isset($cart[$id])) {
@@ -220,9 +218,9 @@ class FrontendController extends Controller
     $id = $request->product_id;
     $cart = Session::get('cart');
     unset($cart[$id]);
-    session()->forget('cart');
+    /*session()->forget('cart');
     session()->flush();
-    Session::save();
+    Session::save();*/
     Session::put('cart', $cart);
     Session::save();
     $output='';
