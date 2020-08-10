@@ -28,7 +28,7 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
   */
   public function index() {
-  	$category = "Ligihting";
+  	$category = "Lighting";
     $productlist = 	Product::select('id','name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
@@ -184,16 +184,21 @@ class FrontendController extends Controller
   public function shopping_basket(Request $request,$id) {
      $productdetails = Product::find($id);
     $cart = Session::get('cart');
-    if(!isset($cart[$id])) {
+    if(isset($cart[$id])) {
+      $quantity = $cart[$id]['quantity'] ;
+      $quantity++;
+    } else {
+      $quantity =1;
+    }
       $cart[$id] = array(
         "id" => $id,
         "name" => substr("$productdetails->name",0,15), 
-        "quantity" => 1,  
+        "quantity" => $quantity,  
       );
   
       Session::put('cart', $cart);
       Session::save();
-    }
+    
     foreach($cart as $key => $value) {
       $productdet[$key] = Product::find($key); 
       $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];

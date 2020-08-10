@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth','revalidate');
 Route::get('/conceptlist', 'ConceptAddEdit@concept')->middleware('auth');
 Route::get('/addconcept', 'ConceptAddEdit@add')->middleware('auth');
 Route::post('/conceptadded/store', 'ConceptAddEdit@store')->name('conceptadded.store');
