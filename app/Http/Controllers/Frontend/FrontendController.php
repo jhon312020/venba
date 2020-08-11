@@ -39,6 +39,8 @@ class FrontendController extends Controller
     ->get();
      $compatibilitylist = Compatibility::select('id', 'name')
     ->get();
+     $imagearray = array();
+     $ima = array();
     foreach($productlist as $product) {
         $imagelist = Product::find($product['id']);
         /*echo '<pre>';
@@ -49,9 +51,10 @@ class FrontendController extends Controller
           $imagearray[$product['id']][] = $image->name;          
         }
       } 
-      foreach($imagearray as $key => $value) {
-        $ima[$key] =  $value[0];
-        
+      if(!empty($imagearray)) {
+        foreach($imagearray as $key => $value) {
+          $ima[$key] =  $value[0];        
+        }
       }
   	return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
   	}
@@ -183,12 +186,19 @@ class FrontendController extends Controller
   */
   public function shopping_basket(Request $request,$id) {
     $productdetails = Product::find($id);
+    if(!$productdetails){
+      /*$data['title'] = '404';
+      $data['name'] = 'Page not found';
+      return response()
+        ->view('errors.404',$data,404);*/
+        abort(404);
+    }
     $cart = Session::get('cart');
     if(isset($cart[$id])) {
-      $quantity = $cart[$id]['quantity'] ;
+      $quantity = $cart[$id]['quantity'];
       $quantity++;
     } else {
-      $quantity =1;
+      $quantity = 1;
     }
       $cart[$id] = array(
         "id" => $id,
@@ -198,6 +208,8 @@ class FrontendController extends Controller
   
       Session::put('cart', $cart);
       Session::save();
+        $imagearray = array();
+        $ima = array();
     
     foreach($cart as $key => $value) {
       $productdet[$key] = Product::find($key); 
@@ -213,6 +225,32 @@ class FrontendController extends Controller
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
+  /**
+   * Function deletefromcart()
+   * Display a product from cart.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function shopping_basket_from_cart(Request $request) {
+    $imagearray = array();
+    $ima = array();
+    $cart = Session::get('cart');
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      /*print_r($productdet);
+      die; */
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::save();
+      if($productdet[$key]) {    
+        foreach ($productdet[$key]->images as $image) {
+          $imagearray[$key][] = $image->name;         
+        }
+      }
+    } 
+    $categories = $this->category_fetch();     
+    return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray'));
+  } 
   /**
    * Function deletefromcart()
    * Display a product from cart.
@@ -252,7 +290,28 @@ class FrontendController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function update_cart_quantity(Request $request) {
-
+    $id = $request->product_id;
+    $quantity = $request->quantity;
+     $productdetails = Product::find($id);
+    $cart = Session::get('cart');
+    $cart[$id]['quantity'] = $quantity;
+    $cart[$id]['price'] = $productdetails->price * $quantity;
+    Session::put('cart', $cart);
+    Session::save();
+    $output='';
+    $i=1;
+    foreach($cart as $key => $value) {
+      $output.='<tr><td class="d-none d-lg-block">'.$i.'</td><td>'.$value['name'].'</td><td class="text-right">'.$value['quantity'].'</td><td class="text-right">'.$value['price'].'</td></tr>';
+     $i++;
+    }
+    $output.='<tr><td class="d-none d-lg-block">2.</td><td>Hue Bridge</td><td class="text-right">1</td><td class="text-right">1000</td></tr><tr><td class="d-none d-lg-block">3.</td><td>Transit</td><td class="text-right">1</td><td class="text-right">500</td>
+                  </tr>';
+    
+    $success = true;
+    return response()->json([
+      'success' => $success,
+      'output' => $output,
+    ]);
   }
   /**
    * Function select_address()

@@ -150,6 +150,7 @@ class ProductController extends Controller {
     $power = null;
     $images = ProductImage::where('product_id', $id)
       ->pluck('name', 'id');   
+    $no_of_images = count($images);
     if ($record->additional_properties != null) {
       $additional_prop_array = unserialize($record->additional_properties);
       $dynamicfieldcount = count($additional_prop_array);
@@ -161,7 +162,7 @@ class ProductController extends Controller {
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
     $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,'imagecount' => $no_of_images ));
   }
 
   /**

@@ -211,8 +211,8 @@
           </div>
           <div class="form-group martop">
             <label for="image">Add more Product Image/Images</label>
-            <div class="input-group increment">
-              <input type="file" class="form-control" name="filename[]"  id="fileupload"  multiple>
+            <div class="input-group increment" id="{{$imagecount}}">
+              <input type="file" class="form-control" name="filename[]"  id="fileupload"   multiple>
             </div>
              <br/>
              <div id="image_preview" class="row">

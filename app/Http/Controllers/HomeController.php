@@ -33,7 +33,7 @@ class HomeController extends Controller {
     die;*/
     if($role == 'admin'){
       return view('home');
-    } else {
+    } else {       
         $category = "Lighting";
         $productlist =  Product::select('id', 'name', 'accessories_required', 'price')
         ->where('cat_id', 1)
@@ -47,15 +47,18 @@ class HomeController extends Controller {
         ->get();
         $compatibilitylist = Compatibility::select('id', 'name')
          ->get();
+          $imagearray = array();
+          $ima = array();
         foreach($productlist as $product) {
           $imagelist = Product::find($product['id']);          
           foreach ($imagelist->images as $image) {
             $imagearray[$product['id']][] = $image->product_images;          
           }
         } 
-        foreach($imagearray as $key => $value) {
-          $ima[$key] =  $value[0];
-        
+        if(!empty($imagearray)) {
+          foreach($imagearray as $key => $value) {
+            $ima[$key] =  $value[0];        
+          }
         }
 
         return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);

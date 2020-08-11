@@ -164,10 +164,17 @@ $(document).ready(function() {
     });
   })  
   $("#fileupload").change(function() {
+    var imagecount = $(this).parent().attr('id');
+    /*alert(imagecount);*/
+    if(imagecount){
+      maxcount = 5-imagecount
+    } else {
+      maxcount = 5;
+    }
     $('#image_preview').html("");
     var total_file = $("#fileupload").get(0).files.length;
-     if (total_file > 5) {
-        alert("You are only allowed to upload a maximum of 5 files");
+     if (total_file > maxcount) {
+        alert("You are only allowed to upload a maximum of" +maxcount+ "files");
       document.getElementById('fileupload').value=''
       } else {
           for (var i = 0; i < total_file; i++) {

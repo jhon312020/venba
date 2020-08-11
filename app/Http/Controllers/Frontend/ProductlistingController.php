@@ -11,8 +11,7 @@ use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
 use App\Models\PowerConsumption as PowerConsumption;
 use Session;
-class ProductlistingController extends Controller
-{
+class ProductlistingController extends Controller {
   /**
    * Function index()
    * Display a listing of the products.
@@ -34,16 +33,19 @@ class ProductlistingController extends Controller
       print_r($productlist);
       echo '</pre>';
 
-      die;*/      
+      die;*/  
+       $imagearray = array();
+       $ima = array();  
       foreach($productlist as $product) {
         $imagelist = Product::find($product['id']);
         foreach ($imagelist->images as $image) {
           $imagearray[$product['id']][] = $image->name;          
         }
       } 
-      foreach($imagearray as $key => $value) {
-        $ima[$key] =  $value[0];
-        
+      if(!empty($imagearray)) {
+        foreach($imagearray as $key => $value) {
+          $ima[$key] =  $value[0];        
+        }
       }
        /*$cart = Session::get('cart');
        print_r($cart);
@@ -193,14 +195,17 @@ class ProductlistingController extends Controller
     print_r($productdetails);
     echo '</pre>';
     die;*/
+     $imagearray = array();
+     $ima = array();  
     $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
     $compatibility = Compatibility::find($productdetails->compatibility_id);
     foreach ($productdetails->images as $image) {
       $imagearray[$id][] = $image->name;          
     }
-       
-    foreach($imagearray as $key => $value) {
+     if(!empty($imagearray)) {  
+      foreach($imagearray as $key => $value) {
       $productimages =  $value;        
+      }
     }
     /*echo $id;
     echo '<br>';
@@ -227,15 +232,19 @@ class ProductlistingController extends Controller
     $quantity = $request->get('count');
 
     $cart = Session::get('cart');
+    if(isset($cart[$id])) {
+      $quant = $cart[$id]['quantity'] ;
+      $quantity = $quant + $quantity ;
+    }  
     $cart[$id] = array(
         "id" => $id,
         "name" => substr("$name",0,15), 
-        "quantity" => $quantity    
+        "quantity" => $quantity,    
     );    
     Session::put('cart', $cart);
     Session::save();
     $count = count($cart);
-    $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/'.$id.'"><span class="icon-login pt"></span></a></div>';
+    $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/"><span class="icon-login pt"></span></a></div>';
     return response()->json([
       'count' => $count,
       'message' => $message,

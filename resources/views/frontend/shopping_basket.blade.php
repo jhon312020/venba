@@ -22,13 +22,14 @@
            <div class="col-12 col-lg-6 product-items">
             <h2 class="ml-n3">Your Items</h2>
             <div class="row pb-lg-3 horizantal-swipe">
-              @foreach($productdet as $key => $value)
-              @if(isset($imagearray[$key]))
+              @foreach($productdet as $key => $value)              
               <div class="col-12 box-item pb-3" id="product_{{$key}}" >
-                <div class="row border">
-                  <div class="col-4 col-lg-4">                    
-                    <img src="/thumbnail/{{$id}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt="">                    
-                  </div>
+                <div class="row border">                  
+                  <div class="col-4 col-lg-4">
+                    @if(isset($imagearray[$key]))                    
+                      <img src="/thumbnail/{{$key}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt=""> 
+                    @endif                   
+                    </div>                    
                   <div class="col-8 col-lg-8 pt-lg-5">
                     <h4>{{$value->name}}</h4>
                     <p>Rs. {{$value->price}}</p>
@@ -38,15 +39,14 @@
                   </div>
                   <div class="col">
                     <div class="number-counts" id="{{$key}}">
-                      <input id="no_of_quantity" style="width:50px;" type="number" value="{{Session::get('cart')[$key]['quantity']}}"> 
+                      <input class="no_of_quantity" style="width:50px;" type="number" value="{{Session::get('cart')[$key]['quantity']}}"> 
                       <div class="delete" id="{{$key}}">
                         <span class="deletefromcart icon-login"></span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>   
-              @endif           
+              </div>           
               @endforeach             
             </div>
             
@@ -79,18 +79,7 @@
                  @php $i++;
                  @endphp
                   @endforeach
-                  <tr>
-                    <td class="d-none d-lg-block">2.</td>
-                    <td>Hue Bridge</td>
-                    <td class="text-right">1</td>
-                    <td class="text-right">1000</td>
-                  </tr>
-                  <tr>
-                    <td class="d-none d-lg-block">3.</td>
-                    <td>Transit</td>
-                    <td class="text-right">1</td>
-                    <td class="text-right">500</td>
-                  </tr>
+                  
                 </tbody>
               </table>
             </div>

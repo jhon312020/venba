@@ -103,7 +103,9 @@
   			<p id="comp" class="prl">+</p>
   		</div>
   		<div id="compatibility" style="background:#eee">
+        @if(isset($compatibility))
   			<p>{{$compatibility->name}}</p>
+        @endif
 			</div>
 			<div class="single_pro_sty">
   			<p class="wid">Warranty</p>

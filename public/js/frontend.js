@@ -128,20 +128,20 @@ $(document).ready(function() {
       }
    })
   });
-   $('#shoppingcart #no_of_quantity').change(function() {
+   $('#shoppingcart .no_of_quantity').change(function() {
     var quantity = $(this).val();
     var product_id = $(this).parent().attr('id');
-    alert("product quantity updated");
+    /*alert("product quantity updated");*/
     $.ajax({
       url:"/updatecartquantity",
        headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
       type:"POST",
-      data:{quantity:quantity},
+      data:{quantity:quantity,product_id:product_id},
       dataType: 'JSON',
       success:function(results) {
-        
+        $('#checkoutlist').html(results.output);
       }
    })
 
