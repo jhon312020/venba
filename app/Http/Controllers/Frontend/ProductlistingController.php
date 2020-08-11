@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product as Product;
+use App\Models\Image as Image;
 use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
@@ -104,6 +105,10 @@ class ProductlistingController extends Controller {
   public function filterproductlist(Request $request, $category) {
     //echo $category;
     $brand_id = $request->get('brandids');
+    /*print_r($brand_id);
+    die;*/
+    $imagearray =array();
+    $ima = array();
    /* print_r($brand_id);
     echo '<br>';*/
    /* print_r($brand_id);
@@ -151,19 +156,34 @@ class ProductlistingController extends Controller {
      $productlist = $productlist->get();
       $output = '';
       foreach($productlist as $product) {
-         $imagelist = Product::find($product['id']);
-        foreach ($imagelist->images as $image) {
-          $imagearray[$product['id']][] = $image->name;          
+        /*echo $product->id;
+        die;*/
+         $imagelist = Product::find($product->id);
+         $isimage = Image::all()
+         ->where('product_id', $product->id)
+         ->pluck('name');
+         /*echo $isimage[0];
+         die;*/
+        if(isset($isimage[0])) {
+          foreach ($imagelist->images as $image) {
+            $imagearray[$product->id][] = $image->name;          
+          }
         }
-      } 
-      foreach($imagearray as $key => $value) {
-        $ima[$key] =  $value[0];
+      
+        if(isset($imagearray[$product->id]))  { 
+          foreach($imagearray as $key => $value) {
+            $ima[$key] =  $value[0];
         
-      }
+          }
+        }
+      }/*
+      print_r($imagearray);
+      print_r($ima);
+      die;*/
       foreach($productlist as $product) {
-      $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
+        $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class = "card">
-                    <img src = "/thumbnail/'.$product->id.'/'.$ima[$product->id].'" class = "card-img-top" alt="">
+                
                     <div class = "card-body">
                       <p class = "card-text">'.$product->name.'</p>                      
                       <div class = "row">                   
@@ -179,6 +199,7 @@ class ProductlistingController extends Controller {
                   </div>
               </div>';
     }
+
      
     echo $output;
 

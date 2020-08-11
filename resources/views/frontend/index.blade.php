@@ -136,15 +136,15 @@
              @endphp        
               <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                 <div class="card">
-                  @if(isset($ima[$i]))
-                  <a id="{{$i}}"href="{{route('frontview.product.detail' , ['category' => $category ,'id' => $i])}}">
+                  @if(isset($ima[$i]))                 
                     <img src="/thumbnail/{{$i}}/{{$ima[$i]}}" class="card-img-top" alt="">
                   </a>
                     @else
                     <img src="" class="card-img-top" alt="">
                     @endif
                     <div class="card-body">
-                      <p class="card-text">{{$product['name']}}</p>                      
+                       <a id="{{$i}}"href="{{route('frontview.product.detail' , ['category' => $category ,'id' => $i])}}">
+                      <p class="card-text">{{$product['name']}}</p>  </a>                    
                       <div class="row">                   
                         <div class="col col-lg-12">
                           <p class="card-text mb-0">{{$product['accessories_required']}}</p>
