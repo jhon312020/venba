@@ -185,7 +185,9 @@ class ProductlistingController extends Controller {
                 <div class = "card">
                 
                     <div class = "card-body">
-                      <p class = "card-text">'.$product->name.'</p>                      
+                    <a id="{{$i}}"href="shopping-basket/'.$product->id.'">
+                      <p class = "card-text">'.$product->name.'
+                      </a></p>                      
                       <div class = "row">                   
                         <div class = "col col-lg-12">
                           <p class = "card-text mb-0">'.$product->accessories_required.'</p>
@@ -212,6 +214,7 @@ class ProductlistingController extends Controller {
    */
   public function singleproduct(Request $request ,$category, $id) {
     $productdetails = Product::find($id);
+    $productimages = array();
     /*echo '<pre>';
     print_r($productdetails);
     echo '</pre>';

@@ -52,12 +52,14 @@
   <div class="row">
     <div class="col-6">
      	<div style=" border:1px solid black; padding:50px;margin-left: 50px">
-      <img src="/images/{{$id}}/{{$productimages[0]}}">
+        @if(isset($produstimages))
+      <img src="/images/{{$id}}/{{$productimages[0]}}">     
       </div>
       <div class="display-flex" style="position: relative;left:20%;top:10px">
       	@foreach ($productimages as $image)
       		<img style="width:80px;height:80px" src="/images/{{$id}}/{{$image}}">
      		 @endforeach
+          @endif
      </div>
     </div>
     <div class="col-6" id="addtocart">
