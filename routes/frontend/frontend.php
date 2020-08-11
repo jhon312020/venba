@@ -24,6 +24,7 @@ Route::get('/my_profile', [FrontendController::class, 'my_profile'])->name('fron
 Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('frontend.mywishlist');
 Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');
 Route::get('/shopping-basket/{id}', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
+Route::get('/shopping-basket', [FrontendController::class, 'shopping_basket_from_cart'])->name('frontend.shopping-basket_from_cart');
 Route::get('/select-address', [FrontendController::class, 'select_address'])->name('frontend.select_address');
 Route::get('/refresh_csrf', function () {
     return response()->json(csrf_token());
