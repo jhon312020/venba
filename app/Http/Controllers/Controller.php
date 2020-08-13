@@ -7,8 +7,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Category as Category;
+use App\Models\Product as Product;
 use Image;
 use File;
+use Session;
 
 class Controller extends BaseController {
   
@@ -71,5 +73,41 @@ class Controller extends BaseController {
     ->where('cat_id', null)
     ->get();
     return $categories;
+  }
+   public function cart_fetch() {
+    $cart = Session::get('cart');          
+    $igst = 0;
+    $sgst = 0;
+    $transit = 0; 
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      if(!empty($productdet[$key]->igst)) {
+        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->igst)) {
+        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->transit)) {
+        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
+      }
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::put('igst', $igst);
+      Session::put('sgst', $sgst);
+      Session::put('transit', $transit);
+      Session::save();
+    }
+     $igsttotal = Session::get('igst');
+     $sgsttotal = Session::get('sgst');
+     $transittotal = Session::get('transit');
+     $total= 0;
+     $producttotal= 0;
+    foreach($cart as $key => $value) {
+      $producttotal = $producttotal + $cart[$key]['price'] ;
+    }     
+    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
+    Session::put('producttotal', $producttotal);
+    Session::put('total', $total);
+    Session::save();
   }
 }

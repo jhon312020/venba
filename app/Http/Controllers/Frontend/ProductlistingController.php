@@ -295,45 +295,16 @@ class ProductlistingController extends Controller {
     Session::put('cart', $cart);
     Session::save();
      $imagearray = array();
-        $ima = array();
-        $igst = 0;
-        $sgst = 0;
-        $transit = 0;
+        $ima = array();        
     foreach($cart as $key => $value) {
-      $productdet[$key] = Product::find($key);
-      if(!empty($productdet[$key]->igst)) {
-        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
-      }
-      if(!empty($productdet[$key]->igst)) {
-        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
-     }
-     if(!empty($productdet[$key]->transit)) {
-        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
-     }
-      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
-      Session::put('cart', $cart);
-      Session::put('igst', $igst);
-      Session::put('sgst', $sgst);
-      Session::put('transit', $transit);
-      Session::save();
+      $productdet[$key] = Product::find($key);     
       if($productdet[$key]) {    
         foreach ($productdet[$key]->images as $image) {
           $imagearray[$key][] = $image->name;         
         }
       }
     }
-    $igsttotal = Session::get('igst');
-    $sgsttotal = Session::get('sgst');
-    $transittotal = Session::get('transit');
-    $total= 0;
-    $producttotal= 0;
-    foreach($cart as $key => $value) {
-      $producttotal = $producttotal + $cart[$key]['price'] ;
-    }
-     Session::put('producttotal', $producttotal);
-    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
-    Session::put('total', $total);
-      Session::save();
+    $cart_session = $this->cart_fetch();    
     $count = count($cart);
     $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/"><span class="icon-login pt"></span></a></div>';
     return response()->json([
