@@ -200,7 +200,7 @@ class ProductlistingController extends Controller {
       print_r($imagearray);
       print_r($ima);
       die;*/
-      if(isset($productlist)) {
+      if(!count($productlist)) {
         $output .= '<img class="not_found" src="/frontend/images/notfound.png" alt"image not found">';
       }
       foreach($productlist as $product) {
@@ -228,7 +228,7 @@ class ProductlistingController extends Controller {
                   </div>
               </div>';
     }
-
+  
      
     echo $output;
 
