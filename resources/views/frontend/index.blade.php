@@ -74,16 +74,16 @@
             </div>            
             <div class="filter-items dropdown-menu" id="fillterDropdown">
               <h5>BRAND</h5>
-              @foreach($brandlist as $brand)
+              @foreach($brandlist as $key => $value)
               @if(isset($category))
               <div id="{{$category}}" class="custom-control custom-checkbox">
               @else 
               <div  class="custom-control custom-checkbox">
               @endif
               
-                <input type="checkbox" class="custom-control-input" id="{{$brand->name}}" name="brand_{{$brand->id}}" value="{{$brand->name}}">
-                <label class="custom-control-label" for="{{$brand->name}}">
-                  {{$brand->name}}</label>
+                <input type="checkbox" class="custom-control-input" id="{{$value}}" name="brand_{{$key}}" value="{{$value}}">
+                <label class="custom-control-label" for="{{$value}}">
+                  {{$value}}</label>
               </div>
               @endforeach              
               <h5>TYPE</h5>

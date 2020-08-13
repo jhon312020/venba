@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth','revalidate');
+Route::get('/home', 'HomeController@index')->name('home')->middleware(['auth','verified','revalidate']);
 Route::get('/conceptlist', 'ConceptAddEdit@concept')->middleware('auth');
 Route::get('/addconcept', 'ConceptAddEdit@add')->middleware('auth');
 Route::post('/conceptadded/store', 'ConceptAddEdit@store')->name('conceptadded.store');

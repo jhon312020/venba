@@ -11,6 +11,8 @@ use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
 use Session;
+use DB;
+use Mail;
 class FrontendController extends Controller
 {
 	/**
@@ -32,8 +34,15 @@ class FrontendController extends Controller
     $productlist = 	Product::select('id','name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
-     $brandlist = Brand::select('id', 'name')
-    ->get();
+    /* $brandlist = Brand::select('name')->whereIn('id', function($query){
+      $query->distinct('brand_id')
+      ->from(with(new Product)->getTable())
+      ->where('cat_id', 1);
+      })->get();*/
+      $product_brand = Product::groupBy('brand_id')->where('cat_id', 1)->pluck('brand_id','brand_id');
+      /*print_r($stock);
+      die;*/
+      $brandlist = DB::table("brands")->whereIn('id', $product_brand)->pluck("name","id");
      $categories = $this->category_fetch();
      $typelist = Type::select('id', 'name')
     ->get();
@@ -193,6 +202,7 @@ class FrontendController extends Controller
         ->view('errors.404',$data,404);*/
         abort(404);
     }
+
     $cart = Session::get('cart');
     if(isset($cart[$id])) {
       $quantity = $cart[$id]['quantity'];
@@ -210,18 +220,44 @@ class FrontendController extends Controller
       Session::save();
         $imagearray = array();
         $ima = array();
-    
+        $igst = 0;
+        $sgst = 0;
+        $transit = 0;
     foreach($cart as $key => $value) {
-      $productdet[$key] = Product::find($key); 
+      $productdet[$key] = Product::find($key);
+      if(!empty($productdet[$key]->igst)) {
+        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->igst)) {
+        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
+     }
+     if(!empty($productdet[$key]->transit)) {
+        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
+     }
       $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
       Session::put('cart', $cart);
+      Session::put('igst', $igst);
+      Session::put('sgst', $sgst);
+      Session::put('transit', $transit);
       Session::save();
       if($productdet[$key]) {    
         foreach ($productdet[$key]->images as $image) {
           $imagearray[$key][] = $image->name;         
         }
       }
-    } 
+    }
+    $igsttotal = Session::get('igst');
+    $sgsttotal = Session::get('sgst');
+    $transittotal = Session::get('transit');
+    $total= 0;
+    $producttotal= 0;
+    foreach($cart as $key => $value) {
+      $producttotal = $producttotal + $cart[$key]['price'] ;
+    }
+     Session::put('producttotal', $producttotal);
+    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
+    Session::put('total', $total);
+      Session::save();
     $categories = $this->category_fetch();     
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
   }
@@ -268,12 +304,47 @@ class FrontendController extends Controller
     Session::save();
     $output='';
     $i=1;
+    $igst = 0;
+    $sgst = 0;
+    $transit = 0;
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      if(!empty($productdet[$key]->igst)) {
+        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->igst)) {
+        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->transit)) {
+        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
+      }
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::put('igst', $igst);
+      Session::put('sgst', $sgst);
+      Session::put('transit', $transit);
+      Session::save();
+    }
+    $igsttotal = Session::get('igst');
+    $sgsttotal = Session::get('sgst');
+    $transittotal = Session::get('transit');
+    $total= 0;
+    $producttotal= 0;
+    /*print_r($cart);*/
+   /* die;*/
+    foreach($cart as $key => $value) {
+      $producttotal = $producttotal + $cart[$key]['price'] ;
+    } 
+    /*echo $producttotal;*/    
+    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
+    /*echo '<br>';
+    echo $total;
+    die;*/
     foreach($cart as $key => $value) {
       $output.='<tr><td class="d-none d-lg-block">'.$i.'</td><td>'.$value['name'].'</td><td class="text-right">'.$value['quantity'].'</td><td class="text-right">'.$value['price'].'</td></tr>';
      $i++;
     }
-    $output.='<tr><td class="d-none d-lg-block">2.</td><td>Hue Bridge</td><td class="text-right">1</td><td class="text-right">1000</td></tr><tr><td class="d-none d-lg-block">3.</td><td>Transit</td><td class="text-right">1</td><td class="text-right">500</td>
-                  </tr>';
+    
     
     $success = true;
     $count = count($cart);
@@ -281,6 +352,11 @@ class FrontendController extends Controller
       'success' => $success,
       'count' => $count,
       'output' => $output,
+      'igst' => $igst,
+      'sgst' => $sgst,
+      'transit' => $transit,
+      'producttotal' => $producttotal,
+      'total' => $total,
     ]);
   }
   /**
@@ -289,10 +365,10 @@ class FrontendController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function update_cart_quantity(Request $request) {
+  public function update_cart_quantity(Request $request) {    
     $id = $request->product_id;
     $quantity = $request->quantity;
-     $productdetails = Product::find($id);
+    $productdetails = Product::find($id);
     $cart = Session::get('cart');
     $cart[$id]['quantity'] = $quantity;
     $cart[$id]['price'] = $productdetails->price * $quantity;
@@ -300,17 +376,52 @@ class FrontendController extends Controller
     Session::save();
     $output='';
     $i=1;
+    $igst = 0;
+    $sgst = 0;
+    $transit = 0;
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      if(!empty($productdet[$key]->igst)) {
+        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->igst)) {
+        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->transit)) {
+        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
+      }
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::put('igst', $igst);
+      Session::put('sgst', $sgst);
+      Session::put('transit', $transit);
+      Session::save();
+    }
+    $igsttotal = Session::get('igst');
+    $sgsttotal = Session::get('sgst');
+    $transittotal = Session::get('transit');
+    $total= 0;
+    $producttotal= 0;
+    foreach($cart as $key => $value) {
+      $producttotal = $producttotal + $cart[$key]['price'] ;
+    }     
+    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
     foreach($cart as $key => $value) {
       $output.='<tr><td class="d-none d-lg-block">'.$i.'</td><td>'.$value['name'].'</td><td class="text-right">'.$value['quantity'].'</td><td class="text-right">'.$value['price'].'</td></tr>';
      $i++;
     }
-    $output.='<tr><td class="d-none d-lg-block">2.</td><td>Hue Bridge</td><td class="text-right">1</td><td class="text-right">1000</td></tr><tr><td class="d-none d-lg-block">3.</td><td>Transit</td><td class="text-right">1</td><td class="text-right">500</td>
-                  </tr>';
+    /*$output.='<tr><td class="d-none d-lg-block">2.</td><td>Hue Bridge</td><td class="text-right">1</td><td class="text-right">1000</td></tr><tr><td class="d-none d-lg-block">3.</td><td>Transit</td><td class="text-right">1</td><td class="text-right">500</td>
+                  </tr>';*/
     
     $success = true;
     return response()->json([
       'success' => $success,
       'output' => $output,
+      'igst' => $igst,
+      'sgst' => $sgst,
+      'transit' => $transit,
+      'producttotal' => $producttotal,
+      'total' => $total,
     ]);
   }
   /**
@@ -323,6 +434,31 @@ class FrontendController extends Controller
     $categories = $this->category_fetch();     
     return view('frontend.select_address', compact('categories'));
 
+  }
+  /**
+   * Function sendmail()
+   * sends email to admin with contact form details
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function sendmail(Request $request) {    
+    $validatedData = $request->validate([
+      'customername' => 'required|string|',
+      'customeremail' => 'required|string|email',
+      'customerphone' => 'required|regex:/[9,8,7][0-9]{9}/',
+      'customermsg' => 'required|string|',
+    ]);
+     Mail::send('frontend.email',
+       array(
+           'name' => $request->get('customername'),
+           'email' => $request->get('customeremail'),
+           'user_message' => $request->get('customermsg')
+       ), function($message) {
+            $message->from('venbacontactform@gmail.com');
+            $message->to('koushik@proisc.com', 'Admin')->subject('Venba Contact');
+          });
+
+    return back()->with('success', 'Thanks for contacting us!!We will be in touch with you soon.');
   }
 
 }

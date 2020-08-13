@@ -50,3 +50,10 @@
 	position: relative;
 	left: 20%;
 }*/
+.btn-light {
+	background-color: #fff !important;
+  border-color: #ced4da !important;
+}
+.bootstrap-select > .dropdown-toggle.bs-placeholder{
+	color:#495057 !important;
+}

@@ -35,6 +35,9 @@ class Product extends Model {
   public function images() {
     return $this->hasMany('App\Models\Image');
   }
+  public function productcompatibilitylist() {
+    return $this->hasMany('App\Models\Productcompatibilitylist');
+  }
 
   /**
    * BelongsTo relationship with Concept Model 
@@ -72,10 +75,10 @@ class Product extends Model {
    *
    * @param null
    */
-  public function compatibility() {
+  /*public function compatibility() {
     return $this->belongsTo('App\Models\Compatibility');
   }
-
+*/
   /**
    * BelongsTo relationship with Category Model 
    * for lazy loading
@@ -98,6 +101,7 @@ class Product extends Model {
     static::deleting(function($product) { 
       // before delete() method call this
       $product->images()->delete();
+      $product->productcompatibilitylist()->delete();
       // do the rest of the cleanup...
     });
   }

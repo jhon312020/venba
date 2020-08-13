@@ -51,6 +51,7 @@
             <div class="row pb-3">
               <div class="col-12 box-item pb-3 bg-white">
                  <form class="form text-center px-lg-3">
+                  @csrf
                     <div class="form-group floating-control-group">
                       <label for="yourName">Your Name</label>
                       <input type="text" class="form-control" id="yourName" required="" placeholder="Your Name">

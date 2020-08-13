@@ -1,17 +1,19 @@
 @extends('backend.layouts.app')
 @section('plugins.Sweetalert2', true)
-<!-- @section('css')
+ @section('css')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
   <link rel="stylesheet" href="/css/admin.css">
-@stop -->
+@stop 
 @section('js')
   <script src="{{ URL::asset('js/backend.js') }}"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  
   <script type='text/javascript'>
     $(document).ready(function() {
       //toggle between additional properties fields
       //$('.list_wrapper').hide();
-      //$('#multiple-checkboxes').selectpicker();
+      $('#multiple-checkboxes').selectpicker({
+       noneSelectedText : 'Please Select Compatibilities'
+     });
       $('.dynamicdisplay').click(function(){
         $(this).find("i").toggleClass('fa-arrow-up fa-arrow-down');
         $('.list_wrapper').toggle(); 
@@ -70,7 +72,25 @@
             <div class="form-group">
               <label for="compatibility">Compatibility</label>
               <!-- <input  type="text" class="form-control admin-field" id="compatibility" name="compatibility" placeholder="Enter compatibility" value="{{old('compatibility',$product->compatibility)}}"> -->
-               {!! Form::select('compatibility_id', $compatibilities, old('compatibility_id',$product->compatibility_id), ['placeholder' => 'Please Select Compatibility', 'class' => 'form-control']) !!}
+              <!-- {!! Form::select('compatibility_ids[]', $compatibilities, old('compatibility_ids',$compatibilities), [ 'class' => 'form-control','id' => 'multiple-checkboxes','multiple' => 'multiple']) !!}  -->
+              <select id="multiple-checkboxes" class="form-control" multiple="multiple" name="compatibility_ids[]">
+              @foreach ($compatibilities as $key => $value)
+                @if (old('compatibility_ids'))
+                  <option value="{{ $key}}" {{in_array($key, (old("compatibility_ids"))) == $key ? "selected":"" }}>{{ $value }}</option>
+                  @else
+                  <option value="{{ $key}}" {{in_array($key, $compatibilitylists) == $key ? "selected":"" }}>{{ $value }}</option>
+                  @endif
+              @endforeach
+          </select>
+              <!-- <select name="compatibility_ids[]" id="multiple-checkboxes" class="form-control" multiple = "multiple">
+                @foreach ($compatibilities as $key => $value) 
+                  @if (old('compatibility_ids'))
+                    <option value="{{ $key }}" {{ in_array($key, old('compatibility_ids')) ? 'selected' : '' }}>{{ $value }}</option>   
+                  @else
+                <option value="{{ $key }}" {{  in_array($key, $compatibilitylists) ? 'selected' : '' }}>{{ $value }}</option>
+                 @endif 
+                @endforeach
+               </select> -->
             </div>
           </div>
         </div>

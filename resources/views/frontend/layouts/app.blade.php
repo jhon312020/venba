@@ -147,13 +147,10 @@
               <a href="#">Power ecomony</a>
               <a href="#">Breathing spaces</a>
               <a href="#">Music sphere</a>
-              <h6 class="mt-4">Products</h6> 
-              <a href="#">Lights</a>
-              <a href="#">Doors/window</a>
-              <a href="#">Sound control</a>
-              <a href="#">Sensors</a>
-              <a href="#">Appliances control</a>
-              <a href="#">Accessories</a>
+              <h6 class="mt-4">Products</h6>
+              @foreach($categories as $category) 
+              <a href="/products/{{$category->name}}">{{$category->name}}</a>
+              @endforeach
             </div>
             <div class="col-6">
               <h6>Packages</h6> 

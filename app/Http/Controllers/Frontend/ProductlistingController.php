@@ -11,7 +11,9 @@ use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
 use App\Models\PowerConsumption as PowerConsumption;
+use App\Models\Productcompatibilitylist as Productcompatibilitylist;
 use Session;
+use DB;
 class ProductlistingController extends Controller {
   /**
    * Function index()
@@ -24,7 +26,7 @@ class ProductlistingController extends Controller {
     $categoryid = Category::all()
         ->where('name', $category)
         ->pluck('id');
-    $cat_id = $categoryid[0];   
+    $cat_id = $categoryid[0];  
     $imagearray = array(); 
     $image = array();    
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
@@ -70,9 +72,24 @@ class ProductlistingController extends Controller {
       }*/
 
       /*$name = $productlist->pluck('images')->collapse();*/
-     
-    $brandlist = Brand::select('id', 'name')
-      ->get();
+      /*SELECT name FROM brands WHERE id IN (SELECT DISTINCT brand_id FROM `products` where cat_id =1)*/
+      $product_brand = Product::groupBy('brand_id')->where('cat_id', $cat_id)->pluck('brand_id','brand_id');
+      /*print_r($stock);
+      die;*/
+      $brandlist = DB::table("brands")->whereIn('id', $product_brand)->pluck("name","id");
+      /*print_r($brandlist);
+      die;*/
+      /*$brandlist = Brand::select('name')->whereIn('id', function($query){
+      $query->distinct('brand_id')
+      ->from(with(new Product)->getTable())
+      ->where('cat_id', $cat_id);
+      })->get();*//*Brand::select('name')->where(function ($query) use ($cat_id){
+                      $brand_id = Product::groupby('brand_id')->where('cat_id', '=', $cat_id)->pluck('brand_id');
+                      $query->wherein('id', '=', $brand_id);
+                  })
+                  ->get();*/
+      /*print_r($brandlist);
+      die;*/
     $categories = $this->category_fetch();
     $typelist = Type::select('id', 'name')
       ->get();
@@ -148,7 +165,10 @@ class ProductlistingController extends Controller {
         $productlist = $productlist -> whereIn('type_id', $type_id);    
       }
       if(!empty($compatibility_id)) {
-       $productlist = $productlist -> whereIn('compatibility_id', $compatibility_id);
+       /* select *from products where id in(SELECT product_id from product_compatibility_list where compatibility_id in(2,3,4))*/
+       $productcompatibility_lists = Productcompatibilitylist::groupBy('product_id')->whereIn('compatibility_id', $compatibility_id)->pluck('product_id','product_id');
+        $productlist = $productlist->whereIn('id', $productcompatibility_lists);
+       /*$productlist = $productlist -> whereIn('compatibility_id', $compatibility_id);*/
       }
     
       /*echo $productlist;
@@ -180,17 +200,24 @@ class ProductlistingController extends Controller {
       print_r($imagearray);
       print_r($ima);
       die;*/
+      if(isset($productlist)) {
+        $output .= '<img class="not_found" src="/frontend/images/notfound.png" alt"image not found">';
+      }
       foreach($productlist as $product) {
         $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
-                <div class = "card">
-                
-                    <div class = "card-body">
+                <div class = "card">' ;
+        if(isset($imagearray[$product->id])) {                 
+          $output .= '<img src = "/thumbnail/'.$product->id.'/'.$ima[$product->id].'" class = "card-img-top" alt="">'; 
+        } else {
+            $output .='<img src = "" class = "card-img-top" alt="">';
+          }
+        $output .= '<div class = "card-body">
                     <a id="{{$i}}"href="shopping-basket/'.$product->id.'">
-                      <p class = "card-text">'.$product->name.'
-                      </a></p>                      
+                      <p class = "card-text">'.$product->name.'</p> 
+                    </a>                     
                       <div class = "row">                   
-                        <div class = "col col-lg-12">
-                          <p class = "card-text mb-0">'.$product->accessories_required.'</p>
+                        <div class = "col col-lg-12">                        
+                          <p class = "card-text mb-0">'.$product->accessories_required.'</p>                          
                           <h5 class = "card-title">Rs.'.$product->price.'</h5>
                         </div>
                         <div class = "col col-lg-12 px-0">
@@ -267,6 +294,46 @@ class ProductlistingController extends Controller {
     );    
     Session::put('cart', $cart);
     Session::save();
+     $imagearray = array();
+        $ima = array();
+        $igst = 0;
+        $sgst = 0;
+        $transit = 0;
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      if(!empty($productdet[$key]->igst)) {
+        $igst = $igst +($productdet[$key]->price * ($productdet[$key]->igst)/100 ) * $value['quantity'];
+      }
+      if(!empty($productdet[$key]->igst)) {
+        $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
+     }
+     if(!empty($productdet[$key]->transit)) {
+        $transit = $transit +($productdet[$key]->price * ($productdet[$key]->transit)/100 ) * $value['quantity'];
+     }
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::put('igst', $igst);
+      Session::put('sgst', $sgst);
+      Session::put('transit', $transit);
+      Session::save();
+      if($productdet[$key]) {    
+        foreach ($productdet[$key]->images as $image) {
+          $imagearray[$key][] = $image->name;         
+        }
+      }
+    }
+    $igsttotal = Session::get('igst');
+    $sgsttotal = Session::get('sgst');
+    $transittotal = Session::get('transit');
+    $total= 0;
+    $producttotal= 0;
+    foreach($cart as $key => $value) {
+      $producttotal = $producttotal + $cart[$key]['price'] ;
+    }
+     Session::put('producttotal', $producttotal);
+    $total =$producttotal + $igsttotal + $sgsttotal + $transittotal;
+    Session::put('total', $total);
+      Session::save();
     $count = count($cart);
     $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/"><span class="icon-login pt"></span></a></div>';
     return response()->json([

@@ -1,14 +1,16 @@
 @extends('backend.layouts.app')
-<!-- @section('css')
+ @section('css')
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" /> 
   <link rel="stylesheet" href="/css/admin.css">
-@stop -->
+@stop 
 @section('js')      
- <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>  
  <script src="{{ URL::asset('js/backend.js') }}"></script>
   <script type='text/javascript'>
     $(document).ready(function() {
-     /* $('#multiple-checkboxes').selectpicker();*/
+     $('#multiple-checkboxes').selectpicker({
+       noneSelectedText : 'Please Select Compatibilities'
+     });
      
       //toggle between additional properties fields
       $('.list_wrapper').hide();
@@ -69,7 +71,13 @@
         <div class="col-xs-12 col-sm-6 col-md-6 ">
           <div class="form-group">
             <label for="compatibility_id">Compatibility</label>
-              {!! Form::select('compatibility_id', $compatibilities, old('compatibility_id',null), ['placeholder' => 'Please Select Compatibility', 'class' => 'form-control']) !!}
+               {!! Form::select('compatibility_ids[]', $compatibilities,  old('compatibility_ids',null),  [ 'class' => 'form-control','id' => 'multiple-checkboxes','multiple' => 'multiple']) !!} 
+            <!--   <select id="multiple-checkboxes" class="form-control" multiple="multiple" name="compatibility_ids[]">
+               <option value="" disabled selected>Select power consumptions</option> --> 
+<!--               @foreach ($compatibilities as $key => $value)
+                  <option value="{{ $key}}" {{ (old("compatibility_ids") == $key ? "selected":"") }}>{{ $value }}</option>
+              @endforeach
+          </select> --> 
            </div>
         </div>
       </div>

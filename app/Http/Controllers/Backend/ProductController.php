@@ -13,6 +13,7 @@ use App\Models\Compatibility as Compatibility;
 use App\Models\PowerConsumption as PowerConsumption;
 use App\Models\Image as ProductImage;
 use App\Models\ProductPower as ProductPower;
+use App\Models\Productcompatibilitylist as Productcompatibilitylist;
 use Image;
 use File;
 
@@ -39,7 +40,6 @@ class ProductController extends Controller {
       'sub_cat_id' => 'required',
       'brand_id' => '',
       'type_id' => '',
-      'compatibility_id' => '',
       'power_consumption_id' => '',
       'physical_spec' => '',
       'light_color' => '',
@@ -82,6 +82,8 @@ class ProductController extends Controller {
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
+   /* print_r($compatibilities);
+    die;*/
     $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
     $categories  = Category::all()->whereNull('cat_id')->pluck('name', 'id');
     $subcategories = array();
@@ -102,6 +104,9 @@ class ProductController extends Controller {
    */ 
   public function store(Request $request) {
     $validatedData = $request->validate($this->productValidator);
+    $compatibilitylist = $request->compatibility_ids;
+    /*print_r($compatibilitylist);
+    die;*/
     $dynamicField = $request['dynamicfield']; 
     if (!empty($dynamicField)) {
       foreach ($dynamicField as $key => $value) {
@@ -115,10 +120,14 @@ class ProductController extends Controller {
     if ($request->hasFile('filename')) {
       $images = $this->_createThumbnail($request->file('filename'), $show->id);
      foreach($images as $image) {
-        $insertimages = ProductImage::create(
+        $insertcompatibility = ProductImage::create(
         array('product_id' => $show->id, 'name' => $image));
       }
     }
+    foreach($compatibilitylist as $list) {
+        $insertcompatibilitylist = Productcompatibilitylist::create(
+        array('product_id' => $show->id, 'compatibility_id' => $list));
+      }
      
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
@@ -144,6 +153,7 @@ class ProductController extends Controller {
     $brand = null;
     $type = null;
     $compatibility = null;
+    $compatibilitylists = array();
     //$powerconsumption = null;
     $serializedimage = null;
     $additional_prop_array = null;
@@ -161,8 +171,15 @@ class ProductController extends Controller {
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
+    /*$compatibilitylists = Productcompatibilitylist::select('id')->where('product_id', $id)->get();*/
+    $compatibility = Productcompatibilitylist::all()->where('product_id', $id)->pluck('compatibility_id');
+    foreach($compatibility as $key => $value) {
+      $compatibilitylists[] = $value;
+    }
+   /*print_r($compatibilitylists);
+    die;*/
     $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities, 'powerconsumption' => $powerconsumption,'imagecount' => $no_of_images ));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities,'compatibilitylists'=> $compatibilitylists, 'powerconsumption' => $powerconsumption,'imagecount' => $no_of_images ));
   }
 
   /**
@@ -210,6 +227,16 @@ class ProductController extends Controller {
    */
   public function update(Request $request, $id) {
     $validatedData = $request->validate($this->productValidator);
+    $compatibility = $request->compatibility_ids;
+    $product_compatibilities = Productcompatibilitylist::select('id')->where('product_id', $id)->get();
+    foreach ($product_compatibilities as $item) {
+      $compatibilityremove = Productcompatibilitylist::find($item->id);
+      $compatibilityremove->forcedelete();
+    }
+     foreach($compatibility as $list) {
+        $insertcompatibilitylist = Productcompatibilitylist::create(
+        array('product_id' => $id, 'compatibility_id' => $list));
+      }
     $dynamicField = $request ['dynamicfield'];
     $serialized_array = null;
     if (!empty($dynamicField)) {
