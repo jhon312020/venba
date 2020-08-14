@@ -15,15 +15,15 @@ use DB;
 use Mail;
 class FrontendController extends Controller
 {
-	/**
+  /**
    * Function index()
    * returns frontend homepage.
    *
    * @return \Illuminate\Http\Response
   */
   public function index() {
-  	$category = "Lighting";
-    $productlist = 	Product::select('id','name', 'accessories_required', 'price')
+    $category = "Lighting";
+    $productlist =  Product::select('id','name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
     /* $brandlist = Brand::select('name')->whereIn('id', function($query){
@@ -57,17 +57,17 @@ class FrontendController extends Controller
         $ima[$key] =  $value[0];        
       }
     }
-  	return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
-  	}
-  	/**
+    return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
+    }
+    /**
    * Function basic_solution()
    * returns frontend basicsolution page.
    *
    * @return \Illuminate\Http\Response
   */
   public function basic_solution() {
-	$categories = $this->category_fetch();
-	return view('frontend.basic_sol', compact('categories'));
+  $categories = $this->category_fetch();
+  return view('frontend.basic_sol', compact('categories'));
   }
   /**
    * Function advanced_solution()
@@ -77,8 +77,8 @@ class FrontendController extends Controller
   */
   public function advanced_solution() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.advanced_sol', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.advanced_sol', compact('categories'));
   }
   /**
    * Function premium_solution()
@@ -88,8 +88,8 @@ class FrontendController extends Controller
   */
   public function premium_solution() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.premium_sol', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.premium_sol', compact('categories'));
   }
   /**
    * Function installation_guide()
@@ -99,8 +99,8 @@ class FrontendController extends Controller
   */
   public function installation_guide() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.installation_guide', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.installation_guide', compact('categories'));
   }
   /**
    * Function trouble_shooting()
@@ -110,8 +110,8 @@ class FrontendController extends Controller
   */
   public function trouble_shooting() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.trouble_shooting', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.trouble_shooting', compact('categories'));
   }
   /**
    * Function online_support()
@@ -121,8 +121,8 @@ class FrontendController extends Controller
   */
   public function online_support() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.online_support', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.online_support', compact('categories'));
   }
   /**
    * Function faq()
@@ -132,8 +132,8 @@ class FrontendController extends Controller
   */
   public function faq() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.faq', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.faq', compact('categories'));
   }
   /**
    * Function contact()
@@ -143,8 +143,8 @@ class FrontendController extends Controller
   */
   public function contact() {
 
-  	$categories = $this->category_fetch();
-  	return view('frontend.contact', compact('categories'));
+    $categories = $this->category_fetch();
+    return view('frontend.contact', compact('categories'));
   }
   /**
    * Function my_profile()
@@ -335,15 +335,19 @@ class FrontendController extends Controller
       'total' => $total,
     ]);
   }
+  
   /**
-   * Function select_address()
+   * Function address()
    * returns frontend selectaddress page.
    *
    * @return \Illuminate\Http\Response
   */
-  public function select_address(Request $request) {
-    $categories = $this->category_fetch();     
-    return view('frontend.select_address', compact('categories'));
+  public function address(Request $request) {
+    echo "hello";
+    die;
+    $categories = $this->category_fetch();  
+    $cart = Session::get('cart');     
+    return view('frontend.select_address', compact('categories','cart'));
   }
   /**
    * Function sendmail()
@@ -371,4 +375,3 @@ class FrontendController extends Controller
     return back()->with('success', 'Thanks for contacting us!!We will be in touch with you soon.');
   }
 }
-
