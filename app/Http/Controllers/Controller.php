@@ -74,6 +74,12 @@ class Controller extends BaseController {
     ->get();
     return $categories;
   }
+  /**
+   * Function cart_fetch()
+   * Update the specified Product in table.
+   *
+   * @return category records objects
+   */
    public function cart_fetch() {
     $cart = Session::get('cart');          
     $igst = 0;
