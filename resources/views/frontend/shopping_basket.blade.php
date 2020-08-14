@@ -15,7 +15,7 @@
                 <ul class="progressbar">
                   <li class="active"><span class="text">Confirm Order</span></li>
                   @auth
-                  <li><span class="text"><a style="color:#fff" href="{{URL('/select-address')}}">Select Address</a></span></li>
+                  <li><span class="text"><a style="color:#fff" href="{{URL('/address')}}">Select Address</a></span></li>
                   @endauth
                   @guest
                   <li><span class="text"><a style="color:#fff" href="#">Select Address</a></span></li>
