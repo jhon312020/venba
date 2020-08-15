@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\Frontend\ProductlistingController;
 use App\Http\Controllers\Frontend\FrontendController;
-use App\Http\Controllers\Frontend\PaymentController;
+//use App\Http\Controllers\Frontend\PaymentController;
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 Route::get('/homefrontview', [FrontendController::class, 'index'])->name('frontend.index');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('frontend.logout');
@@ -26,9 +26,9 @@ Route::get('/my_wishlist', [FrontendController::class, 'my_wishlist'])->name('fr
 Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('frontend.myorders');
 Route::get('/shopping-basket/{id}', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
 Route::get('/shopping-basket', [FrontendController::class, 'shopping_basket_from_cart'])->name('frontend.shopping-basket_from_cart');
-Route::get('/address', [PaymentController::class, 'address'])->name('frontend.address')->middleware('auth');
+Route::get('/address', [FrontendController::class, 'address'])->name('frontend.address')->middleware('auth');
 Route::post('/sendmail', [FrontendController::class, 'sendmail'])->name('frontend.sendmail');
-Route::post('/saveaddress', [PaymentController::class, 'save_address'])->name('frontend.saveaddress')->middleware('auth');
+Route::post('/saveaddress', [FrontendController::class, 'save_address'])->name('frontend.saveaddress')->middleware('auth');
 Route::get('/refresh_csrf', function () {
     return response()->json(csrf_token());
 })->name('csrf.renew');

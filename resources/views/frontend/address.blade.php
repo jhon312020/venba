@@ -130,19 +130,21 @@
                   </tr>
                 </thead>
                 <tbody id="checkoutlist">
-                  @php
-                    $i=1;
-                    @endphp
-                    @foreach ($cart as $key => $value)
-                  <tr>
-                    <td class="d-none d-lg-block">{{$i}}</td>
-                    <td>{{$value['name']}}</td>
-                    <td class="text-right">{{$value['quantity']}}</td>
-                    <td class="text-right">{{$value['price']}}</td>
-                  </tr>
-                 @php $i++;
-                 @endphp
+                  @if ($cart)
+                    @php
+                      $i=1;
+                      @endphp
+                      @foreach ($cart as $key => $value)
+                    <tr>
+                      <td class="d-none d-lg-block">{{$i}}</td>
+                      <td>{{$value['name']}}</td>
+                      <td class="text-right">{{$value['quantity']}}</td>
+                      <td class="text-right">{{$value['price']}}</td>
+                    </tr>
+                   @php $i++;
+                   @endphp
                   @endforeach
+                @endif
                   
                 </tbody>
               </table>
