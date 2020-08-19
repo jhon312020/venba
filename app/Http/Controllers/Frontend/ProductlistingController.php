@@ -76,7 +76,7 @@ class ProductlistingController extends Controller {
       $product_brand = Product::groupBy('brand_id')->where('cat_id', $cat_id)->pluck('brand_id','brand_id');
       /*print_r($stock);
       die;*/
-      $brandlist = DB::table("brands")->whereIn('id', $product_brand)->pluck("name","id");
+      $brandlist = Brand::whereIn('id', $product_brand)->pluck("name","id");
       /*print_r($brandlist);
       die;*/
       /*$brandlist = Brand::select('name')->whereIn('id', function($query){
@@ -201,7 +201,7 @@ class ProductlistingController extends Controller {
       print_r($ima);
       die;*/
       if(!count($productlist)) {
-        $output .= '<img class="not_found" src="/frontend/images/notfound.png" alt"image not found">';
+        $output .= '<img class="not_found" src="/frontend/images/nopro.png" alt"image not found">';
       }
       foreach($productlist as $product) {
         $output .= '<div class = "col-12 col-lg-4 mb-3 mb-lg-0">
@@ -250,7 +250,7 @@ class ProductlistingController extends Controller {
      $ima = array();  
     $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
    $compatibilityid = Productcompatibilitylist::where('product_id', $id)->pluck('compatibility_id','compatibility_id');
-      $compatibilitylists = DB::table("brands")->whereIn('id', $compatibilityid)->pluck("name","id");
+      $compatibilitylists = Compatibility::whereIn('id', $compatibilityid)->pluck("name","id");
     /*$compatibility = Productcompatibilitylist::select('id')
     ->where('product_id', $id)
     ->get();*/

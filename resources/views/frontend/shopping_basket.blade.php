@@ -165,7 +165,7 @@
                   <a href="{{URL::previous() }}" class="btn btn-secondary">Continue Shopping</a>
                 </div>
                 <div class="col text-right">
-                  <button class="btn btn-secondary">Check Out</button>
+                  <a href="{{URL('address') }}" class="btn btn-secondary">Check Out</a>
                 </div>
               </div>
            </div>

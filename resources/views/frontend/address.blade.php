@@ -47,7 +47,7 @@
               <div class="col-12 box-item pb-3 bg-white">
                  <form class="form text-center px-lg-3" method="post" action="{{route('frontview.frontend.saveaddress')}}">
                   @csrf
-                    <div class="form-group floating-control-group">
+                    <div class="form-group floating-control-group mart">
                       <label for="yourName">Your Name</label>
                       <input type="text" class="form-control @error('name') is-invalid @enderror"  name="name" required="" value="{{old('name')}}" placeholder="Your Name">
                       @error('name')
@@ -198,7 +198,7 @@
                   <a href="{{URL::previous() }}" class="btn btn-secondary">Continue Shopping</a>
                 </div>
                 <div class="col text-right">
-                  <button class="btn btn-secondary">Check Out</button>
+                  <a href="{{URL('payment') }}" class="btn btn-secondary">Check Out</a>
                 </div>
               </div>
            </div>

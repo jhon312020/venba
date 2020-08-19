@@ -172,8 +172,8 @@
             <div class="row mb-3">
               <div class="col-12 ">
                 <h4>COLOUR :</h4>
-                @if(isset($productdetails->color))
-                <span>{{$productdetails->color}}</span> 
+                @if(isset($productdetails->light_color))
+                <span>{{$productdetails->light_color}}</span> 
                 @else
                 <span>Not Available</span>
                 @endif

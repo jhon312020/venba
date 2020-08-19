@@ -16504,3 +16504,13 @@ textarea {
     display: block; } }
 
 /*# sourceMappingURL=main.css.map */
+.mart{
+  margin-top:25px;
+}
+.not_found{  position:relative;
+  margin-top:250px;
+  left:40%;
+}
+.underconstruction{
+    margin-left:300px;
+}
