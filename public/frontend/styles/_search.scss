@@ -1,0 +1,56 @@
+// Seach
+
+.search-results {
+  h3 {
+    span {
+      color: $primary;
+    }
+  }
+  .triangle {     
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 43.3px 25px 0 25px;
+    border-color: $secondary transparent transparent transparent;
+    line-height: 0px;
+    border-color: $secondary transparent transparent transparent;
+    filter: progid:DXImageTransform.Microsoft.Chroma(color='$secondary');
+    margin-top: 1rem;
+    display: inline-block;
+  }
+  .search-items {
+    border: 5px solid $light-blue;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    .product-img {
+      width: 150px;
+    }
+    .price {
+      color: $primary;
+    }
+  }
+}
+
+
+// Pagination
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// Mobile
+@include media-breakpoint-down(md) {
+  .search-results {
+    .triangle {
+      border-width: 17.3px 10px 0 10px;
+      margin-top: .5rem;
+    }
+    h3 {
+      span {
+        display: block;
+      }
+    }
+  }
+}

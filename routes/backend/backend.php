@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\TypeController;
 use App\Http\Controllers\Backend\CompatibilityController;
 use App\Http\Controllers\Backend\PowerconsumptionController;
+use App\Http\Controllers\Backend\UserController;
 
 // Concepts Management
 Route::get('concepts', [ConceptController::class, 'index'])->name('concept.index');
@@ -77,3 +78,5 @@ Route::group(['prefix' => 'powerconsumption/{id}'], function () {
   Route::patch('/', [PowerconsumptionController::class, 'update'])->name('powerconsumption.update');
   Route::delete('/', [PowerconsumptionController::class, 'destroy'])->name('powerconsumption.destroy');
 });
+// User Management
+Route::get('users', [UserController::class, 'index'])->name('user.index');

@@ -249,7 +249,16 @@ class ProductlistingController extends Controller {
      $imagearray = array();
      $ima = array();  
     $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
-    $compatibility = Compatibility::find($productdetails->compatibility_id);
+   $compatibilityid = Productcompatibilitylist::where('product_id', $id)->pluck('compatibility_id','compatibility_id');
+      $compatibilitylists = DB::table("brands")->whereIn('id', $compatibilityid)->pluck("name","id");
+    /*$compatibility = Productcompatibilitylist::select('id')
+    ->where('product_id', $id)
+    ->get();*/
+    /*print_r($compatibilitylists);
+    die;*/
+    ($productdetails->compatibility_id);
+    $brand = Brand::find($productdetails->brand_id);
+    $type = Type::find($productdetails->type_id);
     foreach ($productdetails->images as $image) {
       $imagearray[$id][] = $image->name;          
     }
@@ -267,8 +276,9 @@ class ProductlistingController extends Controller {
     echo '</pre>';
     die;*/
     $categories = $this->category_fetch();
-
-    return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','compatibility'));
+    /*print_r($productimages);
+    die;*/
+    return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','brand','type','compatibilitylists'));
   }
   /**
    * Function addtocart()

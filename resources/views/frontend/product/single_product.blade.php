@@ -1,6 +1,11 @@
 @extends('frontend.layouts.app')
 @section('content')
-<!--Top Banner Start-->
+ <!--Body Content-->
+  <section> 
+
+    <!--Product Listing Start-->
+    
+    <!--Top Banner Start-->
   <div class="container-fluid">
     <!--Desktop view--> 
     <div class="row mb-5 top-banner d-none d-lg-flex">
@@ -10,8 +15,6 @@
           <div class="navigation">
             @if(isset($category))
               <h2>{{$category}}</h2>
-            @else 
-              <h2>Lighting</h2>
             @endif
             <ul class="nav">
               <li class="nav-item">
@@ -39,8 +42,6 @@
       <div class="col-12 px-0">
         @if(isset($category))
           <h2>{{$category}}</h2>
-        @else 
-          <h2>Lighting</h2>
         @endif
       </div>
     </div>
@@ -48,82 +49,288 @@
   </div>  
    
   <!--Top Banner End-->
- <div class="container-fluid">
-  <div class="row">
-    <div class="col-6">
-     	<div style=" border:1px solid black; padding:50px;margin-left: 50px">
-        @if(isset($produstimages))
-      <img src="/images/{{$id}}/{{$productimages[0]}}">     
+
+
+
+     <!--Products Details Start-->
+    <div class="bg-white pt-3 py-lg-5">     
+      <div class="container">
+        <div class="row product-details">
+          <div class="col-12 col-lg-6 product-slider">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <div class="row reverse-column">
+                <div class="col-12 col-lg-2">
+                  <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                      <img class="d-none d-lg-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="First slide">
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1">
+                      <img class="d-none d-lg-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Second slide">
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2">
+                      <img class="d-none d-lg-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Third slide">
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3">
+                      <img class="d-none d-lg-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Fourth slide">
+                    </li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4">
+                      <img class="d-none d-lg-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Five slide">
+                    </li>
+                  </ol>
+                </div>
+                <div class="col-12 col-lg-10 px-lg-0">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img class="d-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Third slide">
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Four slide">
+                    </div>
+                    <div class="carousel-item">
+                      <img class="d-block w-100" src="{{ url('frontend/images/product-img.jpg')}}" alt="Five slide">
+                    </div>
+                  </div>
+                  <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                  <div class="row d-flex d-lg-none top-title">
+                    <div class="col-6 col-lg-8 pt-2">
+                      <div class="row">
+                        <div class="col-12">
+                          <h3>{{$brand}}</h3>
+                        </div>
+                        <div class="col">
+                          <h3 class="border-left pl-2">CODE : CLW-14W</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6 col-lg-4 text-right">
+                      <button class="btn btn-secondary">Add to Kart</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 product-description">
+            <div class="row d-none d-lg-flex">
+              <div class="col-12 col-lg-8 pt-2">
+                <div class="row">
+                  <div class="col">
+                    @if(isset($brand->name))
+                    <h3>{{$brand->name}}</h3>
+                    @else
+                    <h3>No Brand</h3>
+                    @endif
+                  </div>
+                  <div class="col">
+                    <h3 class="border-left pl-2">{{$productdetails->material_no}}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-4 text-right">
+                <button class="btn btn-secondary">Add to Kart</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 pt-3"><h2>{{$productdetails->name}}</h2></div>
+            </div> 
+            <div class="row">
+              <div class="col-12 col-lg-8 pt-2">
+                <div class="row">
+                  <div class="col">
+                    <h3>WARRANTY : {{$productdetails->warranty}}</h3>
+                  </div>
+                  <div class="col">
+                    @if(isset($type))
+                    <h3 class="border-left pl-2">FITTING : {{$type->name}}</h3>
+                    @else
+                    <h3 class="border-left pl-2">FITTING : Not available</h3>
+                    @endif
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-4">
+                <!--<button class="btn btn-secondary">Add to Kart</button>-->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 "><span class="text-small">{{$productdetails->introduction}}</span></div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-12 ">
+                <h4>COLOUR :</h4>
+                @if(isset($productdetails->color))
+                <span>{{$productdetails->color}}</span> 
+                @else
+                <span>Not Available</span>
+                @endif
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-12 ">
+                <h4>CONNECTIVITY</h4>
+                 @if(isset($productdetails->wired_wireless))
+                <span>{{$productdetails->wired_wireless}}</span> 
+                @else
+                <span>Not Available</span>
+                @endif
+              </div>
+            </div>  
+            <div class="row mb-3">
+              <div class="col-12 ">
+                <h4>POWER CONSUMPTION :</h4>
+                @if(isset($powerconsumption))
+                <span>{{$powerconsumption->name}}</span> 
+                @else
+                <span>Not Available</span>
+                @endif
+              </div>
+            </div> 
+            <div class="row mb-3">
+              <div class="col-12 ">
+                <h4>COMPATABILITY :</h4>
+                @if(count($compatibilitylists))
+                @php
+                $i=1;
+                @endphp
+                @foreach($compatibilitylists as $item)
+                <span>{{$item}}<br/>
+                  @php
+                  $i++;
+                  @endphp
+                @endforeach</span> 
+                @else
+                <span>Not Available</span> 
+                @endif
+
+              </div>
+            </div> 
+            <div class="row mb-lg-3">
+              <div class="col-12 col-lg-9">
+                <img class="d-block w-50" src="images/requires-a-hue-bridge.jpg" alt="">
+              </div>
+              <div class="col-12 col-lg-3 px-0 d-none d-lg-block">
+                <button class="btn btn-primary">Added to Kart</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-lg-6">
+                <span class="price">Rs. {{$productdetails->price}}</span>
+              </div>
+              <div class="col-12 col-lg-6 pt-3 pt-lg-0">
+                <div class="row">
+                  <div class="col">
+                    <button class="btn btn-secondary">Back</button>
+                  </div>
+                  <div class="col">
+                    <button class="btn btn-secondary">Add to Kart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12 pt-3 pt-lg-5 product-features">
+            <div class="row">
+              <div class="col-12 col-lg-4">
+                <h5>PHYSICAL SPECS</h5>
+                @if(isset($productdetails->physical_spec))
+                <p>
+                 {!! nl2br(e($productdetails->physical_spec)) !!}
+                </p> 
+                @else
+                <p>No Information Found</p>
+                @endif
+              </div>
+              <div class="col-12 col-lg-4">                            
+                <h5>TECHNICAL SPECS </h5>
+                 @if(isset($productdetails->technical_spec)) 
+                <p> {!! nl2br(e($productdetails->technical_spec)) !!}
+                </p> 
+                @else
+                <p>No Information Available</p>
+                @endif
+              </div>
+              <div class="col-12 col-lg-4">
+                <h5>FEATURES</h5>
+                <p> Color changing (LED)-Yes <br />
+Diffused light effect-Yes<br />
+Dimmable-Yes<br />
+LED integrated-Yes<br />
+Power adapter included-Yes<br />
+Universal Plug-Yes<br />
+ZigBee Light Link-Yes
+                </p> 
+              </div>
+            </div>                    
+          </div>
+        </div>
       </div>
-      <div class="display-flex" style="position: relative;left:20%;top:10px">
-      	@foreach ($productimages as $image)
-      		<img style="width:80px;height:80px" src="/images/{{$id}}/{{$image}}">
-     		 @endforeach
-          @endif
-     </div>
+      <!--Products Details End-->
     </div>
-    <div class="col-6" id="addtocart">
-    	<input type="hidden" id="product_id_no" value="{{$id}}">
-    	<input type="hidden" id="category" value="{{$category}}">
-    	<h3 id="product_name">{{$productdetails->name}}</h3>
-    	<p>Product no:{{$productdetails->material_no}}</p>
-    	<br>    
-    	<p style="font-weight:bold">{{$productdetails->accessories_required}}</p>
-    	<hr>
-    	<span>
-    	<input id="no_of_quantity" style="width:50px;" type="number" value="1">
-    	<span id="addcart" class="icon-Cart" style="margin-left:100px"></span>
-    	</span>
-    	<hr>
-    	<div id="message"></div>
-    	<p>{{$productdetails->introduction}}</p>
-    	<div style="display:inline-flex">
-    		<div>
-    			<h5>Power Consumption</h5>
-    			@if(isset($powerconsumption))
-   		 		<p>{{$powerconsumption->name}}</p>
-   		 		@else
-   		 		<p></p>
-   		 		@endif
-   			</div>
-    		<div>
-    			<div style="margin-left:100px">
-    				<h5>Connectivity</h5>
-    				<p>{{$productdetails->wired_wireless}}</p>
-    			</div>
-    		</div>
-  		</div>
-  		<div class="single_pro_sty">
-  			<p class="wid">Technical Specification</p>
-  			<p id="tech"  class="prl">+</p>
-  		</div>
-  		<div id="tech_spec" style="background:#eee">
-  			<p>{!! nl2br(e($productdetails->technical_spec)) !!}</p>
-			</div>
-			<div class="single_pro_sty">
-  			<p class="wid">Compatibility</p>
-  			<p id="comp" class="prl">+</p>
-  		</div>
-  		<div id="compatibility" style="background:#eee">
-        @if(isset($compatibility))
-  			<p>{{$compatibility->name}}</p>
-        @endif
-			</div>
-			<div class="single_pro_sty">
-  			<p class="wid">Warranty</p>
-  			<p id="warranty" class="prl">+</p>
-  		</div>
-  		<div id="warranty_detail" style="background:#eee">
-  			<p>{{$productdetails->warranty}}</p>
-			</div>
-			<div class="single_pro_sty">
-  			<p class="wid">Physical Specification</p>
-  			<p id="phy" class="prl">+</p>
-  		</div>
-  		<div id="phy_spec" style="background:#eee">
-  			<p>{!! nl2br(e($productdetails->physical_spec)) !!}</p>
-			</div>
-		</div>
-	</div>
+    <!--Product Listing End-->
+   
+   <div class="container">
+     <!--More Products Start-->
+      <div class="row my-5">
+          <div class="col-12 text-center"><h2 class="h2-line mb-5">More products</h2></div>
+          <div class="col-12">
+            <div class="card-deck">
+              <div class="card thumbnail">
+                <img src="images/product-img.jpg" class="card-img-top" alt="">
+                <div class="card-body text-center">
+                  <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>
+                  <h5 class="card-title">Rs. 2,150.00</h5>  
+                  <p class="card-text"><img src="images/requires-a-hue-bridge.jpg" class="card-img-bot" alt=""></p>                    
+                  <button class="btn btn-secondary">Add to Kart</button>
+                </div>
+              </div>
+              <div class="card thumbnail">
+                <img src="images/product-img.jpg" class="card-img-top" alt="">
+                <div class="card-body text-center">
+                  <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>
+                  <h5 class="card-title">Rs. 2,150.00</h5>  
+                  <p class="card-text"><img src="images/requires-a-hue-bridge.jpg" class="card-img-bot" alt=""></p>                    
+                  <button class="btn btn-secondary">Add to Kart</button>
+                </div>
+              </div>
+              <div class="card thumbnail">
+                <img src="images/product-img.jpg" class="card-img-top" alt="">
+                <div class="card-body text-center">
+                  <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>
+                  <h5 class="card-title">Rs. 2,150.00</h5>  
+                  <p class="card-text"><img src="images/requires-a-hue-bridge.jpg" class="card-img-bot" alt=""></p>                    
+                  <button class="btn btn-secondary">Add to Kart</button>
+                </div>
+              </div>
+              <div class="card thumbnail">
+                <img src="images/product-img.jpg" class="card-img-top" alt="">
+                <div class="card-body text-center">
+                  <p class="card-text">Philips - 31184 MEMURU wall lamp LED white 1x14W - 1.2 mtr</p>
+                  <h5 class="card-title">Rs. 2,150.00</h5>  
+                  <p class="card-text"><img src="images/requires-a-hue-bridge.jpg" class="card-img-bot" alt=""></p>                    
+                  <button class="btn btn-secondary">Add to Kart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      <!--More Products End-->
+   </div>
+
+  </section>
+  <!--Body Content End-->
 
 @endsection

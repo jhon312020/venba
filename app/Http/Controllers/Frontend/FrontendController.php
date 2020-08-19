@@ -407,4 +407,15 @@ class FrontendController extends Controller {
 
     return back()->with('success', 'Thanks for contacting us!!We will be in touch with you soon.');
   }
+  /**
+   * Function sendmail()
+   * sends email to admin with contact form details
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function search(Request $request) {  
+    $categories = $this->category_fetch();
+    return view('frontend.search', compact('categories'));
+  }
+
 }

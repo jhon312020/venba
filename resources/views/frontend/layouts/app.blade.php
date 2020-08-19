@@ -56,10 +56,12 @@
                    <span id="cart_count" class="count">{{count(Session::get('cart'))}}</span>
                   @endif
                   <p>Cart</p>                 
-                </div>
+                </div>                
                 <div class="col text-center pTop">
-                  <span class="icon-Search"></span>
-                  <p>Search</p>                 
+                  <a class="dropdown-item" href="{{ url('/search') }}">
+                    <span class="icon-Search"></span>
+                    <p>Search</p> 
+                  </a>                
                 </div>
               </div>
             </div>

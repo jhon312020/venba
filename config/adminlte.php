@@ -400,7 +400,7 @@ return [
         'USER SETTINGS',
         [
             'text' => 'users',
-            'url'  => '#',
+            'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa fa-users',
         ],
        
