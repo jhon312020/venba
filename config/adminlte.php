@@ -381,6 +381,12 @@ return [
             'active' => ['admin/powerconsumption', '', '/admin/powerconsumption/*', 'regex:@^/[0-9]+$@']
         ],
         [
+            'text' => 'Color',
+            'url'  => 'admin/color',
+            'icon' => 'fas fa-fw fa fa-bolt',
+            'active' => ['admin/color', '', '/admin/color/*', 'regex:@^/[0-9]+$@']
+        ],
+        [
             'text' => 'Products',
             'url'  => 'admin/products',
             'icon' => 'fas fa-fw fa fa-lightbulb',

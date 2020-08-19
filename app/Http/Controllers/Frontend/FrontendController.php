@@ -33,7 +33,7 @@ class FrontendController extends Controller {
       ->from(with(new Product)->getTable())
       ->where('cat_id', 1);
       })->get();*/
-      $product_brand = Product::groupBy('brand_id')->where('cat_id', 1)->pluck('brand_id','brand_id');
+      /*$product_brand = Product::groupBy('brand_id')->where('cat_id', 1)->pluck('brand_id','brand_id');*/
       /*print_r($stock);
       die;*/
      /* $brandlist = DB::table("brands")->whereIn('id', $product_brand)->pluck("name","id");*/

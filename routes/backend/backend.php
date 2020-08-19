@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\TypeController;
 use App\Http\Controllers\Backend\CompatibilityController;
 use App\Http\Controllers\Backend\PowerconsumptionController;
+use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\UserController;
 
 // Concepts Management
@@ -77,6 +78,15 @@ Route::group(['prefix' => 'powerconsumption/{id}'], function () {
   Route::get('edit', [PowerconsumptionController::class, 'edit'])->name('powerconsumption.edit');
   Route::patch('/', [PowerconsumptionController::class, 'update'])->name('powerconsumption.update');
   Route::delete('/', [PowerconsumptionController::class, 'destroy'])->name('powerconsumption.destroy');
+});
+// Color Management
+Route::get('color', [ColorController::class, 'index'])->name('color.index');
+Route::get('color/add', [ColorController::class, 'add'])->name('color.add');
+Route::post('color', [ColorController::class, 'store'])->name('color.store');
+Route::group(['prefix' => 'color/{id}'], function () {
+  Route::get('edit', [ColorController::class, 'edit'])->name('color.edit');
+  Route::patch('/', [ColorController::class, 'update'])->name('color.update');
+  Route::delete('/', [ColorController::class, 'destroy'])->name('color.destroy');
 });
 // User Management
 Route::get('users', [UserController::class, 'index'])->name('user.index');

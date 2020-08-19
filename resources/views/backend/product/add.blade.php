@@ -42,8 +42,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 ">
           <div class="form-group">
-            <label for="material_no">Material Number</label>
-            <input  type="text" class="form-control admin-field" id="material_no" name="material_no" value="{{old('material_no')}}" placeholder="Enter material number">
+            <label for="material_no">Product Number</label>
+            <input  type="text" class="form-control admin-field" id="product_no" name="product_no" value="{{old('product_no')}}" placeholder="Enter product number">
           </div>
         </div>
       </div>
@@ -109,7 +109,8 @@
         <div class="col-xs-12 col-sm-6 col-md-6 ">        
         <div class="form-group">
           <label for="lightcolor">Light Color</label>
-          <input  type="text" class="form-control admin-field" id="light_color" name="light_color" value="{{old('light_color')}}" placeholder="Enter light color">
+       <!--    <input  type="text" class="form-control admin-field" id="light_color" name="light_color" value="{{old('light_color')}}" placeholder="Enter light color"> -->
+       {!! Form::select('color_id', $colors, old('color_id',null), ['placeholder' => 'Please Select color', 'class' => 'form-control']) !!}
         </div>
       </div>
     </div>

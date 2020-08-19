@@ -23,7 +23,7 @@ class Product extends Model {
    * @var array
    */
   protected $fillable = [
-    'name', 'material_no','concept_id','cat_id','sub_cat_id','brand_id','type_id','compatibility_id','power_consumption_id','physical_spec','light_color','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','price','igst','sgst','transit','product_image', 'additional_properties',
+    'name', 'product_no','concept_id','cat_id','sub_cat_id','brand_id','type_id','compatibility_id','power_consumption_id','physical_spec','color_id','introduction','accessories_required','warranty','technical_spec','additional_features','wired_wireless','price','igst','sgst','transit','product_image', 'additional_properties',
   ];
 
   /**
@@ -57,6 +57,26 @@ class Product extends Model {
    */
   public function brand() {
     return $this->belongsTo('App\Models\Brand');
+  }
+
+  /**
+   * BelongsTo relationship with Powerconsumption  Model 
+   * for lazy loading
+   *
+   * @param null
+   */
+  public function powerconsumption() {
+    return $this->belongsTo('App\Models\Powerconsumption');
+  }
+
+  /**
+   * BelongsTo relationship with Color  Model 
+   * for lazy loading
+   *
+   * @param null
+   */
+  public function color() {
+    return $this->belongsTo('App\Models\Color');
   }
 
   /**

@@ -38,8 +38,10 @@ class HomeController extends Controller {
         $productlist =  Product::select('id', 'name', 'accessories_required', 'price')
         ->where('cat_id', 1)
         ->get();
-        $brandlist = Brand::select('id', 'name')
-        ->get();
+       $product_brand = Product::groupBy('brand_id')->where('cat_id', 1)->pluck('brand_id','brand_id');
+      /*print_r($stock);
+      die;*/
+      $brandlist = Brand::whereIn('id', $product_brand)->pluck("name","id");
         $categories = Category::select('id', 'name')
         ->where('cat_id', null)
         ->get();

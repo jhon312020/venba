@@ -24,7 +24,7 @@
       @foreach($products as $index => $item)
         <tr class="profile-table">
           <td> {{ $index + 1 }} </td>
-          <td>{{ $item->material_no }} </td>
+          <td>{{ $item->product_no }} </td>
           <td> <span><a href= "{{ route('admin.product.edit' , ['id' => $item->id]) }}" class="btn btn-success"><i class="fa fa-edit"></i></a> <a href= "{{ route('admin.product.destroy', ['id' => $item->id]) }}" class="btn btn-danger" data-method="delete"><i class="fa fa-trash"></i></a></span></td>
         </tr>
       @endforeach

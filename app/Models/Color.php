@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PowerConsumption extends Model {
-
-  use SoftDeletes;
+class Color extends Model {
+ use SoftDeletes;
   
   /**
    * The table associated with the model.
    *
    * @var string
    */
-  protected $table = 'power_consumptions';
+  protected $table = 'colors';
   
   /**
    * The attributes that are mass assignable.
@@ -31,14 +30,13 @@ class PowerConsumption extends Model {
    * @var array
    */
   protected $dates = ['deleted_at'];
-
-  /**
+   /**
    * One to one relationship with Product Model 
    * for lazy loading
    *
    * @param null
    */
-  public function product() {
+   public function product() {
     return $this->hasOne('App\Models\Product');
   }
 }

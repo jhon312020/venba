@@ -9,6 +9,7 @@ use App\Models\Concept as Concept;
 use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
+use App\Models\Color as Color;
 use App\Models\Compatibility as Compatibility;
 use App\Models\PowerConsumption as PowerConsumption;
 use App\Models\Image as ProductImage;
@@ -34,15 +35,15 @@ class ProductController extends Controller {
     $this->middleware('auth');
     $this->productValidator = [
       'name' => 'required',
-      'material_no' => 'required|int',
+      'product_no' => 'required|int',
       'concept_id' => 'required',
       'cat_id' => 'required',
       'sub_cat_id' => 'required',
       'brand_id' => '',
       'type_id' => '',
       'power_consumption_id' => '',
+      'color_id' => '',
       'physical_spec' => '',
-      'light_color' => '',
       'introduction' => '',
       'accessories_required' => '',
       'warranty' => '',
@@ -82,6 +83,7 @@ class ProductController extends Controller {
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
+    $colors  = Color::all()->pluck('name', 'id');
    /* print_r($compatibilities);
     die;*/
     $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
@@ -92,7 +94,7 @@ class ProductController extends Controller {
       $cat_id = $old_data['cat_id'];
       $subcategories  = Category::where('cat_id', $cat_id)->pluck('name','id');
     } 
-    return view('backend.product.add', compact('concepts', 'categories', 'subcategories','brands', 'types', 'compatibilities','powerconsumption'));
+    return view('backend.product.add', compact('concepts', 'categories', 'subcategories','brands', 'types', 'compatibilities','powerconsumption','colors'));
   }
 
   /**
@@ -124,10 +126,12 @@ class ProductController extends Controller {
         array('product_id' => $show->id, 'name' => $image));
       }
     }
+    if($isset($compatibilitylist)) {
     foreach($compatibilitylist as $list) {
         $insertcompatibilitylist = Productcompatibilitylist::create(
         array('product_id' => $show->id, 'compatibility_id' => $list));
       }
+    }
      
     return redirect()->route('admin.product.index')->withFlashSuccess(__('Successfully Added!'));
   }
@@ -171,6 +175,7 @@ class ProductController extends Controller {
     $brands  = Brand::all()->pluck('name', 'id');
     $types  = Type::all()->pluck('name', 'id');
     $compatibilities  = Compatibility::all()->pluck('name', 'id');
+    $colors  = Color::all()->pluck('name', 'id');
     /*$compatibilitylists = Productcompatibilitylist::select('id')->where('product_id', $id)->get();*/
     $compatibility = Productcompatibilitylist::all()->where('product_id', $id)->pluck('compatibility_id');
     foreach($compatibility as $key => $value) {
@@ -179,7 +184,7 @@ class ProductController extends Controller {
    /*print_r($compatibilitylists);
     die;*/
     $powerconsumption = PowerConsumption::all()->pluck('name', 'id');
-    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities,'compatibilitylists'=> $compatibilitylists, 'powerconsumption' => $powerconsumption,'imagecount' => $no_of_images ));
+    return view('backend.product.edit' , array ( 'product' => $record, 'concepts'=> $concepts, 'categories'=> $categories,'subcategories'=> $subcategories, 'additional_prop_array' => $additional_prop_array,'images' => $images, 'id' => $id,'dynamicfieldcount' => $dynamicfieldcount,'brands' => $brands, 'types' => $types, 'compatibilities'=> $compatibilities,'compatibilitylists'=> $compatibilitylists, 'powerconsumption' => $powerconsumption,'imagecount' => $no_of_images,'colors' => $colors ));
   }
 
   /**
@@ -233,10 +238,12 @@ class ProductController extends Controller {
       $compatibilityremove = Productcompatibilitylist::find($item->id);
       $compatibilityremove->forcedelete();
     }
+    if(isset($compatibility)) {
      foreach($compatibility as $list) {
         $insertcompatibilitylist = Productcompatibilitylist::create(
         array('product_id' => $id, 'compatibility_id' => $list));
       }
+    }
     $dynamicField = $request ['dynamicfield'];
     $serialized_array = null;
     if (!empty($dynamicField)) {
