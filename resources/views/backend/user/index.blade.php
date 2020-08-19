@@ -5,8 +5,8 @@
 @include('backend.includes.partials.messages')
   <div class="page-header">
     <h1>List of Types</h1>
-    <a  href="{{ route('admin.type.add') }}" class="btn btn-success"> <i class="fa fa-plus-circle"></i>
-    </a>
+    <!-- <a  href="{{ route('admin.type.add') }}" class="btn btn-success"> <i class="fa fa-plus-circle"></i>
+    </a> -->
   </div>
   <table id="types" class="datatable table table-bordered table-striped">
     <thead>
@@ -15,7 +15,7 @@
         <th>Name</th>
         <th>Email</th> 
         <th>Mobile No</th>
-        <th>Action</th>    
+        <th>More Details</th>    
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
           <td>{{ $item->name}} </td>
           <td>{{$item->email}}</td>
           <td>{{$item->mobile_number}}</td>
-          <td> <span><a href= "{{ route('admin.type.edit' , ['id' => $item->id]) }}" class="btn btn-success"><i class="fa fa-edit"></i></a> <a href= "{{ route('admin.type.destroy', ['id' => $item->id]) }}" class="btn btn-danger" data-method="delete"><i class="fa fa-trash"></i></a></span></td>
+          <td> <span><a href= "#" class="btn btn-success"><i class="fa fa-edit"></i></a></span></td>
         </tr>
       @endforeach
       @endisset
