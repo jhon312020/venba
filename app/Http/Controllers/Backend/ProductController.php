@@ -55,7 +55,7 @@ class ProductController extends Controller {
       'sgst' =>'required',
       'transit' =>'required',
       'additional_properties'=>'',
-      'filename' => '',
+      'filename' => 'required',
       'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
     ];
 
@@ -126,7 +126,7 @@ class ProductController extends Controller {
         array('product_id' => $show->id, 'name' => $image));
       }
     }
-    if($isset($compatibilitylist)) {
+    if(isset($compatibilitylist)) {
     foreach($compatibilitylist as $list) {
         $insertcompatibilitylist = Productcompatibilitylist::create(
         array('product_id' => $show->id, 'compatibility_id' => $list));

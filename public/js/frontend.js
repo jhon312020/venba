@@ -9,6 +9,7 @@ function renewToken() {
 $(document).ready(function() {
 	$("#filterlist .custom-control-input").change(function() {
   	var category = $(this).parent().attr('id');
+    var subcatids = [];
   	var brandids = [];
 		var typeids = [];
 		var compatibilityids = [];
@@ -16,6 +17,11 @@ $(document).ready(function() {
   		//console.log(category);		 	
       $('.checkbox-choices input[type="checkbox"]:checked').each(function() {                
         var name = $(this).attr('name');
+        if(name.indexOf("subcat") != -1) {
+            var id= name.substr(name.indexOf("_") + 1);
+            subcatids.push(id);
+
+          }
           if(name.indexOf("brand") != -1) {
           	var id= name.substr(name.indexOf("_") + 1);
           	brandids.push(id);
@@ -34,6 +40,11 @@ $(document).ready(function() {
     
     	if($(this). prop("checked") == false) {
     		var name = $(this).attr('name');
+        if(name.indexOf("subcat") != -1) {
+          console.log(subcatids);  
+          var remove_id= name.substr(name.indexOf("_") + 1);
+          var subcatids = $(subcatids).not([remove_id]).get(); 
+        }
     		if(name.indexOf("brand") != -1) {
     	 		console.log(brandids);  
         	var remove_id= name.substr(name.indexOf("_") + 1);
@@ -61,7 +72,7 @@ $(document).ready(function() {
       	  headers: {
         		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     			},   	
-      	data:{brandids:brandids,typeids:typeids,compatibilityids:compatibilityids},
+      	data:{subcatids:subcatids,brandids:brandids,typeids:typeids,compatibilityids:compatibilityids},
       	success:function(result) {
        		$('#filterlist .productlist').html(result);
       	}
@@ -84,9 +95,9 @@ $(document).ready(function() {
   $("#comp").click(function(){
          $("#compatibility").toggle();
     });
-  $("#addtocart #addcart").click(function(){
-      var count = $("#no_of_quantity").val();
-      var name = $("#addtocart").children('#product_name').text();
+  $("#addtocart .addcart").click(function(){
+      var count = 1;
+      var name = $('#product_name').text();
       var product_id = $("#product_id_no").val();
       var category = $("#category").val();
        $.ajax({
@@ -99,7 +110,9 @@ $(document).ready(function() {
        dataType: 'JSON',
       success:function(results) {
         $('#cart_count').text(results.count);
-       $('#message').html(results.message);
+       //$('#message').html(results.message);
+       $('.addcart').remove();
+       $('.cartmsg').html(results.message);
       }
    })
   });

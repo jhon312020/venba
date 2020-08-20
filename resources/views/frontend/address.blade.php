@@ -117,7 +117,7 @@
             </div>
            </div>
            <div class="col-12 col-lg-6 product-cost">
-            <h2>Your Cost</h2>
+            <h3>Your Cost</h3>
             <div class="box mb-3 cost-details">
               <h4>Item cost</h4>
               <table class="table">

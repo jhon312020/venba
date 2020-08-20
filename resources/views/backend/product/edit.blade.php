@@ -42,7 +42,7 @@
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 ">
             <div class="form-group">
-              <label for="material_no">Material Number</label>
+              <label for="material_no">Product Number</label>
               <input  type="text" class="form-control admin-field" id="product_no" name="product_no" placeholder="Enter material number" value="{{old('product_no', $product->product_no)}}">
             </div>
           </div>

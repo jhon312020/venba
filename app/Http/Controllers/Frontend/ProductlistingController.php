@@ -73,6 +73,9 @@ class ProductlistingController extends Controller {
 
       /*$name = $productlist->pluck('images')->collapse();*/
       /*SELECT name FROM brands WHERE id IN (SELECT DISTINCT brand_id FROM `products` where cat_id =1)*/
+      $subcategories = Category::select('id','name')
+      ->where('cat_id', $cat_id)
+      ->get();
       $product_brand = Product::groupBy('brand_id')->where('cat_id', $cat_id)->pluck('brand_id','brand_id');
       /*print_r($stock);
       die;*/
@@ -109,7 +112,7 @@ class ProductlistingController extends Controller {
       /*$categories = Category::select('id', 'name')
         ->where('cat_id', null)
         ->get();*/
-  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
+  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories'))->with('category', $category);
     
   }
   /**
@@ -121,6 +124,7 @@ class ProductlistingController extends Controller {
   */
   public function filterproductlist(Request $request, $category) {
     //echo $category;
+    $subcat_id = $request->get('subcatids');
     $brand_id = $request->get('brandids');
     /*print_r($brand_id);
     die;*/
@@ -153,6 +157,11 @@ class ProductlistingController extends Controller {
           });
         }
       })*/
+      if(!empty($subcat_id)) {
+      /*echo "hello";
+      die;*/
+       $productlist = $productlist -> whereIn('sub_cat_id', $subcat_id);
+      }
       
      if(!empty($brand_id)) {
       /*echo "hello";
@@ -246,6 +255,10 @@ class ProductlistingController extends Controller {
     print_r($productdetails);
     echo '</pre>';
     die;*/
+    $categoryid = Category::all()
+        ->where('name', $category)
+        ->pluck('id');
+    $cat_id = $categoryid[0];
      $imagearray = array();
      $ima = array();  
     $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
@@ -267,6 +280,28 @@ class ProductlistingController extends Controller {
       $productimages =  $value;        
       }
     }
+    $moreproductlist =  Product::select('id','name', 'accessories_required', 'price')
+      ->where('cat_id', $cat_id)
+      ->take(4)
+      ->get()->toArray();
+      /*echo '<pre>';
+      print_r($moreproductlist);
+      echo '</pre>';
+
+      die;*/  
+       $moreimagearray = array();
+       $moreima = array();  
+      foreach($moreproductlist as $product) {
+        $moreimagelist = Product::find($product['id']);
+        foreach ($moreimagelist->images as $moreimage) {
+          $moreimagearray[$product['id']][] = $moreimage->name;          
+        }
+      } 
+      if(!empty($moreimagearray)) {
+        foreach($moreimagearray as $key => $value) {
+          $moreima[$key] =  $value[0];        
+        }
+      }
     /*echo $id;
     echo '<br>';
     echo  $category;
@@ -278,7 +313,7 @@ class ProductlistingController extends Controller {
     $categories = $this->category_fetch();
     /*print_r($productimages);
     die;*/
-    return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','brand','type','compatibilitylists'));
+    return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','brand','type','compatibilitylists','moreproductlist','moreima'));
   }
   /**
    * Function addtocart()
@@ -316,7 +351,9 @@ class ProductlistingController extends Controller {
     }
     $cart_session = $this->cart_fetch();    
     $count = count($cart);
-    $message = '<div class="ajaxbg"><p class="ajaxcol">successfully added to session</p><a class="ajaxpl" href="/shopping-basket/"><span class="icon-login pt"></span></a></div>';
+    $message = '<div class="col-12 col-lg-3 px-0 d-none d-lg-block">
+                <button class="btn btn-primary">Added to Kart</button>
+              </div>';
     return response()->json([
       'count' => $count,
       'message' => $message,

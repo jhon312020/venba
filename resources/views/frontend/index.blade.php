@@ -73,6 +73,17 @@
               </div>
             </div>            
             <div class="filter-items dropdown-menu" id="fillterDropdown">
+              <h5>SUB CATEGORY</h5>
+              @foreach($subcategories as $subcat)
+               @if(isset($category))
+              <div id="{{$category}}" class="custom-control custom-checkbox">
+              @else 
+              <div  class="custom-control custom-checkbox">
+              @endif
+                <input type="checkbox" class=" custom-control-input" id="{{$subcat->name}}" name="subcat_{{$subcat->id}}" value="{{$subcat->name}}">
+                <label class="custom-control-label" for="{{$subcat->name}}">{{$subcat->name}}</label>
+              </div>
+              @endforeach               
               <h5>BRAND</h5>
               @foreach($brandlist as $key => $value)
               @if(isset($category))
@@ -138,7 +149,7 @@
                 <div class="card">
                   @if(isset($ima[$i]))                 
                     <img src="/thumbnail/{{$i}}/{{$ima[$i]}}" class="card-img-top" alt="">
-                  </a>
+                  
                     @else
                     <img src="" class="card-img-top" alt="">
                     @endif
