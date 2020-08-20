@@ -10,6 +10,7 @@ use App\Models\Category as Category;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
 use App\Models\Compatibility as Compatibility;
+use App\Models\Color as Color;
 use App\Models\PowerConsumption as PowerConsumption;
 use App\Models\Productcompatibilitylist as Productcompatibilitylist;
 use Session;
@@ -96,6 +97,8 @@ class ProductlistingController extends Controller {
     $categories = $this->category_fetch();
     $typelist = Type::select('id', 'name')
       ->get();
+      $colorlist = Color::select('id', 'name')
+      ->get();
     $compatibilitylist = Compatibility::select('id', 'name')
       ->get();
   	/*$products = Product::select('id','name','material_no','concept_id','cat_id','sub_cat_id','compatibility_id',
@@ -112,7 +115,7 @@ class ProductlistingController extends Controller {
       /*$categories = Category::select('id', 'name')
         ->where('cat_id', null)
         ->get();*/
-  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories'))->with('category', $category);
+  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories','colorlist'))->with('category', $category);
     
   }
   /**
@@ -126,6 +129,7 @@ class ProductlistingController extends Controller {
     //echo $category;
     $subcat_id = $request->get('subcatids');
     $brand_id = $request->get('brandids');
+    $type_id = $request->get('typeids');
     /*print_r($brand_id);
     die;*/
     $imagearray =array();
@@ -135,8 +139,10 @@ class ProductlistingController extends Controller {
    /* print_r($brand_id);
     die;*/
     $compatibility_id = $request->get('compatibilityids');
-    $type_id = $request->get('typeids');
-    /*print_r($type_id);*/
+    
+    $color_id = $request->get('colorids');
+   /* print_r($color_id);*/
+
     /*if(!empty($type_id)) {
       echo "success";
       die;
@@ -148,6 +154,8 @@ class ProductlistingController extends Controller {
         ->where('name', $category)
         ->pluck('id');
     $cat_id = $category_id[0];     
+    /*echo $cat_id;
+    die;*/
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id);
      /* ->where(function ($query) use ( $filters) {
@@ -173,16 +181,23 @@ class ProductlistingController extends Controller {
         die;*/  
         $productlist = $productlist -> whereIn('type_id', $type_id);    
       }
+       if(!empty($color_id)) {
+       /* echo "hello";
+        die;*/  
+        $productlist = $productlist -> whereIn('color_id', $color_id);    
+      }
       if(!empty($compatibility_id)) {
        /* select *from products where id in(SELECT product_id from product_compatibility_list where compatibility_id in(2,3,4))*/
        $productcompatibility_lists = Productcompatibilitylist::groupBy('product_id')->whereIn('compatibility_id', $compatibility_id)->pluck('product_id','product_id');
         $productlist = $productlist->whereIn('id', $productcompatibility_lists);
        /*$productlist = $productlist -> whereIn('compatibility_id', $compatibility_id);*/
-      }
+      }     
     
       /*echo $productlist;
       die;*/
      $productlist = $productlist->get();
+     /*print_r($productlist);
+     die;*/
       $output = '';
       foreach($productlist as $product) {
         /*echo $product->id;
