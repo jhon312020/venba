@@ -120,18 +120,16 @@
               </div>
               @endforeach              
               <h5>COLOUR</h5>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Multi colour">
-                <label class="custom-control-label" for="Multi colour">Multi colour</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Violet">
-                <label class="custom-control-label" for="Violet">Violet</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="Red">
-                <label class="custom-control-label" for="Red">Red</label>
+              @foreach($colorlist as $color)
+              @if(isset($category))
+              <div id="{{$category}}" class="custom-control custom-checkbox">
+              @else 
+              <div  class="custom-control custom-checkbox">
+              @endif
+                <input type="checkbox" class="custom-control-input" id="{{$color->name}}"name="color_{{$color->id}}" value="{{$color->name}}">
+                <label class="custom-control-label" for="{{$color->name}}">{{$color->name}}</label>
               </div> 
+              @endforeach             
               <div class="apply d-block d-lg-none">
                 <button class="btn btn-secondary">Apply</button>
               </div>

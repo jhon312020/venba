@@ -13,6 +13,7 @@ $(document).ready(function() {
   	var brandids = [];
 		var typeids = [];
 		var compatibilityids = [];
+    var colorids = [];
   	 		
   		//console.log(category);		 	
       $('.checkbox-choices input[type="checkbox"]:checked').each(function() {                
@@ -34,6 +35,10 @@ $(document).ready(function() {
           if(name.indexOf("compatibility") != -1) {
           	var id= name.substr(name.indexOf("_") + 1);
           	compatibilityids.push(id);
+          }
+          if(name.indexOf("color") != -1) {
+            var id= name.substr(name.indexOf("_") + 1);
+            colorids.push(id);
           }
         
       });	
@@ -60,6 +65,11 @@ $(document).ready(function() {
         	var remove_id= name.substr(name.indexOf("_") + 1);
         	var compatibilityids = $(compatibilityids).not([remove_id]).get(); 
       	}
+        if(name.indexOf("color") != -1) {
+          console.log(colorids);  
+          var remove_id= name.substr(name.indexOf("_") + 1);
+          var colorids = $(colorids).not([remove_id]).get(); 
+        }
       }
       
        //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -72,7 +82,7 @@ $(document).ready(function() {
       	  headers: {
         		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     			},   	
-      	data:{subcatids:subcatids,brandids:brandids,typeids:typeids,compatibilityids:compatibilityids},
+      	data:{subcatids:subcatids,brandids:brandids,typeids:typeids,compatibilityids:compatibilityids,colorids:colorids},
       	success:function(result) {
        		$('#filterlist .productlist').html(result);
       	}
