@@ -9,6 +9,7 @@ use App\Models\Product as Product;
 use App\Models\Image as ProductImage;
 use App\Models\Brand as Brand;
 use App\Models\Type as Type;
+use App\Models\Color as Color;
 use App\Models\Compatibility as Compatibility;
 use App\Models\Useraddresses as Useraddresses;
 use Session;
