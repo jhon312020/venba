@@ -69,8 +69,9 @@ class HomeController extends Controller {
             $ima[$key] =  $value[0];        
           }
         }
-
-        return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories'))->with('category', $category);
+        $colorlist = Color::select('id', 'name')
+      ->get();
+        return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories','colorlist'))->with('category', $category);
         }
     }
     public function profile()
