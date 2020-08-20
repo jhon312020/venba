@@ -41,6 +41,13 @@ class HomeController extends Controller {
        $product_brand = Product::groupBy('brand_id')->where('cat_id', 1)->pluck('brand_id','brand_id');
       /*print_r($stock);
       die;*/
+      $categoryid = Category::all()
+        ->where('name', $category)
+        ->pluck('id');
+    $cat_id = $categoryid[0];
+      $subcategories = Category::select('id','name')
+      ->where('cat_id', $cat_id)
+      ->get();
       $brandlist = Brand::whereIn('id', $product_brand)->pluck("name","id");
         $categories = Category::select('id', 'name')
         ->where('cat_id', null)
@@ -63,7 +70,7 @@ class HomeController extends Controller {
           }
         }
 
-        return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
+        return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories'))->with('category', $category);
         }
     }
     public function profile()

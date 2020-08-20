@@ -28,6 +28,13 @@ class FrontendController extends Controller {
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
     ->where('cat_id', 1)
     ->get();
+     $categoryid = Category::all()
+        ->where('name', $category)
+        ->pluck('id');
+    $cat_id = $categoryid[0];
+    $subcategories = Category::select('id','name')
+      ->where('cat_id', $cat_id)
+      ->get();
     /* $brandlist = Brand::select('name')->whereIn('id', function($query){
       $query->distinct('brand_id')
       ->from(with(new Product)->getTable())
@@ -63,7 +70,8 @@ class FrontendController extends Controller {
         $ima[$key] =  $value[0];        
       }
     }
-    return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima'))->with('category', $category);
+
+    return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories'))->with('category', $category);
     }
     /**
    * Function basic_solution()
