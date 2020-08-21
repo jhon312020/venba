@@ -94,7 +94,7 @@ class Controller extends BaseController {
         $sgst = $sgst +($productdet[$key]->price * ($productdet[$key]->sgst)/100 ) * $value['quantity'];
       }
       if(!empty($productdet[$key]->transit)) {
-        $transit = $transit + $productdet[$key]->transit;
+        $transit = $transit + ($productdet[$key]->transit)* $value['quantity'];;
       }
       $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
       Session::put('cart', $cart);
