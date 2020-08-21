@@ -22,7 +22,7 @@
 
 </head>
 
-<body id="{{ Request::is('shopping-basket/*') ? 'shoppingcart' : '' }}{{ Request::is('shopping-basket') ? 'shoppingcart' : '' }}" >
+<body id="{{ Request::is('shopping-basket/*') ? 'shoppingcart' : '' }}{{ Request::is('shopping-basket') ? 'shoppingcart' : '' }}{{ Request::is('payment') ? 'shoppingcart' : '' }}{{ Request::is('address') ? 'shoppingcart' : '' }}" >
   <!--Header-->
   <header class="header sticky fixed-top">    
       <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
