@@ -190,4 +190,49 @@ $(document).ready(function() {
    })
 
   });
+   /*$('#search_resultss #search_button').click(function(event) { 
+    event.preventDefault();
+     if( $('#search_value').val() == "" ) {
+            $('#search_value').after("<div class='validation' style='color:red;margin-bottom: 20px;'>Please fiil out this field</div>");
+            $('#search_value').focus() ;
+            return false;
+         } else{
+    var searchvalue = $('#search_value').val();    $.ajax({
+      url:"/getsearch",
+       headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{searchvalue:searchvalue},
+      success:function(data) {
+        $('#searchdata').html(data);
+              }
+   })
+
+  }
+
+  });*/
+   $(document).on('click' , '.pagination a', function(event){
+    event.preventDefault();
+  /*  var searchvalue = $('#search_value').val();*/
+    var page =$(this).attr('href').split('page=')[1];
+    fetch_data(page);
+   });
+   function fetch_data(page) {
+    $.ajax({
+      url:"/searchresult/fetch_data?page="+page,
+       headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      /*data:{searchvalue:searchvalue},*/
+      success:function(data){
+        $('.pagination').remove();
+        $('#searchdata').html(data);
+
+      }
+
+    })
+   }
+
 });

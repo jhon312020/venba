@@ -13,7 +13,7 @@
            <div class="col-12 my-3">
              <div class="progressbar-wrapper clearfix progressbar-wrapper-mob">
                 <ul class="progressbar">
-                  <li class="active"><span class="text">Confirm Order</span></li>
+                  <li class="active"><span class="text"><a style="color:#fff" href="{{URL('/shopping-basket')}}">Confirm Order</a></span></li>
                   <li class="active"><span class="text">Select Address</span></li>
                   <li><span class="text">Payment</span></li> 
                 </ul>

@@ -27,9 +27,13 @@ Route::get('/my_orders', [FrontendController::class, 'my_orders'])->name('fronte
 Route::get('/shopping-basket/{id}', [FrontendController::class, 'shopping_basket'])->name('frontend.shopping-basket');
 Route::get('/shopping-basket', [FrontendController::class, 'shopping_basket_from_cart'])->name('frontend.shopping-basket_from_cart');
 Route::get('/address', [FrontendController::class, 'address'])->name('frontend.address')->middleware('auth');
+Route::get('/payment', [FrontendController::class, 'payment'])->name('frontend.payment')->middleware('auth');
 Route::get('/search', [FrontendController::class, 'search'])->name('frontend.search');
 Route::post('/sendmail', [FrontendController::class, 'sendmail'])->name('frontend.sendmail');
 Route::post('/saveaddress', [FrontendController::class, 'save_address'])->name('frontend.saveaddress')->middleware('auth');
+Route::post('/searchresult', [FrontendController::class, 'getsearch_result'])->name('frontend.searchresult');
+Route::post('/searchresult/fetch_data', [FrontendController::class, 'fetch_data'])->name('frontend.fetchdata');
+Route::post('/getsearch', [FrontendController::class, 'getsearch'])->name('frontend.getsearch');
 Route::get('/refresh_csrf', function () {
     return response()->json(csrf_token());
 })->name('csrf.renew');

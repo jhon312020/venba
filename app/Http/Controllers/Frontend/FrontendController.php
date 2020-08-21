@@ -195,6 +195,7 @@ class FrontendController extends Controller {
     $categories = $this->category_fetch();
     return view('frontend.online_support', compact('categories'));
   }
+
   /**
    * Function shopping_basket()
    * returns frontend shopping_basket page.
@@ -202,7 +203,7 @@ class FrontendController extends Controller {
    * @return \Illuminate\Http\Response
   */
   public function shopping_basket(Request $request,$id) {
-    $productdetails = Product::find($id);
+    $productdetails = Product::find($id);   
     if(!$productdetails){
       /*$data['title'] = '404';
       $data['name'] = 'Page not found';
@@ -224,7 +225,9 @@ class FrontendController extends Controller {
         "price" => $productdetails->price * $quantity,  
       );  
       Session::put('cart', $cart);
-      Session::save();
+      Session::save();     
+      $addtocart = $this->add_accesories_to_cart($id);
+      $cart = Session::get('cart');
         $imagearray = array();
         $ima = array();
         $igst = 0;
@@ -238,9 +241,57 @@ class FrontendController extends Controller {
         }
       }
     }
+
      $cart_session = $this->cart_fetch();
-    $categories = $this->category_fetch();     
+    $categories = $this->category_fetch();   
+
     return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray','id'));
+  }
+  /**
+   * Function shopping_basket()
+   * returns frontend shopping_basket page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function add_accesories_to_cart($id) {
+    $productdetails = Product::find($id);
+    if($productdetails->accessories_required) {
+      $acc_req_pro =Product::select('id','name','price')->where('product_no', $productdetails->accessories_required)->get()->toArray();
+      /*$this->pr($acc_req_pro);
+      die;*/
+      $acc_id = $acc_req_pro[0]['id'];
+      /*echo $acc_id;
+      die;*/
+      /*$this->pr($acc_req_pro);
+      die;*/
+      $name = $acc_req_pro[0]['name'];
+      $cart = Session::get('cart');
+      if(isset($cart[$acc_id])) {
+        /*echo '<pre>';
+        print_r($cart);
+        echo '</pre>';
+        die;
+        $a = key($cart[$acc_id]);
+        echo $a;
+        die;
+        $b = count($cart)-1;
+        array_splice($cart, $a, $b);*/
+        $quantity = $cart[$acc_id]['quantity'];
+        $quantity = $quantity+1;
+      } else {
+          $quantity = 1;
+        }
+      $cart[$acc_id] = array(
+        "id" => $acc_id,
+        "name" => substr("$name",0,15), 
+        "quantity" => $quantity,
+        "price" => $acc_req_pro[0]['price'] * $quantity,
+        "accessories"  => 1
+      );  
+      Session::put('cart', $cart);
+      Session::save();
+    }
+
   }
   /**
    * Function deletefromcart()
@@ -396,6 +447,32 @@ class FrontendController extends Controller {
     $cart = Session::get('cart');
     return view('frontend.address', compact('categories','cart','addresses'));
   }
+   /**
+   * Function payment()
+   * returns frontend selectaddress page.
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function payment(Request $request) {
+    $imagearray = array();
+    $ima = array();
+    $cart = Session::get('cart');
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      /*print_r($productdet);
+      die; */
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::save();
+      if($productdet[$key]) {    
+        foreach ($productdet[$key]->images as $image) {
+          $imagearray[$key][] = $image->name;         
+        }
+      }
+    } 
+    $categories = $this->category_fetch();     
+    return view('frontend.payment', compact('categories','cart','productdet','imagearray'));
+  }
   /**
    * Function sendmail()
    * sends email to admin with contact form details
@@ -422,7 +499,7 @@ class FrontendController extends Controller {
     return back()->with('success', 'Thanks for contacting us!!We will be in touch with you soon.');
   }
   /**
-   * Function sendmail()
+   * Function search()
    * sends email to admin with contact form details
    *
    * @return \Illuminate\Http\Response
@@ -431,5 +508,54 @@ class FrontendController extends Controller {
     $categories = $this->category_fetch();
     return view('frontend.search', compact('categories'));
   }
+  /**
+   * Function getsearch()
+   * sends email to admin with contact form details
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function getsearch(Request $request) {  
+    if($request->ajax()) {
+      $searchvalue = $request->searchvalue;
+      /*echo $searchvalue;
+      die;*/
+      $searchfilter = Product::where('name','LIKE',$searchvalue.'%')->paginate(5);
+      $categories = $this->category_fetch();
+      return view('frontend.searchdata', compact('searchfilter','categories'))->render();
+    }
+  }
+  /**
+   * Function getsearch_result()
+   * sends email to admin with contact form details
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function getsearch_result(Request $request) {
+    $searchvalue = $request->search_value;
+    $search = Session::get('searchvalue'); 
+    $search = $searchvalue;
+    Session::put('searchvalue', $search);
+    Session::save();
+      /*echo $searchvalue;
+      die;*/
+      $searchfilter = Product::where('name','LIKE',$searchvalue.'%')->paginate(5);
+      $categories = $this->category_fetch();
+      return view('frontend.search_result', compact('searchfilter','categories'));
+  }
+  /**
+   * Function fetch_data()
+   * sends email to admin with contact form details
+   *
+   * @return \Illuminate\Http\Response
+  */
+  public function fetch_data(Request $request) {
+    if($request->ajax()) {  
+     $search = Session::get('searchvalue');     
+      $searchfilter = Product::where('name','LIKE',$search.'%')->paginate(5);
+     /* $categories = $this->category_fetch();*/
+      return view('frontend.searchdata', compact('searchfilter'))->render();
+    }
+  }
+
 
 }

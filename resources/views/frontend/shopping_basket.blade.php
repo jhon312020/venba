@@ -15,7 +15,7 @@
                 <ul class="progressbar">
                   <li class="active"><span class="text">Confirm Order</span></li>
                   @auth
-                  <li><span class="text"><a style="color:#fff" href="{{URL('/address')}}">Select Address</a></span></li>
+                  <li><span class="text"><a style="color:#fff" href="#">Select Address</a></span></li>
                   @endauth
                   @guest
                   <li><span class="text"><a style="color:#fff" href="#">Select Address</a></span></li>
@@ -29,7 +29,12 @@
             <div class="row pb-lg-3 horizantal-swipe">
               @foreach($productdet as $key => $value)              
               <div class="col-12 box-item pb-3" id="product_{{$key}}" >
-                <div class="row border">                  
+                <div class="row border">  
+                  @if(isset(Session::get('cart')[$key]['accessories']))
+                <div class="col-12 pt-3 d-none d-lg-block">
+                    <p class="toast-text">Requires Bridge, Add if you do not have one.</p>
+                  </div>  
+                  @endif              
                   <div class="col-4 col-lg-4">
                     @if(isset($imagearray[$key]))                    
                       <img src="/thumbnail/{{$key}}/{{$imagearray[$key][0]}}" style="position: relative;top:50px"  alt=""> 
