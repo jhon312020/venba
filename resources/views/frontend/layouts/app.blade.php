@@ -19,7 +19,7 @@
   <!--<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
   <link rel="icon" href="images/favicon.png" type="image/x-icon">-->
   
-
+  @yield('header')
 </head>
 
 <body id="{{ Request::is('shopping-basket/*') ? 'shoppingcart' : '' }}{{ Request::is('shopping-basket') ? 'shoppingcart' : '' }}{{ Request::is('payment') ? 'shoppingcart' : '' }}{{ Request::is('address') ? 'shoppingcart' : '' }}" >

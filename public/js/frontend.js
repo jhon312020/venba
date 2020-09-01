@@ -190,14 +190,15 @@ $(document).ready(function() {
    })
 
   });
-   /*$('#search_resultss #search_button').click(function(event) { 
+   $('#search_resultss #search_button').click(function(event) { 
     event.preventDefault();
      if( $('#search_value').val() == "" ) {
             $('#search_value').after("<div class='validation' style='color:red;margin-bottom: 20px;'>Please fiil out this field</div>");
             $('#search_value').focus() ;
             return false;
          } else{
-    var searchvalue = $('#search_value').val();    $.ajax({
+    var searchvalue = $('#search_value').val();
+     $.ajax({
       url:"/getsearch",
        headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -205,13 +206,13 @@ $(document).ready(function() {
       type:"POST",
       data:{searchvalue:searchvalue},
       success:function(data) {
-        $('#searchdata').html(data);
+        $('.search-results').html(data);
               }
    })
 
   }
 
-  });*/
+  });
    $(document).on('click' , '.pagination a', function(event){
     event.preventDefault();
   /*  var searchvalue = $('#search_value').val();*/
@@ -220,19 +221,112 @@ $(document).ready(function() {
    });
    function fetch_data(page) {
     $.ajax({
-      url:"/searchresult/fetch_data?page="+page,
+      url:"/search/fetch_data?page="+page,
        headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
       type:"POST",
       /*data:{searchvalue:searchvalue},*/
       success:function(data){
-        $('.pagination').remove();
-        $('#searchdata').html(data);
+        $('.search-results').html(data);
 
       }
 
     })
    }
+ $('input:radio[name="address"]').change(function(){
+  var address_id = $("input[name='address']:checked").val();
+  $.ajax({
+      url:"/addaddresstosession",
+       headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{address_id:address_id},
+      dataType: 'JSON',
+      success:function(results) {
+        
+      }
+   })
+  });
+  $('#address_check').click(function(event) { 
+    event.preventDefault();
+    $.ajax({
+      url:"/checkaddress",
+       headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{},
+      dataType: 'JSON',
+      success:function(results) {
+        if (results.success === true) {
+           window.location.href = "payment";
+        } else {
+          $('#shipping_error').append(results.message);
+        }
+        
+      }
+   })
+  });
+  $(".ordertocart .addcart").click(function(){
+      var count = 1;
+      var name = $('#product_name').text();
+      var parentid = $(this).parent().attr('id');
+      var product_id = parentid.replace('ordertocart','');
+       $.ajax({
+      url:"/ordertocart",
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{count:count,name:name,product_id:product_id,},
+       dataType: 'JSON',
+      success:function(results) {
+        $('#cart_count').text(results.count);
+       //$('#message').html(results.message);
+       $('#ordertocart' + product_id).html(results.message);
+      }
+   })
+  });
+  $(".repeat_order").click(function(){
+    var order_id = $(this).parent().attr('id');
+     $.ajax({
+      url:"/repeatorder",
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{order_id},
+       dataType: 'JSON',
+      success:function(results) {
+        $('#cart_count').text(results.count);
+        $('#repeat_order' + order_id).prop('disabled', true); 
+      }
+   })
+  });
+  /*$(".download_invoice").click(function(){
+    var order_id = $(this).parent().attr('id');
+    function downloadFile(response) {
+      var blob = new Blob([response], {type: 'application/pdf'})
+      var url = URL.createObjectURL(blob);
+      location.assign(url);
+    } 
 
+    $.ajax({
+      url:"/downloadinvoice",
+      headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+      type:"POST",
+      data:{order_id},
+       dataType: 'JSON',
+       success:function(response) {  
+        var blob = new Blob([response], {type: 'application/pdf'})
+        var url = URL.createObjectURL(blob);
+        location.assign(url);
+       }   
+   })
+    
+  });*/
 });

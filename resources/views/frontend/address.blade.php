@@ -28,16 +28,22 @@
                   @if(empty($addresses))
                   <p>No address found</p>
                   @endif
+                  @php
+                  $i = 1;
+                  @endphp
                   @foreach($addresses as $address)
-                  <div class="custom-control custom-radio mb-5">
-                    <input type="radio" id="address" name="address" class="custom-control-input">
-                    <label class="custom-control-label pl-2" for="address">
+                  <div class="custom-control custom-radio mb-5" >
+                    <input type="radio" id="address_{{$i}}" value="{{$address['id']}}" name="address" class="custom-control-input">
+                    <label class="custom-control-label pl-2" for="address_{{$i}}">
                       <strong>{{$address['name']}}</strong><br/>
                       {{$address['address1']. $address['address2'].
-                      $address['town/city']}}, {{$address['state']. $address['pincode']}}, India
+                      $address['town/city']}}, {{$address['state'].', '. $address['pincode']}}, India
                       Phone number: ‪{{$address['mobile_no']}}
                     </label>
                   </div> 
+                  @php
+                  $i++;
+                  @endphp
                   @endforeach                 
                 </form>
               </div>     
@@ -198,9 +204,11 @@
                   <a href="{{URL::previous() }}" class="btn btn-secondary">Continue Shopping</a>
                 </div>
                 <div class="col text-right">
-                  <a href="{{URL('payment') }}" class="btn btn-secondary">Check Out</a>
+                  <a href="{{URL('payment') }}" class="btn btn-secondary" id="address_check">Check Out</a>
                 </div>
-              </div>
+            </div>
+            
+                  <div  id="shipping_error"></div>
            </div>
          </div>
     </div> 

@@ -6,8 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable {
-    
+class User extends Authenticatable implements MustVerifyEmail
+{
     use Notifiable;
 
     /**
@@ -16,7 +16,7 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-      'name', 'email', 'mobile_number', 'password','role',
+        'name', 'email','mobile_number', 'password',
     ];
 
     /**
@@ -36,19 +36,4 @@ class User extends Authenticatable {
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function hasRole($role) {
-        return User::where('role', $role)->get();
-    }
-    public function useraddresses() {
-    return $this->hasMany('App\Models\Useraddresses');
-  }
-  public static function boot() {
-    parent::boot();
-
-    static::deleting(function($user) { 
-      // before delete() method call this
-      $product->useraddresses()->delete();
-      // do the rest of the cleanup...
-    });
-  }
 }

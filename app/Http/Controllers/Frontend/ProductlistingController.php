@@ -32,12 +32,7 @@ class ProductlistingController extends Controller {
     $image = array();    
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id)
-      ->get()->toArray();
-      /*echo '<pre>';
-      print_r($productlist);
-      echo '</pre>';
-
-      die;*/  
+      ->get()->toArray();  
        $imagearray = array();
        $ima = array();  
       foreach($productlist as $product) {
@@ -51,49 +46,11 @@ class ProductlistingController extends Controller {
           $ima[$key] =  $value[0];        
         }
       }
-       /*$cart = Session::get('cart');
-       print_r($cart);
-       die;*/
-      /*print_r($ima);*/
-
-      /*$keys = array_keys($imagearray);
-      for($i = 0; $i < count($imagearray); $i++) {
-        foreach($imagearray[$keys[$i]] as $key => $value) {
-          $image[$key] = $value;
-        }
-      }*/
-      //die;    
-      /*echo '<pre>';
-      print_r($imagearray);
-      echo '</pre>';
-      die;*/
-      /*foreach($imagearray[$product_id] as $key=>$value) {
-        $image[$key] = $value[0];
-        echo $image;
-      }*/
-
-      /*$name = $productlist->pluck('images')->collapse();*/
-      /*SELECT name FROM brands WHERE id IN (SELECT DISTINCT brand_id FROM `products` where cat_id =1)*/
       $subcategories = Category::select('id','name')
       ->where('cat_id', $cat_id)
       ->get();
       $product_brand = Product::groupBy('brand_id')->where('cat_id', $cat_id)->pluck('brand_id','brand_id');
-      /*print_r($stock);
-      die;*/
-      $brandlist = Brand::whereIn('id', $product_brand)->pluck("name","id");
-      /*print_r($brandlist);
-      die;*/
-      /*$brandlist = Brand::select('name')->whereIn('id', function($query){
-      $query->distinct('brand_id')
-      ->from(with(new Product)->getTable())
-      ->where('cat_id', $cat_id);
-      })->get();*//*Brand::select('name')->where(function ($query) use ($cat_id){
-                      $brand_id = Product::groupby('brand_id')->where('cat_id', '=', $cat_id)->pluck('brand_id');
-                      $query->wherein('id', '=', $brand_id);
-                  })
-                  ->get();*/
-      /*print_r($brandlist);
-      die;*/
+      $brandlist = Brand::whereIn('id', $product_brand)->pluck("name","id");      
     $categories = $this->category_fetch();
     $typelist = Type::select('id', 'name')
       ->get();
@@ -101,20 +58,6 @@ class ProductlistingController extends Controller {
       ->get();
     $compatibilitylist = Compatibility::select('id', 'name')
       ->get();
-  	/*$products = Product::select('id','name','material_no','concept_id','cat_id','sub_cat_id','compatibility_id',
-      'power_consumption_id','physical_spec','light_color',
-      'introduction','accessories_required','warranty',
-      'technical_spec','additional_features','wired_wireless','price')
-      ->get();
-      $product =array();
-        foreach ($products as $item) {
-	      $product[$item->id ]['name'] = $item->name ; 
-	      } 
-	      print_r($product);
-	      die;*/
-      /*$categories = Category::select('id', 'name')
-        ->where('cat_id', null)
-        ->get();*/
   	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories','colorlist'))->with('category', $category);
     
   }
@@ -126,88 +69,44 @@ class ProductlistingController extends Controller {
    * @return \Illuminate\Http\Response
   */
   public function filterproductlist(Request $request, $category) {
-    //echo $category;
     $subcat_id = $request->get('subcatids');
     $brand_id = $request->get('brandids');
     $type_id = $request->get('typeids');
-    /*print_r($brand_id);
-    die;*/
     $imagearray =array();
     $ima = array();
-   /* print_r($brand_id);
-    echo '<br>';*/
-   /* print_r($brand_id);
-    die;*/
     $compatibility_id = $request->get('compatibilityids');
     
     $color_id = $request->get('colorids');
-   /* print_r($color_id);*/
-
-    /*if(!empty($type_id)) {
-      echo "success";
-      die;
-      }
-*/    /*echo '<br>';
-    print_r($compatibility_id);
-    echo '<br>';*/
     $category_id = Category::all()
         ->where('name', $category)
         ->pluck('id');
-    $cat_id = $category_id[0];     
-    /*echo $cat_id;
-    die;*/
+    $cat_id = $category_id[0];
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id);
-     /* ->where(function ($query) use ( $filters) {
-        foreach ($filters as $column => $key) {
-          $query->when($key, function ($query, $value) use ($column) {
-            $query->whereIn($column, $value);
-          });
-        }
-      })*/
       if(!empty($subcat_id)) {
-      /*echo "hello";
-      die;*/
        $productlist = $productlist -> whereIn('sub_cat_id', $subcat_id);
       }
       
      if(!empty($brand_id)) {
-      /*echo "hello";
-      die;*/
        $productlist = $productlist -> whereIn('brand_id', $brand_id);
       }
-       if(!empty($type_id)) {
-       /* echo "hello";
-        die;*/  
+       if(!empty($type_id)) { 
         $productlist = $productlist -> whereIn('type_id', $type_id);    
       }
-       if(!empty($color_id)) {
-       /* echo "hello";
-        die;*/  
+       if(!empty($color_id)) {  
         $productlist = $productlist -> whereIn('color_id', $color_id);    
       }
       if(!empty($compatibility_id)) {
-       /* select *from products where id in(SELECT product_id from product_compatibility_list where compatibility_id in(2,3,4))*/
        $productcompatibility_lists = Productcompatibilitylist::groupBy('product_id')->whereIn('compatibility_id', $compatibility_id)->pluck('product_id','product_id');
         $productlist = $productlist->whereIn('id', $productcompatibility_lists);
-       /*$productlist = $productlist -> whereIn('compatibility_id', $compatibility_id);*/
-      }     
-    
-      /*echo $productlist;
-      die;*/
+      } 
      $productlist = $productlist->get();
-     /*print_r($productlist);
-     die;*/
       $output = '';
       foreach($productlist as $product) {
-        /*echo $product->id;
-        die;*/
          $imagelist = Product::find($product->id);
          $isimage = Image::all()
          ->where('product_id', $product->id)
          ->pluck('name');
-         /*echo $isimage[0];
-         die;*/
         if(isset($isimage[0])) {
           foreach ($imagelist->images as $image) {
             $imagearray[$product->id][] = $image->name;          
@@ -220,10 +119,7 @@ class ProductlistingController extends Controller {
         
           }
         }
-      }/*
-      print_r($imagearray);
-      print_r($ima);
-      die;*/
+      }
       if(!count($productlist)) {
         $output .= '<img class="not_found" src="/frontend/images/nopro.png" alt"image not found">';
       }
@@ -266,10 +162,6 @@ class ProductlistingController extends Controller {
   public function singleproduct(Request $request ,$category, $id) {
     $productdetails = Product::find($id);
     $productimages = array();
-    /*echo '<pre>';
-    print_r($productdetails);
-    echo '</pre>';
-    die;*/
     $categoryid = Category::all()
         ->where('name', $category)
         ->pluck('id');
@@ -279,11 +171,6 @@ class ProductlistingController extends Controller {
     $powerconsumption = PowerConsumption::find($productdetails->power_consumption_id);
    $compatibilityid = Productcompatibilitylist::where('product_id', $id)->pluck('compatibility_id','compatibility_id');
       $compatibilitylists = Compatibility::whereIn('id', $compatibilityid)->pluck("name","id");
-    /*$compatibility = Productcompatibilitylist::select('id')
-    ->where('product_id', $id)
-    ->get();*/
-    /*print_r($compatibilitylists);
-    die;*/
     ($productdetails->compatibility_id);
     $brand = Brand::find($productdetails->brand_id);
     $type = Type::find($productdetails->type_id);
@@ -298,12 +185,7 @@ class ProductlistingController extends Controller {
     $moreproductlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id)
       ->take(4)
-      ->get()->toArray();
-      /*echo '<pre>';
-      print_r($moreproductlist);
-      echo '</pre>';
-
-      die;*/  
+      ->get()->toArray(); 
        $moreimagearray = array();
        $moreima = array();  
       foreach($moreproductlist as $product) {
@@ -317,17 +199,7 @@ class ProductlistingController extends Controller {
           $moreima[$key] =  $value[0];        
         }
       }
-    /*echo $id;
-    echo '<br>';
-    echo  $category;
-    echo '<br>';
-    echo '<pre>';
-    print_r($productimages);
-    echo '</pre>';
-    die;*/
     $categories = $this->category_fetch();
-    /*print_r($productimages);
-    die;*/
     return view('frontend.product.single_product', compact('categories','productdetails','productimages','category','id','powerconsumption','brand','type','compatibilitylists','moreproductlist','moreima'));
   }
   /**

@@ -58,6 +58,15 @@ class Product extends Model {
   public function brand() {
     return $this->belongsTo('App\Models\Brand');
   }
+  /**
+   * BelongsTo relationship with Order Model 
+   * for lazy loading
+   *
+   * @param null
+   */
+/*  public function order() {
+    return $this->belongsTo('App\Models\Order');
+  }*/
 
   /**
    * BelongsTo relationship with Powerconsumption  Model 

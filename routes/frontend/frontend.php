@@ -32,8 +32,16 @@ Route::get('/search', [FrontendController::class, 'search'])->name('frontend.sea
 Route::post('/sendmail', [FrontendController::class, 'sendmail'])->name('frontend.sendmail');
 Route::post('/saveaddress', [FrontendController::class, 'save_address'])->name('frontend.saveaddress')->middleware('auth');
 Route::post('/searchresult', [FrontendController::class, 'getsearch_result'])->name('frontend.searchresult');
-Route::post('/searchresult/fetch_data', [FrontendController::class, 'fetch_data'])->name('frontend.fetchdata');
+Route::post('/search/fetch_data', [FrontendController::class, 'fetch_data'])->name('frontend.fetchdata');
+Route::post('/addaddresstosession', [FrontendController::class, 'addaddresstosession'])->name('frontend.addaddresstosession');
 Route::post('/getsearch', [FrontendController::class, 'getsearch'])->name('frontend.getsearch');
+Route::post('/checkaddress', [FrontendController::class, 'checkaddress'])->name('frontend.checkaddress');
+Route::get('/orders', [FrontendController::class, 'orders'])->name('frontend.orders')->middleware('auth');
+Route::get('/thankyou', [FrontendController::class, 'thankyou'])->name('frontend.thankyou')->middleware('auth');
+Route::post('/ordertocart', [FrontendController::class, 'orderpage_to_cart'])->name('product.ordertocart');
+Route::post('/repeatorder', [FrontendController::class, 'repeatorder'])->name('product.repeatorder');
+/*Route::post('/downloadinvoice', [FrontendController::class, 'downloadinvoice'])->name('product.downloadinvoice');*/
+Route::get('/downloadinvoice/{orderid}', [FrontendController::class, 'downloadinvoice'])->name('frontend.downloadinvoice');
 Route::get('/refresh_csrf', function () {
     return response()->json(csrf_token());
 })->name('csrf.renew');

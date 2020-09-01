@@ -34,7 +34,7 @@
      <div class="container">
         <div class="row">
           <div class="col-12 pb-3 text-center"> 
-            <h3 id="result_count"> <span id="search_word"></span></h3>
+            <h3 id="result_count"> <span id="search_word">{{$searchcount}} search results for "{{$search}}" </span></h3>
             <span class="triangle"></span>
           </div> 
         </div>

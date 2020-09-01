@@ -1,5 +1,17 @@
- @if(isset($searchfilter))
- @foreach($searchfilter as $item) 
+ @if(isset($searchfilter))  
+  <div class="container">
+        <div class="row">
+          <div class="col-12 pb-3 text-center"> 
+            <h3 id="result_count"> <span id="search_word">{{$searchcount}} search results for "{{$search}}" </span></h3>
+            <span class="triangle"></span>
+          </div> 
+        </div>
+      </div>    
+     <div class="bg-white">
+        <div class="container py-3">
+          <div class="row">
+            <div class="col-12 py-3 col-lg-10 offset-lg-1" id="searchdata">
+              @foreach($searchfilter as $item)
               <div class="search-items">
                 <div class="row">
                   <div class="col-12 col-lg-3 text-center">
@@ -23,36 +35,9 @@
               @endforeach             
             </div> 
             <div class="col-12 col-lg-10 offset-lg-1 py-lg-4">
-              <!-- <nav aria-label="Page navigation" class="pagination">
-                <ul class="pagination">
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true"><<</span> 
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true"><</span> 
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">>></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav> -->
-              {!! $searchfilter->links() !!}
+             
+               {!! $searchfilter->links() !!} 
+              <!-- <ul class="pagination">
+                <?php/* echo with(new FirstlastPagination($paginator))->render();*/ ?>
+              </ul> -->
               @endif

@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-12 col-lg-8 offset-lg-2 my-3 my-lg-5 text-center"> 
             <h2 class="d-none d-lg-block">Search</h2>  
-            <form class="form text-center pt-3" method="post" role="form" action="{{ route('frontview.frontend.searchresult') }}">
+            <form class="form text-center pt-3">
               @csrf
               <div class="form-group floating-control-group"> 
                 <input type="text" class="form-control" name ="search_value" id="search_value" required="" placeholder="Type search keywords">
@@ -28,8 +28,12 @@
       </div>
     </div>
     <!--Search End-->
- 
-   
+     <!--Search Results start-->
+   <div class="search-results" >
+    @include('frontend.searchdata')  
+
+  </div>
+   <!--Search Results end-->
 
   </section>
    <!--Body Content End-->

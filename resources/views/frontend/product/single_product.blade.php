@@ -111,7 +111,7 @@
                       </div>
                     </div>
                     @if(isset(Session::get('cart')[$id]))
-                    <div class="col-12 col-lg-3 px-0 d-none d-lg-block">
+                    <div class="col-6 col-lg-4 px-0 d-none d-lg-block">
                       <button class="btn btn-primary">Added to Kart</button>
                     </div>
                     @else
@@ -137,7 +137,7 @@
                     @endif
                   </div>
                   <div class="col">
-                    <h3 class="border-left pl-2">{{$productdetails->material_no}}</h3>
+                    <h3 class="border-left pl-2">{{$productdetails->product_no}}</h3>
                   </div>
                 </div>
               </div>
@@ -232,16 +232,16 @@
               
             </div>
             <div class="row">
-              <div class="col-12 col-lg-6">
+              <div class="col-12 col-lg-4">
                 <span class="price">Rs. {{$productdetails->price}}</span>
               </div>
-              <div class="col-12 col-lg-6 pt-3 pt-lg-0">
+              <div class="col-12 col-lg-8 pt-3 pt-lg-0">
                 <div class="row">
                   <div class="col">
                     <button class="btn btn-secondary">Back</button>
                   </div>
                   @if(isset(Session::get('cart')[$id]))
-                  <div class="col-12 col-lg-3 px-0 d-none d-lg-block">
+                  <div class="col">
                     <button class="btn btn-primary">Added to Kart</button>
                   </div>
                   @else

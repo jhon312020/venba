@@ -7,8 +7,8 @@
     <div class="container py-4 mb-lg-5 shopping-kart">
          <div class="row">
            <div class="col-12 mb-3 mb-lg-5">
-            <h1>Shopping Kart</h1>
-            <p>You have <strong>{{count(Session::get('cart'))}} items</strong> in your basket</p>
+            <h1>Payment Page</h1>
+            <!-- <p>You have <strong>{{count(Session::get('cart'))}} items</strong> in your basket</p> -->
           </div>          
            <div class="col-12 my-3">
              <div class="progressbar-wrapper clearfix progressbar-wrapper-mob">
@@ -24,8 +24,30 @@
                 </ul>
               </div> 
            </div>
+           <div class="col-12 col-lg-4">
+            <h3 class="ml-n3">Seleted Addresses</h3>
+            <div class="row pb-4">
+              <div class="col-12 box-item pb-3 saved-address bg-white pt-3 pt-lg-5">
+                <!-- <form class="form px-lg-3">
+                  @csrf -->
+<!--                   @if(empty($addresses))
+                  <p>No address found</p>
+                  @endif -->
+                  @foreach($selected_address as $address)
+                  <div class=" mb-5" id="selected_address">
+                      <strong>{{$address['name']}}</strong><br/>
+                      {{$address['address1']. $address['address2'].
+                      $address['town/city']}}, {{$address['state']. $address['pincode']}}, India
+                      Phone number: ‪{{$address['mobile_no']}}
+                  
+                  </div> 
+                  @endforeach                 
+                <!-- </form> -->
+              </div>     
+            </div>
+          </div>
            
-           <div class="col-12 col-lg-12 product-cost">
+           <div class="col-12 col-lg-8 product-cost">
             <h2>Your Cost</h2>
             <div class="box mb-3 cost-details">
               <h4>Item cost</h4>
@@ -125,7 +147,7 @@
             </div>
             <div class="row ">
                 <div class="col">
-                  <a href="#" class="btn btn-secondary">Pay Now</a>
+                  <a href="{{URL('thankyou') }}" class="btn btn-secondary">Pay Now</a>
                 </div>
                 
               </div>
