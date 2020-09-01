@@ -678,6 +678,7 @@ class FrontendController extends Controller {
     ->where('id', $orderid)
     ->first();
      $products = json_decode($order->product_id);
+     Session::forget('cart');
      $cart = Session::get('cart');
      foreach($products as $product){
       $productdetails = Product::find($product->id);

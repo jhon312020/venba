@@ -40,7 +40,7 @@ Route::get('/orders', [FrontendController::class, 'orders'])->name('frontend.ord
 Route::get('/thankyou', [FrontendController::class, 'thankyou'])->name('frontend.thankyou')->middleware('auth');
 Route::post('/ordertocart', [FrontendController::class, 'orderpage_to_cart'])->name('product.ordertocart');
 /*Route::post('/repeatorder', [FrontendController::class, 'repeatorder'])->name('product.repeatorder');*/
-Route::get('/repeatorder/{orderid}', [FrontendController::class, 'repeatorder'])->name('product.repeatorder');
+Route::get('/repeatorder/{orderid}', [FrontendController::class, 'repeatorder'])->name('product.repeatorder')->middleware('auth');;
 /*Route::post('/downloadinvoice', [FrontendController::class, 'downloadinvoice'])->name('product.downloadinvoice');*/
 Route::get('/downloadinvoice/{orderid}', [FrontendController::class, 'downloadinvoice'])->name('frontend.downloadinvoice');
 Route::get('/refresh_csrf', function () {
