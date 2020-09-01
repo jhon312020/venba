@@ -53,9 +53,12 @@
                 <div class="col text-center pTop">                 
                   <span class="icon-Cart"></span>
                   @if(session()->has('cart'))
-                   <span id="cart_count" class="count">{{count(Session::get('cart'))}}</span>
-                  @endif
-                  <p>Cart</p>                 
+                  <a href="{{url('/shopping-basket')}}">
+                   <span id="cart_count" class="count">{{count(Session::get('cart'))}}</span>                  
+                  <p>Cart</p></a>
+                  @else
+                  <p>Cart</p>
+                  @endif                 
                 </div>                
                 <div class="col text-center pTop">
                   <a class="dropdown-item" href="{{ url('/search') }}">
