@@ -36,8 +36,8 @@
                   @foreach($selected_address as $address)
                   <div class=" mb-5" id="selected_address">
                       <strong>{{$address['name']}}</strong><br/>
-                      {{$address['address1']. $address['address2'].
-                      $address['town/city']}}, {{$address['state']. $address['pincode']}}, India
+                      {{$address['address1']}} {{$address['address2']}}
+                      {{$address['town/city']}}, {{$address['state']}} {{$address['pincode']}}, India
                       Phone number: ‪{{$address['mobile_no']}}
                   
                   </div> 
