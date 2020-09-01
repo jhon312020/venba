@@ -288,6 +288,7 @@ $(document).ready(function() {
       success:function(results) {
         $('#cart_count').text(results.count);
        //$('#message').html(results.message);
+       $('#cartorder').html(results.output);
        $('#ordertocart' + product_id).html(results.message);
       }
    })

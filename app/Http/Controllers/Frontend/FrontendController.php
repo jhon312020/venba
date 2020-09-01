@@ -660,9 +660,12 @@ class FrontendController extends Controller {
     $message = '<div class="col-12 col-lg-3 px-0 d-none d-lg-block">
                 <button class="btn btn-primary">Added to Kart</button>
               </div>';
+    $output ="<span class='icon-Cart'></span><a href='http://127.0.0.1:8000/shopping-basket/'>
+                   <span id='cart_count' class='count'>".$count."</span> <p>Cart</p></a></a>";
     return response()->json([
       'count' => $count,
       'message' => $message,
+      'output' => $output,
     ]);
 
   }
