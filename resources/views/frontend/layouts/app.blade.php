@@ -252,6 +252,7 @@
       floatingInputClass: 'floating-input'
     });
   </script>
+  @yield('belowscript')
 </body>
 
 </html>

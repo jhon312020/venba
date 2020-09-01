@@ -15,7 +15,7 @@
     <thead>
       <tr>
         <th>S.No.</th>
-        <th>Material Number</th> 
+        <th>Product Number</th> 
         <th>Action</th>    
       </tr>
     </thead>

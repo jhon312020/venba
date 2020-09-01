@@ -55,8 +55,8 @@ class ProductController extends Controller {
       'sgst' =>'required',
       'transit' =>'required',
       'additional_properties'=>'',
-      'filename' => 'required',
-      'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'
+      /*'filename' => 'required',
+      'filename.*' =>'image|mimes:jpeg,jpg,png,gif,svg|max:2048'*/
     ];
 
   }
@@ -105,6 +105,8 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */ 
   public function store(Request $request) {
+    $this->productValidator['filename'] ='required';
+    $this->productValidator['filename.*'] = 'image|mimes:jpeg,jpg,png,gif,svg|max:2048';
     $validatedData = $request->validate($this->productValidator);
     $compatibilitylist = $request->compatibility_ids;
     /*print_r($compatibilitylist);
@@ -145,6 +147,8 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function edit($id, Request $request) {
+    $this->productValidator['filename'] ='required';
+    $this->productValidator['filename.*'] = 'image|mimes:jpeg,jpg,png,gif,svg|max:2048';
     $record = Product::findOrFail($id);
     if ($request->session()->has('_old_input')) {
       $old_data = $request->session()->get('_old_input');
@@ -195,7 +199,7 @@ class ProductController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function deleteimage(Request $request ,$id) {
+  public function deleteimage(Request $request ,$id) {     
     $imageId = $request->get('imageid');
     $imageName = $request->get('imagename');
     $image_path = public_path()."/images/".$id."/".$imageName; 
@@ -231,6 +235,13 @@ class ProductController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
+    $images = ProductImage::where('product_id', $id)
+      ->pluck('name', 'id');   
+    $no_of_images = count($images);
+    if( $no_of_images == 0){
+      $this->productValidator['filename'] ='required';
+      $this->productValidator['filename.*'] = 'image|mimes:jpeg,jpg,png,gif,svg|max:2048';
+    }
     $validatedData = $request->validate($this->productValidator);
     $compatibility = $request->compatibility_ids;
     $product_compatibilities = Productcompatibilitylist::select('id')->where('product_id', $id)->get();

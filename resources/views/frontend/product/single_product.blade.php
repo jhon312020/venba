@@ -142,7 +142,7 @@
                 </div>
               </div>
               @if(isset(Session::get('cart')[$id]))
-              <div class="col-12 col-lg-3 px-0 d-none d-lg-block">
+              <div class="col-12 col-lg-4 px-0 d-none d-lg-block">
                 <button class="btn btn-primary">Added to Kart</button>
               </div>
               @else

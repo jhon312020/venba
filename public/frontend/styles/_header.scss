@@ -130,5 +130,25 @@
                 right: 10px;
             }
         }
+        .navbar {
+            .navbar-nav {
+                .nav-item {
+                    width: 100%;
+                    &.dropdown {
+                        &:hover, &:focus, &:active:focus {
+                            .dropdown-toggle {
+                                padding-left: 1rem;
+                            }
+                        }                       
+                        .dropdown-toggle {
+                            width: 100%;
+                        }
+                        .dropdown-menu {
+                            padding: 1rem 0.5rem;
+                        }
+                    }
+                }
+            }            
+        }
    }
 }

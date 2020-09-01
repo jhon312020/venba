@@ -157,8 +157,9 @@ class FrontendController extends Controller {
   */
   public function my_profile() {
 
+
     $categories = $this->category_fetch();
-    return view('frontend.online_support', compact('categories'));
+    return view('frontend.user.my_profile', compact('categories'));
   }
   /**
    * Function my_wishlist()
@@ -487,8 +488,8 @@ class FrontendController extends Controller {
     $search = $searchvalue;
     Session::put('searchvalue', $search);
     Session::save();
-      $searchfiltercount = Product::where('name','LIKE',$search.'%')->get();
-      $searchfilter = Product::where('name','LIKE',$searchvalue.'%')->paginate(5);
+      $searchfiltercount = Product::where('name','LIKE','%'.$search.'%')->get();
+      $searchfilter = Product::where('name','LIKE','%'.$searchvalue.'%')->paginate(5);
       $searchcount = count($searchfiltercount);
       $categories = $this->category_fetch();
        return view('frontend.searchdata', compact('searchfilter','searchcount','search'))->render();
@@ -503,9 +504,9 @@ class FrontendController extends Controller {
   public function fetch_data(Request $request) {
     if($request->ajax()) {  
      $search = Session::get('searchvalue');   
-     $searchfiltercount = Product::where('name','LIKE',$search.'%')->get();  
+     $searchfiltercount = Product::where('name','LIKE','%'.$search.'%')->get();  
      $searchcount = count($searchfiltercount);
-      $searchfilter = Product::where('name','LIKE',$search.'%')->paginate(5);
+      $searchfilter = Product::where('name','LIKE','%'.$search.'%')->paginate(5);
       $categories = $this->category_fetch();
       return view('frontend.searchdata', compact('searchfilter','searchcount','search'))->render();
     }
@@ -517,16 +518,12 @@ class FrontendController extends Controller {
    * @return \Illuminate\Http\Response
   */
   public function orders(Request $request) {
-    Session::forget('cart');
-    $cart = Session::get('cart');
-    $array = array();
-    Session::put('cart',$array);
-    Session::save();
     $user = Auth::user();
     $imagearray = array();      
     $categories = $this->category_fetch();
     $allorders = Order::select('id','product_id','order_date')
     ->where('user_id', $user->id)
+    ->orderBy('order_date', 'DESC')
     ->get()->toArray();
 
     foreach($allorders as $key => $orderno) {
@@ -602,6 +599,7 @@ class FrontendController extends Controller {
             $message->attachData($pdf->output(), "invoice.pdf");
 
           });
+    Session::forget('cart');
     $categories = $this->category_fetch();
     return view('frontend.thankyou', compact('categories'));
   }
@@ -615,7 +613,7 @@ class FrontendController extends Controller {
   public function checkaddress(Request $request) {      
     $selected_address_id = Session::get('selected_address_id');
     if(empty($selected_address_id)){
-      $message = '<div class="alert alert-warning alert-dismissible fade show"><strong>kindly select shipping address</strong><button type="button" class="close" data-dismiss="alert">&times;</button></div>';  
+      $message = '<div class="alert alert-warning alert-dismissible fade show"><strong>Kindly select shipping address</strong><button type="button" class="close" data-dismiss="alert">&times;</button></div>';  
       $success = false;
     } else {
       $success = true;
@@ -674,10 +672,10 @@ class FrontendController extends Controller {
    *
    * @return \Illuminate\Http\Response
   */
-  public function repeatorder(Request $request) {
-     $order_id = $request->get('order_id');
+  public function repeatorder(Request $request, $orderid) {
+     /*shopping_basket_from_cart*/
     $order = Order::select('product_id')
-    ->where('id', $order_id)
+    ->where('id', $orderid)
     ->first();
      $products = json_decode($order->product_id);
      $cart = Session::get('cart');
@@ -685,14 +683,25 @@ class FrontendController extends Controller {
       $productdetails = Product::find($product->id);
       $cart[$product->id]=array(
         "id" => $product->id,
-        "name" => substr("$$productdetails->name",0,15), 
+        "name" => substr("$productdetails->name",0,15), 
         "quantity" => $product->quantity,    
         );    
      }
-     $count = count($cart);
-     return response()->json([
-      'count' => $count,
-    ]);
+      $imagearray = array();
+    $ima = array();
+    foreach($cart as $key => $value) {
+      $productdet[$key] = Product::find($key);
+      $cart[$key]['price'] = $productdet[$key]->price * $value['quantity'];
+      Session::put('cart', $cart);
+      Session::save();
+      if($productdet[$key]) {    
+        foreach ($productdet[$key]->images as $image) {
+          $imagearray[$key][] = $image->name;         
+        }
+      }
+    } 
+    $categories = $this->category_fetch();     
+    return view('frontend.shopping_basket', compact('categories','cart','productdet','imagearray'));
   }
   /**
    * Function downloadinvoice()

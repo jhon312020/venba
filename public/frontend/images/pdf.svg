@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="133.333" height="160" viewBox="0 0 133.333 160">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#5e2762}
+        </style>
+    </defs>
+    <g id="prefix__pdf" transform="translate(-2)">
+        <path id="prefix__Path_97" d="M8.333 54A3.335 3.335 0 0 1 5 50.667V17.333A3.335 3.335 0 0 1 8.333 14h10a13.333 13.333 0 0 1 0 26.667h-6.666v10A3.335 3.335 0 0 1 8.333 54zm3.333-20h6.667a6.667 6.667 0 1 0 0-13.333h-6.666z" class="prefix__cls-1" data-name="Path 97" transform="translate(17 79.333)"/>
+        <path id="prefix__Path_98" d="M118.667 160h-100A16.69 16.69 0 0 1 2 143.333V16.667A16.69 16.69 0 0 1 18.667 0h100a16.69 16.69 0 0 1 16.667 16.667v126.666A16.69 16.69 0 0 1 118.667 160zm-100-153.333a10.012 10.012 0 0 0-10 10v126.666a10.012 10.012 0 0 0 10 10h100a10.012 10.012 0 0 0 10-10V16.667a10.012 10.012 0 0 0-10-10z" class="prefix__cls-1" data-name="Path 98"/>
+        <path id="prefix__Path_99" d="M26.667 54H13.333A3.335 3.335 0 0 1 10 50.667V17.333A3.335 3.335 0 0 1 13.333 14h13.334a10.012 10.012 0 0 1 10 10v20a10.012 10.012 0 0 1-10 10zm-10-6.667h10A3.335 3.335 0 0 0 30 44V24a3.335 3.335 0 0 0-3.333-3.333h-10z" class="prefix__cls-1" data-name="Path 99" transform="translate(45.333 79.333)"/>
+        <path id="prefix__Path_100" d="M18.333 54A3.335 3.335 0 0 1 15 50.667V24a10.012 10.012 0 0 1 10-10h13.333a3.333 3.333 0 0 1 0 6.667H25A3.335 3.335 0 0 0 21.667 24v26.667A3.335 3.335 0 0 1 18.333 54z" class="prefix__cls-1" data-name="Path 100" transform="translate(73.667 79.333)"/>
+        <path id="prefix__Path_101" d="M38.333 23.667h-20a3.333 3.333 0 0 1 0-6.667h20a3.333 3.333 0 1 1 0 6.667z" class="prefix__cls-1" data-name="Path 101" transform="translate(73.667 96.333)"/>
+    </g>
+</svg>

@@ -19,19 +19,17 @@ window.onclick = function(event) {
   }
 }
 
+ 
 
+/** CLOSE MAIN NAVIGATION WHEN CLICKING OUTSIDE THE MAIN NAVIGATION AREA**/
+$(document).on('click', function (e){
+    /* bootstrap collapse js adds "in" class to your collapsible element*/
+    var menu_opened = $('#navbarSupportedContent').hasClass('in');
+  
+    if(!$(e.target).closest('#navbarSupportedContent').length &&
+        !$(e.target).is('#navbarSupportedContent') &&
+        menu_opened === true){
+            $('#navbarSupportedContent').collapse('toggle');
+    }
 
-
-// $(".carousel").swipe({
-
-//       swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-
-//         if (direction == 'left') $(this).carousel('next');
-//         if (direction == 'right') $(this).carousel('prev');
-
-//       },
-//       allowPageScroll:"vertical"
-
-//     });
-
-
+});

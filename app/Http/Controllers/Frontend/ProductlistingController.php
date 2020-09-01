@@ -32,7 +32,9 @@ class ProductlistingController extends Controller {
     $image = array();    
     $productlist =  Product::select('id','name', 'accessories_required', 'price')
       ->where('cat_id', $cat_id)
-      ->get()->toArray();  
+      ->get()->toArray();
+      /*$this->pr($productlist);
+      die;*/  
        $imagearray = array();
        $ima = array();  
       foreach($productlist as $product) {
@@ -58,7 +60,7 @@ class ProductlistingController extends Controller {
       ->get();
     $compatibilitylist = Compatibility::select('id', 'name')
       ->get();
-  	  return view('frontend.index', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories','colorlist'))->with('category', $category);
+  	  return view('frontend.product.category', compact('productlist','brandlist', 'typelist', 'compatibilitylist','categories','ima','subcategories','colorlist'))->with('category', $category);
     
   }
   /**
@@ -238,9 +240,7 @@ class ProductlistingController extends Controller {
     }
     $cart_session = $this->cart_fetch();    
     $count = count($cart);
-    $message = '<div class="col-12 col-lg-3 px-0 d-none d-lg-block">
-                <button class="btn btn-primary">Added to Kart</button>
-              </div>';
+    $message = '<button class="btn btn-primary">Added to Kart</button>';
     return response()->json([
       'count' => $count,
       'message' => $message,

@@ -56,7 +56,7 @@
                     <div class="col-12 col-lg-4">
                       <div class="row">
                         <div class="col-12" id="{{$order['id']}}">
-                          <button class="btn btn-secondary btn-light mb-3 repeat_order" id="repeat_order{{$order['id']}}">Repeat Order</button>
+                          <a href="{{route('frontview.product.repeatorder', ['orderid' => $order['id']])}}" class="btn btn-secondary btn-light mb-3 repeat_order" id="repeat_order{{$order['id']}}">Repeat Order</a>
                         </div>
                         <div class="col-12 " id="{{$order['id']}}">
                           <a href = "{{route('frontview.frontend.downloadinvoice' , ['orderid' => $order['id']])}}" class="btn btn-secondary btn-light mb-3 download_invoice" target="_blank" >Download Invoice</a>
